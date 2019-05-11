@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="wrap_content"
+              android:id="@+id/cell_header_layout"
+              android:layout_height="wrap_content">
+
+
+<LinearLayout android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+
+              android:orientation="horizontal"
+>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/profile_image"
+            android:layout_width="50dp"
+
+            android:layout_height="50dp"
+            android:src="@drawable/coffee_cup"
+
+            app:civ_border_color="#FF000000"/>
+
+    <LinearLayout android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:layout_marginStart="7dp"
+                  android:layout_gravity="center_vertical"
+
+
+    >
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Judy Lien"
+                  android:fontFamily="@font/noto_sans_bold" android:textColor="@color/actual_black"
+                  android:textSize="14sp"/>
+
+        <TextView android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:text="Lead Flight Attendant at Delta"
+                  android:textColor="@color/black" android:fontFamily="@font/noto_sans" android:textSize="12sp"/>
+
+    </LinearLayout>
+
+
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+    >
+
+
+        <LinearLayout
+                android:layout_width="70dp"
+                android:background="@drawable/rounded_follow"
+                android:layout_height="35dp"
+                android:layout_alignParentEnd="true"
+                android:gravity="center"
+                android:textAppearance="@style/TextAppearance.AppCompat"
+                android:fontFamily="@font/source_sans_pro"
+                android:textColor="@color/white"
+                android:textSize="30sp" android:layout_marginEnd="35dp">
+
+            <TextView
+                    android:id="@+id/title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="+"
+                    android:textColor="@color/dark_gray"
+                    android:textSize="20sp"
+                    android:fontFamily="@font/noto_sans" android:textAlignment="viewStart"/>
+
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>
+
+
+
+
+</LinearLayout>

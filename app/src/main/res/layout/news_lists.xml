@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                            xmlns:app="http://schemas.android.com/apk/res-auto"
+                                            android:id="@+id/scrollview"
+                                            xmlns:tools="http://schemas.android.com/tools"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:background="@color/white"
+
+
+
+
+
+                                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+
+                                            tools:showIn="@layout/activity_detail">
+
+
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                      app:layout_scrollFlags="scroll|snap"
+                      android:orientation="vertical"
+
+        >
+            <!--<include layout="@layout/profile_top" />-->
+
+
+            <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                     <!--android:id="@+id/linearLay1" android:textSize="30sp"-->
+<!--/>-->
+
+            <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/linearLay2" android:textSize="20sp"-->
+
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/list3"
+                    android:background="@color/white"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"
+
+            />
+            <!--/>-->
+
+            <android.support.v7.widget.RecyclerView
+                    android:id="@+id/listVertical3"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:background="@color/white"
+
+                    tools:layout_editor_absoluteX="0dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/horizontal_name"/>
+
+
+
+
+        </LinearLayout>
+
+
+
+
+
+
+
+
+
+
+</android.support.v4.widget.NestedScrollView>

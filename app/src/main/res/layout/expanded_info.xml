@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                 android:layout_width="match_parent"
+                                 android:layout_height="wrap_content"
+
+>
+
+<Button
+        android:text="Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+         android:id="@+id/button" android:layout_marginTop="19dp"/>
+    <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" android:layout_centerHorizontal="true"
+            android:layout_alignParentBottom="true" android:id="@+id/horizontal_name" android:textSize="30sp"
+            android:text="Previously, you created a PendingIntent and set a class to handle the GEOFENCE_TRANSITION_ENTER event. Remember that promise you made earlier? Now you’re going to follow up on that promise by writing a class to handle it.Previously, you created a PendingIntent and set a class to handle the GEOFENCE_TRANSITION_ENTER event. Remember that promise you made earlier? Now you’re going to follow up on that promise by writing a class to handle it."/>
+
+
+</RelativeLayout>

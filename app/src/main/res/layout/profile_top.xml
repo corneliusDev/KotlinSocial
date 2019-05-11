@@ -1,0 +1,321 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:card_view="http://schemas.android.com/tools"
+              android:id="@+id/containerMain"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+
+    <TextView
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="Explore"
+              android:textSize="25sp"
+              android:textColor="@color/black"
+              android:textStyle="bold"
+              android:layout_marginEnd="40px"
+            android:layout_marginStart="40px"
+              android:layout_marginBottom="40px"
+
+              android:fontFamily="@font/source_sans_pro"/>
+
+
+
+    <LinearLayout
+            android:id="@+id/container_top"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:orientation="horizontal"
+                >
+
+
+
+        <android.support.v7.widget.CardView
+                android:id="@+id/top1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardCornerRadius="5dp"
+                app:cardBackgroundColor="@color/light_gray"
+        >
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+            >
+
+
+                <ImageView
+                        android:id="@+id/top1Image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY"
+
+                />
+
+                <!--<TextView-->
+                        <!--android:id="@+id/top1ImageTitleGrid1"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Explore this "-->
+                        <!--android:textSize="17sp"-->
+                        <!--android:textColor="@color/black"-->
+                        <!--android:textStyle="bold"-->
+                        <!--android:gravity="bottom"-->
+
+                        <!--android:fontFamily="@font/noto_sans_bold"/>-->
+
+                <!--<TextView-->
+                        <!--android:id="@+id/top1ImageAbstractGrid2"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Explore this mught be the end so you should not ursh"-->
+                        <!--android:textSize="14sp"-->
+                        <!--android:textColor="@color/dark_gray"-->
+                        <!--android:gravity="bottom"-->
+
+                        <!--android:fontFamily="@font/noto_sans"/>-->
+
+                <!--<TextView-->
+                        <!--android:id="@+id/top1ImageCreatorGrid3"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="By : Justin Cornelius"-->
+                        <!--android:textSize="10sp"-->
+                        <!--android:textColor="@color/dark_gray"-->
+                        <!--android:gravity="bottom"-->
+
+                        <!--android:fontFamily="@font/noto_sans"/>-->
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+                android:id="@+id/top2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:cardCornerRadius="5dp"
+                card_view:elevation="0dp"
+                app:cardBackgroundColor="@color/light_gray"
+        >
+
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+            >
+
+
+                <ImageView
+                        android:id="@+id/top2Image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY"
+
+                />
+
+                <!--<TextView-->
+                        <!--android:id="@+id/top2ImageTitleGrid1"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Explore this "-->
+                        <!--android:textSize="17sp"-->
+                        <!--android:textColor="@color/black"-->
+                        <!--android:textStyle="bold"-->
+                        <!--android:gravity="bottom"-->
+
+                        <!--android:fontFamily="@font/noto_sans_bold"/>-->
+
+                <!--<TextView-->
+                        <!--android:id="@+id/top2ImageAbstractGrid2"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Explore this mught be the end so you should not ursh"-->
+                        <!--android:textSize="14sp"-->
+                        <!--android:textColor="@color/dark_gray"-->
+                        <!--android:gravity="bottom"-->
+
+                        <!--android:fontFamily="@font/noto_sans"/>-->
+
+                <!--<TextView-->
+                        <!--android:id="@+id/top2ImageCreatorGrid3"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="By : Justin Cornelius"-->
+                        <!--android:textSize="10sp"-->
+                        <!--android:textColor="@color/dark_gray"-->
+                        <!--android:gravity="bottom"-->
+
+                        <!--android:fontFamily="@font/noto_sans"/>-->
+
+
+            </LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout
+
+            android:id="@+id/container_bottom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+    >
+
+        <android.support.v7.widget.CardView
+                android:id="@+id/bottom1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/light_gray"
+                card_view:elevation="0dp"
+
+
+        >
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+            >
+
+
+            <ImageView
+                    android:id="@+id/bottom1Image"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+
+            />
+
+                <!--<TextView-->
+                            <!--android:id="@+id/bottom1ImageTitleGrid1"-->
+                            <!--android:layout_width="match_parent"-->
+                          <!--android:layout_height="wrap_content"-->
+                          <!--android:text="Explore this "-->
+                          <!--android:textSize="17sp"-->
+                          <!--android:textColor="@color/black"-->
+                          <!--android:textStyle="bold"-->
+                          <!--android:gravity="bottom"-->
+
+                          <!--android:fontFamily="@font/noto_sans_bold"/>-->
+
+                <!--<TextView-->
+                        <!--android:id="@+id/bottom1ImageAbstractGrid2"-->
+                        <!--android:layout_width="match_parent"-->
+                          <!--android:layout_height="wrap_content"-->
+                          <!--android:text="Explore this mught be the end so you should not ursh"-->
+                          <!--android:textSize="14sp"-->
+                          <!--android:textColor="@color/dark_gray"-->
+                          <!--android:gravity="bottom"-->
+
+                          <!--android:fontFamily="@font/noto_sans"/>-->
+
+                <!--<TextView-->
+                        <!--android:id="@+id/bottom1ImageCreatorGrid3"-->
+                        <!--android:layout_width="match_parent"-->
+                          <!--android:layout_height="wrap_content"-->
+                          <!--android:text="By : Justin Cornelius"-->
+                          <!--android:textSize="10sp"-->
+                          <!--android:textColor="@color/dark_gray"-->
+                          <!--android:gravity="bottom"-->
+
+                          <!--android:fontFamily="@font/noto_sans"/>-->
+
+
+            </LinearLayout>
+
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+                android:id="@+id/bottom2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                app:cardCornerRadius="5dp"
+                card_view:elevation="0dp"
+                app:cardBackgroundColor="@color/light_gray"
+
+
+
+        >
+
+            <LinearLayout android:layout_width="match_parent"
+                          android:layout_height="wrap_content"
+                          android:orientation="vertical"
+            >
+
+
+                <ImageView
+                        android:id="@+id/bottom2Image"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scaleType="fitXY"
+
+                />
+
+                <!--<TextView-->
+                        <!--android:id="@+id/bottom2ImageTitleGrid1"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Explore this "-->
+                        <!--android:textSize="17sp"-->
+                        <!--android:textColor="@color/black"-->
+                        <!--android:textStyle="bold"-->
+                        <!--android:gravity="bottom"-->
+
+                        <!--android:fontFamily="@font/noto_sans_bold"/>-->
+
+                <!--<TextView-->
+                        <!--android:id="@+id/bottom2ImageAbstractGrid2"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="Explore this mught be the end so you should not ursh"-->
+                        <!--android:textSize="14sp"-->
+                        <!--android:textColor="@color/dark_gray"-->
+                        <!--android:gravity="bottom"-->
+
+                        <!--android:fontFamily="@font/noto_sans"/>-->
+
+                <!--<TextView-->
+                        <!--android:id="@+id/bottom2ImageCreatorGrid3"-->
+                        <!--android:layout_width="match_parent"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:text="By : Justin Cornelius"-->
+                        <!--android:textSize="10sp"-->
+                        <!--android:textColor="@color/dark_gray"-->
+                        <!--android:gravity="bottom"-->
+
+                        <!--android:fontFamily="@font/noto_sans"/>-->
+
+
+            </LinearLayout>
+
+
+
+        </android.support.v7.widget.CardView>
+
+
+    </LinearLayout>
+
+    <Button
+            android:id="@+id/button_see_all"
+            android:layout_width="170dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="40px"
+            android:layout_marginBottom="20px"
+            android:text="view all"
+            android:background="@drawable/button_effect"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1" android:fontFamily="@font/noto_sans_bold"
+            android:textColor="@color/dark_gray"/>
+
+
+</LinearLayout>

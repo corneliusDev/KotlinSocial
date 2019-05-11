@@ -1,0 +1,47 @@
+<resources>
+
+    Base application theme.
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+
+
+
+        <item name="colorPrimary">#414141</item>
+        <item name="colorPrimaryDark">#414141</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:navigationBarColor">#414141</item>
+        <item name="android:displayOptions">disableHome</item>
+
+    </style>
+
+
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+    <!--&lt;!&ndash; Customize your theme here. &ndash;&gt;-->
+    <!--<item name="colorPrimary">#ffff</item>-->
+    <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+    <!--<item name="colorAccent">@color/colorAccent</item>-->
+    <!--<item name="windowActionBar">false</item>-->
+    <!--<item name="windowNoTitle">true</item>-->
+    <!--</style>-->
+
+    <style name="ImagePreviewerTheme">
+        <item name="android:windowIsFloating">false</item>
+    </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+
+    </style>
+
+    <style name="CustomTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">@android:color/white</item>
+        <item name="tabIndicatorHeight">3dp</item>
+        <item name="tabBackground">?attr/selectableItemBackground</item>
+
+        <item name="tabSelectedTextColor">@android:color/white</item>
+    </style>
+    <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light"/>
+    <style name="ToolbarTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorPrimary">@color/white</item>
+        <item name="colorPrimaryDark">@color/white</item>
+        <item name="android:textColorPrimary">@color/black</item>
+    </style>
+
+</resources>

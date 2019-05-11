@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:id="@+id/button_profile_header"
+              android:orientation="horizontal"
+              android:gravity="center_horizontal"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:elevation="0dp"
+              android:layout_margin="7dp"
+
+>
+
+    <Button android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:background="@drawable/back_white"
+            android:text="photos"
+            android:elevation="0dp"
+            android:stateListAnimator="@null"
+            android:id="@+id/button_profile_1"
+            android:layout_marginEnd="30dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" android:textColor="@color/dark_gray"
+            android:fontFamily="@font/noto_sans"/>
+
+    <Button android:layout_width="wrap_content"
+            android:layout_height="40dp"
+
+            android:background="@color/white"
+            android:id="@+id/button_profile_2"
+            android:text="photos"
+            android:stateListAnimator="@null"
+            android:layout_marginEnd="30dp"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" android:textColor="@color/dark_gray"
+            android:fontFamily="@font/noto_sans"/>
+
+    <Button android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:id="@+id/button_profile_3"
+            android:background="@color/white"
+            android:text="photos"
+            android:stateListAnimator="@null"
+
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" android:textColor="@color/dark_gray"
+            android:fontFamily="@font/noto_sans"/>
+
+</LinearLayout>

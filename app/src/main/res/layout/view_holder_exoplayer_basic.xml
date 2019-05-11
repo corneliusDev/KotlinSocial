@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+
+<LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_linear"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="0dp"
+        android:layout_marginTop="0dp"
+
+
+        android:background="@color/white"
+        android:orientation="vertical"
+        app:cardBackgroundColor="@color/cardview_light_background"
+
+
+>
+
+
+
+    <!--<LinearLayout android:layout_width="match_parent"-->
+                  <!--android:layout_height="60dp"-->
+                  <!--android:orientation="horizontal"-->
+                  <!--android:background="@color/dark_gray"-->
+    <!--&gt;-->
+        <!--<TextView android:layout_width="match_parent"-->
+                  <!--android:layout_height="wrap_content"-->
+                  <!--android:textSize="17sp"-->
+                  <!--android:text="Top View"-->
+                  <!--android:textColor="@color/white"-->
+
+                  <!--android:layout_below="@+id/placeImage"-->
+                  <!--android:layout_gravity="bottom"-->
+
+                  <!--android:fontFamily="@font/noto_sans_bold" android:textStyle="bold" />-->
+
+
+    <!--</LinearLayout>-->
+
+    <android.support.v7.widget.CardView
+                                        android:id="@+id/card"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        app:cardCornerRadius="0dp"
+                                        android:layout_marginBottom="10dp"
+                                        android:layout_marginTop="10dp"
+                                        app:cardBackgroundColor="@color/cardview_light_background">
+
+<LinearLayout android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+
+              android:orientation="vertical"
+>
+
+<include layout="@layout/cell_header_profile"
+         android:layout_width="match_parent"
+         android:layout_height="wrap_content"
+         android:id="@+id/cell_header"
+         android:visibility="visible"
+         android:layout_margin="8dp"
+/>
+
+
+
+
+        <RelativeLayout android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+>
+
+<LinearLayout android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:id="@+id/ani_holder"
+              android:gravity="center|center_vertical"
+>
+
+
+
+    <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            app:lottie_fileName="loading_video.json"
+            android:scaleType="fitCenter"
+            android:id="@+id/load_video"
+
+
+
+            />
+
+
+</LinearLayout>
+
+    <ImageView android:layout_width="match_parent"
+               android:layout_height="300dp"
+               android:id="@+id/exo_image"
+    />
+        <com.google.android.exoplayer2.ui.PlayerView
+                android:id="@+id/player"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:use_controller="false"
+                app:resize_mode="zoom"
+                app:surface_type="texture_view"
+        />
+
+
+</RelativeLayout>
+
+    <include layout="@layout/video_button_layout"
+             android:id="@+id/botton_buttons"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:visibility="gone"
+             android:layout_margin="8dp" />
+
+
+
+
+
+</LinearLayout>
+
+    </android.support.v7.widget.CardView>
+
+    <include layout="@layout/cell_header_profile"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:id="@+id/cell_header_bottom"
+             android:visibility="gone"
+             android:layout_marginStart="10dp"
+             android:layout_marginBottom="20dp"
+    />
+
+
+
+
+
+
+</LinearLayout>

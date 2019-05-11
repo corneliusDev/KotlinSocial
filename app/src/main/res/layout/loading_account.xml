@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+              android:orientation="vertical"
+
+                >
+
+    <RelativeLayout android:layout_width="match_parent"
+                    android:layout_height="56dp"
+                    android:orientation="vertical"
+    >
+        <TextView
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:id="@+id/loading_header"
+                android:text="Sign Up?"
+                android:textSize="20sp"
+                android:gravity="center"
+                android:textColor="@color/dark_gray"
+                android:fontFamily="@font/noto_sans_bold"/>
+
+        <ImageView android:layout_width="match_parent"
+                   android:layout_height="1dp"
+                   android:background="@color/light_gray"
+                   android:layout_marginBottom="0dp" android:layout_alignParentBottom="true"/>
+
+    </RelativeLayout>
+
+
+<LinearLayout android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical"
+              android:gravity="center"
+>
+
+
+    <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:lottie_fileName="3306-loading-animation.json"
+            android:scaleType="fitCenter"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            android:id="@+id/load_video"
+
+
+
+    />
+</LinearLayout>
+
+
+
+</LinearLayout>
