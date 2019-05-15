@@ -58,7 +58,7 @@ class OnBoardingActivity : AppCompatActivity() {
     private var layouts: IntArray? = null
     lateinit private var staggeredLayoutManager: StaggeredGridLayoutManager
     lateinit private var adapterInterest: BindingHorizontal
-    lateinit var currentUser:FirebaseUser
+    private var currentUser:FirebaseUser? = null
 
     override fun onDestroy() {
         super.onDestroy()
@@ -91,7 +91,7 @@ class OnBoardingActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        currentUser = FirebaseAuth.getInstance().currentUser!!
+        currentUser = FirebaseAuth.getInstance().currentUser
 
         // Making notification bar transparent
         if (Build.VERSION.SDK_INT >= 21) {
@@ -141,7 +141,7 @@ class OnBoardingActivity : AppCompatActivity() {
             nextPage()
             loading_header.text = "Creating Your Account"
 
-            UserManagement().postProfile(user_profile, currentUser.uid, object : UserManagement.PostUserProfile{
+            UserManagement().postProfile(user_profile, currentUser!!.uid, object : UserManagement.PostUserProfile{
                 override fun onCallback(bool: Boolean) {
 
                     GlobalScope.launch {
