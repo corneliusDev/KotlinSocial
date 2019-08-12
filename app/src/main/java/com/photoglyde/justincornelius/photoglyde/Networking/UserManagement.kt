@@ -11,7 +11,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import com.google.obf.cc
+
 import com.photoglyde.justincornelius.photoglyde.Data.CoreUnSplash
 import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals
 import com.photoglyde.justincornelius.photoglyde.Data.USER

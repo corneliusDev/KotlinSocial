@@ -2,13 +2,9 @@ package com.photoglyde.justincornelius.photoglyde.Adapters
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
-import android.widget.ImageView
 import com.photoglyde.justincornelius.photoglyde.Data.DOWN
 import com.photoglyde.justincornelius.photoglyde.Data.UP
-import com.photoglyde.justincornelius.photoglyde.ExploreActivity
-import kotlinx.android.synthetic.main.fragment_explore.*
 
 class ScrollDownListener {
 

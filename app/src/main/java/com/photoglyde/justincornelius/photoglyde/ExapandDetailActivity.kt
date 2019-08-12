@@ -2,8 +2,6 @@ package com.photoglyde.justincornelius.photoglyde
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
-import android.app.Activity
-import android.app.PendingIntent.getActivity
 import android.arch.lifecycle.LiveData
 import android.arch.paging.DataSource
 import android.arch.paging.LivePagedListBuilder
@@ -11,61 +9,41 @@ import android.arch.paging.PagedList
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.graphics.drawable.Animatable
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat
 import android.support.v4.util.Pair
 import android.support.v4.view.GestureDetectorCompat
-import android.support.v4.widget.NestedScrollView
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.graphics.Palette
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.*
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
-import com.google.android.gms.dynamic.SupportFragmentWrapper
 import com.photoglyde.justincornelius.photoglyde.Adapters.FeedAdapter
 import com.photoglyde.justincornelius.photoglyde.Adapters.ImageAdapter
 import com.photoglyde.justincornelius.photoglyde.Adapters.ScrollDownListener
 import com.photoglyde.justincornelius.photoglyde.Data.CoreUnSplash
 import com.photoglyde.justincornelius.photoglyde.Data.Data
 import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals
-import com.photoglyde.justincornelius.photoglyde.Data.GrabImageData
+import com.photoglyde.justincornelius.photoglyde.Fragments.listenerExplore
 import com.photoglyde.justincornelius.photoglyde.Networking.ImageDataSource
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_detail.*
 import java.util.*
-import com.squareup.picasso.Picasso.LoadedFrom
-import com.squareup.picasso.Target
 import im.ene.toro.PlayerSelector
 import im.ene.toro.ToroPlayer
 import im.ene.toro.widget.Container
-import kotlinx.android.synthetic.main.activity_test.*
 import kotlinx.android.synthetic.main.activity_test2.*
-import kotlinx.android.synthetic.main.adapter_row.view.*
-import kotlinx.android.synthetic.main.fragment_explore.*
-import kotlinx.android.synthetic.main.fragment_item_list.*
-import kotlinx.android.synthetic.main.horizontal_rows.*
 import kotlinx.android.synthetic.main.test_include.*
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
@@ -209,7 +187,7 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
 
       toolbar?.searchBar?.visibility = View.INVISIBLE
 
-      GlobalVals.fromExplore = true
+      GlobalVals.whatsNew = true
 
 
 

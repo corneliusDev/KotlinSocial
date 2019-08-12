@@ -2,78 +2,39 @@
 
 package com.photoglyde.justincornelius.photoglyde
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
 import android.animation.ObjectAnimator
-import android.app.ActivityOptions
-import android.app.PendingIntent.getActivity
-import android.arch.lifecycle.Observer
-import android.arch.paging.DataSource
-import android.arch.paging.LivePagedListBuilder
-import android.arch.paging.PagedList
 import android.content.Intent
-import android.graphics.BitmapFactory
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
 import android.net.Uri
 import android.os.Bundle
-import android.support.design.internal.BottomNavigationItemView
-import android.support.design.internal.BottomNavigationMenuView
 import android.support.design.widget.BottomNavigationView
-import android.support.design.widget.CoordinatorLayout
-import android.support.v4.app.ActivityCompat.startActivityForResult
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.Toolbar
-import android.transition.Transition
 import android.util.DisplayMetrics
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.view.WindowManager
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import android.view.animation.AnimationUtils
-import android.widget.Toast
-import com.google.android.gms.maps.model.LatLng
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
-import com.google.obf.it
 import com.mancj.materialsearchbar.MaterialSearchBar
-import com.photoglyde.justincornelius.photoglyde.Adapters.BottomNavigationBehavior
 import com.photoglyde.justincornelius.photoglyde.Adapters.ImageAdapter
-import com.photoglyde.justincornelius.photoglyde.Adapters.ProfileAdapter
 import com.photoglyde.justincornelius.photoglyde.Camera.CamerOpenActivity
 import com.photoglyde.justincornelius.photoglyde.Data.*
 import com.photoglyde.justincornelius.photoglyde.Fragments.*
-import com.photoglyde.justincornelius.photoglyde.Networking.*
-import com.photoglyde.justincornelius.photoglyde.R.id.containerOptions
-import com.photoglyde.justincornelius.photoglyde.R.id.containerOptionsDim
-import com.photoglyde.justincornelius.photoglyde.VideoPlayback.VideoFragment
-import com.photoglyde.justincornelius.photoglyde.Web.NewsWebView
+import com.photoglyde.justincornelius.photoglyde.Networking.PostUN
+import com.photoglyde.justincornelius.photoglyde.ProfileFragments.ProfileLanding
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_explore.*
-import kotlinx.android.synthetic.main.toolbar.*
-import kotlinx.android.synthetic.main.toolbar.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import okhttp3.*
-import org.json.JSONObject
 import java.io.IOException
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
     PostingOptions.OnFragmentInteractionListener,
     ExploreActivity.OnFragmentInteractionListenerExplore,
-    BlankFragment.OnFragmentInteractionListenerNews, ItemFragment.OnListFragmentInteractionListener, MaterialSearchBar.OnSearchActionListener{
+    ProfileLanding.OnFragmentInteractionListenerNews, WhatsNew.OnListFragmentInteractionListener, MaterialSearchBar.OnSearchActionListener{
 
   private val adapter = ImageAdapter()
     private val request_code = 101
@@ -312,14 +273,20 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     super.onCreate(savedInstanceState)
      setContentView(R.layout.activity_main)
 
-
+      GlobalVals.onBoardingComplete = false
 
       if(!GlobalVals.onBoardingComplete){
           GlobalVals.onBoardingComplete = true
       val intent = Intent(this, Register::class.java)
       startActivity(intent)}
 
+      if (GlobalVals.listCateg.size == 0) {
+          PostUN().downloadCategs(object : PostUN.DownloadCategories {
+              override fun onCallBack(bool: Boolean) {
 
+              }
+          })
+      }
 
 
 

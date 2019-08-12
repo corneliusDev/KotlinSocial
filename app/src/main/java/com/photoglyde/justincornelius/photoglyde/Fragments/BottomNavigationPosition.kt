@@ -1,10 +1,8 @@
 package com.photoglyde.justincornelius.photoglyde.Fragments
 
 import android.support.v4.app.Fragment
-import com.photoglyde.justincornelius.photoglyde.ExploreActivity
+import com.photoglyde.justincornelius.photoglyde.ProfileFragments.ProfileLanding
 import com.photoglyde.justincornelius.photoglyde.R
-import com.photoglyde.justincornelius.photoglyde.VideoPlayback.VideoActivity
-import com.photoglyde.justincornelius.photoglyde.VideoPlayback.VideoFragment
 
 
 enum class BottomNavigationPosition(val position: Int, val id: Int) {
@@ -24,15 +22,15 @@ fun findNavigationPositionById(id: Int): BottomNavigationPosition = when (id) {
 
 fun BottomNavigationPosition.createFragment(): Fragment = when (this) {
     BottomNavigationPosition.HOME -> ExploreActivity.newInstance()
-    BottomNavigationPosition.DASHBOARD -> ItemFragment.newInstance()
+    BottomNavigationPosition.DASHBOARD -> WhatsNew.newInstance()
     BottomNavigationPosition.NOTIFICATIONS -> BlankFragment2.newInstance()
-    BottomNavigationPosition.PROFILE -> BlankFragment.newInstance()
+    BottomNavigationPosition.PROFILE -> ProfileLanding.newInstance()
 }
 
 fun BottomNavigationPosition.getTag(): String = when (this) {
     BottomNavigationPosition.HOME -> ExploreActivity.TAG
-    BottomNavigationPosition.DASHBOARD -> ItemFragment.TAG
+    BottomNavigationPosition.DASHBOARD -> WhatsNew.TAG
     BottomNavigationPosition.NOTIFICATIONS -> BlankFragment2.TAG
-    BottomNavigationPosition.PROFILE -> BlankFragment.TAG
+    BottomNavigationPosition.PROFILE -> ProfileLanding.TAG
 }
 

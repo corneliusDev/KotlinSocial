@@ -4,7 +4,6 @@ import android.arch.lifecycle.Observer
 import android.arch.paging.DataSource
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
-import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -13,27 +12,14 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.photoglyde.justincornelius.photoglyde.R
-import android.support.design.widget.TabLayout
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.util.Pair
-import android.support.v4.view.ViewPager
 import android.support.v7.widget.StaggeredGridLayoutManager
-import android.view.Window
-import android.widget.ImageButton
 import com.photoglyde.justincornelius.photoglyde.Adapters.FeedAdapter
 import com.photoglyde.justincornelius.photoglyde.Adapters.ProfileAdapter
 import com.photoglyde.justincornelius.photoglyde.Adapters.ScrollDownListener
 import com.photoglyde.justincornelius.photoglyde.Data.*
 import com.photoglyde.justincornelius.photoglyde.Networking.ImageDataSource
-import com.photoglyde.justincornelius.photoglyde.VideoPlayback.VideoActivity
-import com.photoglyde.justincornelius.photoglyde.VideoPlayback.VideoFragment
-import com.photoglyde.justincornelius.photoglyde.listenerExplore
-import kotlinx.android.synthetic.main.activity_test.*
 import kotlinx.android.synthetic.main.fragment_blank_fragment2.*
-import kotlinx.android.synthetic.main.fragment_explore.*
 import kotlinx.android.synthetic.main.toolbar.view.*
-import kotlinx.android.synthetic.main.view_holder_exoplayer_basic.*
 
 
 // TODO: Rename parameter arguments, choose names that match

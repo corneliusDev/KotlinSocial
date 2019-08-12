@@ -21,7 +21,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.obf.it
+
 import com.photoglyde.justincornelius.photoglyde.Adapters.ImagePreviewerUtils
 import com.photoglyde.justincornelius.photoglyde.Camera.ImageSaver
 import com.photoglyde.justincornelius.photoglyde.Data.*
@@ -130,17 +130,6 @@ object Helper {
                 val bitmap =
                     ThumbnailUtils.createVideoThumbnail(file, MediaStore.Video.Thumbnails.MINI_KIND)
 
-
-
-
-
-
-
-
-
-
-
-
                 println("=====thumbnail bytes $bitmap and ${bitmap.byteCount}")
                 val thumbnailUri = Helper.getImageUri(context, bitmap)
                 val thumbnailFile = Helper.queryFile(context, thumbnailUri)
@@ -191,33 +180,40 @@ object Helper {
             data2.categ_name = "Top Videos Today"
             arg.add(1, data2)
 
-        }else if(GlobalVals.fromExplore && !GlobalVals.cameFromExa) {
+        }else if(GlobalVals.whatsNew && !GlobalVals.cameFromExa) {
 
-
+        println("INside Helper ${args.size}")
 
 
             arg = args as ArrayList<CoreUnSplash>
             val from = 0
-
-            val to = args?.size
+            // randomly inserts categories inside list
+            val to = args?.size.div(2)
             val random = Random()
             val categs = GlobalVals.listCateg
             val arraySize = floor((to?.div(2))!!.toFloat())
-            val amplititudes = IntArray(categs.size) { random.nextInt(to - from) + from }.asList()
 
-            print(amplititudes)
+            if (categs.size > 0 && to > 0) {
+                val amplititudes = IntArray(categs.size / 2) { random.nextInt(to - from) + from }.asList()
 
-            for (i in 0..amplititudes.size.minus(1)) {
-                arg.add(amplititudes[i], categs[i]!!)
+
+                print(amplititudes)
+
+                var data1 = CoreUnSplash()
+                data1.type = "GRID"
+
+                for (i in 0..amplititudes.size.minus(1)) {
+                    arg.add(amplititudes[i], categs[i]!!)
+                    arg.add(amplititudes[i], data1)
+                    print("Index $i pair ${amplititudes[i]}")
+                }
             }
 
-//            var data2 = CoreUnSplash()
-//            data2.type = GlobalVals.CATEGORY
-//            arg.add(0, data2)
+
 //
-//            var data1 = CoreUnSplash()
-//            data1.type = BANNER
-//            arg.add(0, data1)
+
+
+
 
 
 
@@ -227,6 +223,10 @@ object Helper {
             var data1 = CoreUnSplash()
             data1.type = BANNER
             arg.add(0, data1)
+
+            var data2 = CoreUnSplash()
+            data2.type = "GRID"
+            arg.add(0, data2)
 
 //            var data2 = CoreUnSplash()
 //            data2.type = HEADER

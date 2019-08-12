@@ -5,25 +5,15 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity;
 import android.view.View
-import com.google.android.exoplayer2.ExoPlayer
 import com.photoglyde.justincornelius.photoglyde.R
-import com.google.android.exoplayer2.ui.PlaybackControlView
 import com.google.android.exoplayer2.ui.PlayerView
-import com.photoglyde.justincornelius.photoglyde.Camera.getDropboxIMGSize
 import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals
-import com.photoglyde.justincornelius.photoglyde.ExapandDetailActivity
 
-import com.photoglyde.justincornelius.photoglyde.ExploreActivity
-import com.photoglyde.justincornelius.photoglyde.Fragments.BlankFragment2
 import com.photoglyde.justincornelius.photoglyde.Helper
-import com.photoglyde.justincornelius.photoglyde.Helper.getVideoHeight
 
 import kotlinx.android.synthetic.main.activity_video.*
-import java.io.File
 
 class VideoActivity : AppCompatActivity(), VideoControllerContract.View {
 

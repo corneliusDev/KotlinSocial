@@ -1,45 +1,21 @@
 package com.photoglyde.justincornelius.photoglyde.Adapters
 
-import android.animation.ObjectAnimator
-import android.animation.ValueAnimator
 import android.annotation.SuppressLint
-import android.app.Activity
-import android.app.ActivityOptions
 import android.app.Dialog
 import android.content.Context
 import android.graphics.Color
-import android.graphics.Point
-import android.view.View.OnTouchListener
-import android.graphics.drawable.Drawable
-import android.graphics.drawable.BitmapDrawable
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.util.Pair
-import com.photoglyde.justincornelius.photoglyde.ExapandDetailActivity
-import com.photoglyde.justincornelius.photoglyde.ExploreActivity
 import com.photoglyde.justincornelius.photoglyde.R
-import com.photoglyde.justincornelius.photoglyde.R.id.root
 import kotlinx.android.synthetic.main.view_image_previewer.*
 import kotlin.math.abs
-import android.opengl.ETC1.getHeight
-import android.support.v4.app.FragmentActivity
-import android.support.v4.app.FragmentManager
 import android.util.TypedValue
 import android.view.*
-import com.photoglyde.justincornelius.photoglyde.Fragments.PostingOptions
-import kotlin.math.roundToInt
 import android.os.VibrationEffect
 import android.os.Build
-import android.support.v4.content.ContextCompat.getSystemService
 import android.os.Vibrator
 import android.support.v4.view.MotionEventCompat
 import android.widget.*
 import com.bartoszlipinski.viewpropertyobjectanimator.ViewPropertyObjectAnimator
-import com.google.obf.ev
-import com.photoglyde.justincornelius.photoglyde.Data.Data
 import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals
-import com.photoglyde.justincornelius.photoglyde.R.id.image
-import kotlinx.android.synthetic.main.activity_main.*
 
 
 class ImagePreview {

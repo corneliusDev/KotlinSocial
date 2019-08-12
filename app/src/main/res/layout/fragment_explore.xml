@@ -7,7 +7,7 @@
                 android:background="@color/medium_gray"
                 android:orientation="vertical"
 
-                tools:context=".ExploreActivity"
+                tools:context=".Fragments.ExploreActivity"
 
 
 >

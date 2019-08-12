@@ -7,7 +7,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.photoglyde.justincornelius.photoglyde.Fragments.BlankFragment
+import com.photoglyde.justincornelius.photoglyde.Fragments.WhatsNew
 
 import com.photoglyde.justincornelius.photoglyde.R
 

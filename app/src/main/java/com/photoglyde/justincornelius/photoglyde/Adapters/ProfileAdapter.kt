@@ -449,7 +449,7 @@ class ProfileAdapter(private var context: Context, private var unSplash:List<Cor
 
 
 
-        if (GlobalVals.fromExplore){
+        if (GlobalVals.whatsNew){
             holder.itemView.post_button_container.visibility = View.GONE
             holder.itemView.botton_buttons.visibility = View.GONE
             holder.itemView.botton_buttons.visibility = View.GONE

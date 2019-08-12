@@ -4,6 +4,7 @@ import android.arch.paging.PagedList
 import android.arch.paging.PagedListAdapter
 import android.content.Context
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.VibrationEffect
@@ -188,7 +189,7 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
 
         var returnPos = 0
 
-        if (GlobalVals.fromExplore) returnPos = 9
+        if (GlobalVals.whatsNew) returnPos = 9
 
         println("==========current type ${getItem(position)?.type}")
 
@@ -198,17 +199,21 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
                 returnPos  = 6
             }
 
+            "GRID" ->{
+                returnPos  = 1
+            }
+
 
             TYPE_PHOTO -> {
                 returnPos = 0
 
-                if (GlobalVals.fromExplore) returnPos = 9
+                if (GlobalVals.whatsNew) returnPos = 9
             }
 
             GlobalVals.CATEGORY -> {
                 returnPos = 0
 
-                if (GlobalVals.fromExplore){
+                if (GlobalVals.whatsNew){
                     println("======return POS")
                     returnPos = 5
                 }
@@ -238,77 +243,180 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
     if (holder.itemViewType == 1){
 
 
-      val mContainerTop = holder.itemView.top1Image.layoutParams
-      val mContainerBottom = holder.itemView.top2Image.layoutParams
-      val mTop1 = holder.itemView.top1.layoutParams as LinearLayout.LayoutParams
-      val mTop2 = holder.itemView.top2.layoutParams as LinearLayout.LayoutParams
+        if (GlobalVals.whatsNew){
 
-      val mBottom1 = holder.itemView.bottom1.layoutParams as LinearLayout.LayoutParams
-      val mBottom2 = holder.itemView.bottom2.layoutParams as LinearLayout.LayoutParams
-      val header = holder.itemView.header.layoutParams as LinearLayout.LayoutParams
+            val shave = 40
 
-      val buttonSeeAll = holder.itemView.button_see_all.layoutParams as LinearLayout.LayoutParams
+            val item = getItem(position)
 
+            val mContainerTop = holder.itemView.top1Image.layoutParams
+            val mContainerBottom = holder.itemView.top2Image.layoutParams
+            val mTop1 = holder.itemView.top1.layoutParams as LinearLayout.LayoutParams
+            val mTop2 = holder.itemView.top2.layoutParams as LinearLayout.LayoutParams
 
-      header.setMargins(40,20,40,40)
-      val headerText = holder.itemView.header
-      headerText.text = "created by me"
+            val mBottom1 = holder.itemView.bottom1.layoutParams as LinearLayout.LayoutParams
+            val mBottom2 = holder.itemView.bottom2.layoutParams as LinearLayout.LayoutParams
+            val header = holder.itemView.header.layoutParams as LinearLayout.LayoutParams
 
-        val headerTextMargin = holder.itemView.header as LinearLayout.LayoutParams
-        //headerTextMargin.setMargins(40,40,40,40)
-
-      mContainerTop.height = GlobalVals.heightWindow/5
-      mContainerBottom.height = GlobalVals.heightWindow/5
+            val buttonSeeAll = holder.itemView.button_see_all.layoutParams as LinearLayout.LayoutParams
 
 
-      mTop1.width = GlobalVals.widthWindow/2 - 45
-      mTop1.setMargins(40,5,5,0)
-      mTop2.width = GlobalVals.widthWindow/2 - 45
-      mTop2.setMargins(5,5,40,0)
+            //header.setMargins(40, 20, 40, 40)
+            val headerText = holder.itemView.header
+            headerText.text = "created by me"
 
-      holder.itemView.top1.elevation = 0F
-      holder.itemView.top2.elevation = 0F
-      holder.itemView.bottom1.elevation = 0F
-      holder.itemView.bottom2.elevation = 0F
-      holder.itemView.button_see_all.elevation = 0F
+            val headerTextMargin = holder.itemView.header as LinearLayout.LayoutParams
+            //headerTextMargin.setMargins(40,40,40,40)
 
+            mContainerTop.height = GlobalVals.heightWindow / 8
+            mContainerBottom.height = GlobalVals.heightWindow / 8
 
 
-      buttonSeeAll.setMargins(40,80,40,40)
+            mTop1.width = GlobalVals.widthWindow / 4 - shave
+            mTop1.setMargins(0, 0, 8, 8)
+            mTop2.width = GlobalVals.widthWindow / 4 - shave
+            mTop2.setMargins(8, 0, 0, 8)
+
+            holder.itemView.top1.elevation = 0F
+            holder.itemView.top2.elevation = 0F
+            holder.itemView.bottom1.elevation = 0F
+            holder.itemView.bottom2.elevation = 0F
+            holder.itemView.button_see_all.elevation = 0F
 
 
+            mTop1.height = GlobalVals.widthWindow / 4 - shave
+            mTop2.height = GlobalVals.widthWindow / 4 - shave
+
+            holder.itemView.setBackgroundColor(Color.WHITE)
+            var image1 = "https://images.unsplash.com/photo-1556227703-ab57dbc6f839?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1231&q=80"
+            var image2 = "https://images.unsplash.com/photo-1558556859-f575da01d52f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60"
+
+            Picasso.get().load(image1).into(holder.itemView.top1Image)
+            Picasso.get().load(image2).into(holder.itemView.top2Image)
+
+           // buttonSeeAll.setMargins(40, 80, 40, 40)
+//
+//            holder.itemView.top1Image.setBackgroundResource(R.drawable.usej)
+//
+//            holder.itemView.top2Image.setBackgroundResource(R.drawable.usej)
+
+//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.top1Image)
+//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.top2Image)
+
+            println("======check width ${GlobalVals.widthWindow.toDouble().times(0.57).toInt()}")
+
+            val bottomContainerWidthFirst = GlobalVals.widthWindow / 4 - shave
+            val bottomContainerWidthFirstEnd = GlobalVals.widthWindow / 4 - shave
 
 
+            mBottom1.width = bottomContainerWidthFirst
+            mBottom2.width = bottomContainerWidthFirstEnd
 
+            mBottom1.height = GlobalVals.widthWindow / 4 - shave
+            mBottom2.height = GlobalVals.widthWindow / 4 - shave
 
-//      holder.itemView.top1.setBackgroundResource(R.drawable.usej)
-//      holder.itemView.top2.setBackgroundResource(R.drawable.usej)
+            mBottom1.setMargins(0, 8, 8, 0)
+            mBottom2.setMargins(8, 8, 0, 0)
 
+            var image3 = "https://images.unsplash.com/photo-1558525231-069834d4c006?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60"
+            var image4 = "https://images.unsplash.com/photo-1558543166-d9ee53d5a353?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2098&q=80"
+
+            Picasso.get().load(image3).into(holder.itemView.bottom1Image)
+            Picasso.get().load(image4).into(holder.itemView.bottom2Image)
 
 //
-//      GlobalVals.picassoUnit[0].into(holder.itemView.top1Image)
-//      GlobalVals.picassoUnit[1].into(holder.itemView.top2Image)
-//
-//      GlobalVals.picassoUnit[2].resize( GlobalVals.widthWindow/2, GlobalVals.widthWindow/2).into(holder.itemView.bottom1Image)
-//      GlobalVals.picassoUnit[4].resize( GlobalVals.widthWindow/2, GlobalVals.widthWindow/2).into(holder.itemView.bottom2Image)
+//            holder.itemView.bottom1Image.setBackgroundResource(R.drawable.usej)
+//            holder.itemView.bottom2Image.setBackgroundResource(R.drawable.usej)
+
+//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.bottom1Image)
+//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.bottom2Image)
+
+            holder.itemView.button_see_all.visibility = View.GONE
+            holder.itemView.header.visibility = View.GONE
+        }else {
+
+
+            val mContainerTop = holder.itemView.top1Image.layoutParams
+            val mContainerBottom = holder.itemView.top2Image.layoutParams
+            val mTop1 = holder.itemView.top1.layoutParams as LinearLayout.LayoutParams
+            val mTop2 = holder.itemView.top2.layoutParams as LinearLayout.LayoutParams
+
+            val mBottom1 = holder.itemView.bottom1.layoutParams as LinearLayout.LayoutParams
+            val mBottom2 = holder.itemView.bottom2.layoutParams as LinearLayout.LayoutParams
+            val header = holder.itemView.header.layoutParams as LinearLayout.LayoutParams
+
+            val buttonSeeAll = holder.itemView.button_see_all.layoutParams as LinearLayout.LayoutParams
+
+
+            header.setMargins(40, 0, 40, 0)
+            val headerText = holder.itemView.header
+            headerText.text = "created by me"
+
+                //  val headerTextMargin = holder.itemView.header as LinearLayout.LayoutParams
+            //headerTextMargin.setMargins(40,40,40,40)
+
+            mContainerTop.height = GlobalVals.heightWindow / 5
+            mContainerBottom.height = GlobalVals.heightWindow / 5
+
+
+            mTop1.width = GlobalVals.widthWindow / 2 - 45
+            mTop1.setMargins(40, 5, 5, 0)
+            mTop2.width = GlobalVals.widthWindow / 2 - 45
+            mTop2.setMargins(5, 5, 40, 0)
+
+            holder.itemView.top1.elevation = 0F
+            holder.itemView.top2.elevation = 0F
+            holder.itemView.bottom1.elevation = 0F
+            holder.itemView.bottom2.elevation = 0F
+            holder.itemView.button_see_all.elevation = 0F
+
+
+            mTop1.height = GlobalVals.heightWindow / 5
+            mTop2.height = GlobalVals.heightWindow / 5
+
+            holder.itemView.setBackgroundColor(Color.WHITE)
 
 
 
+            //buttonSeeAll.setMargins(40, 80, 40, 40)
 
-      println("======check width ${GlobalVals.widthWindow.toDouble().times(0.57).toInt()}")
+//            holder.itemView.top1.setBackgroundResource(R.drawable.usej)
+//            holder.itemView.top2.setBackgroundResource(R.drawable.usej)
 
-      val bottomContainerWidthFirst = GlobalVals.widthWindow/2 - 45
-      val bottomContainerWidthFirstEnd = GlobalVals.widthWindow/2 - 45
+            var image1 = "https://images.unsplash.com/photo-1556227703-ab57dbc6f839?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1231&q=80"
+            var image2 = "https://images.unsplash.com/photo-1558556859-f575da01d52f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60"
+
+            Picasso.get().load(image1).into(holder.itemView.top1Image)
+            Picasso.get().load(image2).into(holder.itemView.top2Image)
+
+            println("======on EXPLORE ${GlobalVals.widthWindow.toDouble().times(0.57).toInt()}")
+
+            val bottomContainerWidthFirst = GlobalVals.widthWindow / 2 - 45
+            val bottomContainerWidthFirstEnd = GlobalVals.widthWindow / 2 - 45
 
 
-      mBottom1.width = bottomContainerWidthFirst
-      mBottom2.width = bottomContainerWidthFirstEnd
+            mBottom1.width = bottomContainerWidthFirst
+            mBottom2.width = bottomContainerWidthFirstEnd
 
-      mBottom1.height = GlobalVals.heightWindow/5
-      mBottom2.height = GlobalVals.heightWindow/5
+            mBottom1.height = GlobalVals.heightWindow / 5
+            mBottom2.height = GlobalVals.heightWindow / 5
 
-      mBottom1.setMargins(40,5,5,5)
-      mBottom2.setMargins(5,5,40,5)
+            mBottom1.setMargins(40, 0, 5, 0)
+            mBottom2.setMargins(5, 0, 40, 0)
+
+            var image3 = "https://images.unsplash.com/photo-1558525231-069834d4c006?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60"
+            var image4 = "https://images.unsplash.com/photo-1558543166-d9ee53d5a353?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2098&q=80"
+
+            Picasso.get().load(image3).into(holder.itemView.bottom1Image)
+            Picasso.get().load(image4).into(holder.itemView.bottom2Image)
+
+//            holder.itemView.bottom1Image.setBackgroundResource(R.drawable.usej)
+//            holder.itemView.bottom2Image.setBackgroundResource(R.drawable.usej)
+
+            holder.itemView.button_see_all.visibility = View.GONE
+            holder.itemView.header.visibility = View.GONE
+
+        }
 
 
 
@@ -385,72 +493,6 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
         )
 
         Picasso.get().load(image).fit().into(imageTarget)
-       // holder.itemView.title.layoutParams.width = finalWidth.toInt()
-        //holder.itemView.title.text = title
-
-        println("=============we are im the news apadper ${image}")
-
-//
-//
-//            val item = GlobalVals.savedNews[position]
-//            val resources = holder.itemView.context.resources
-//
-//            val image = item?.urlToImage
-////            val width = item?.media?.first()?.media_metadata?.last()?.width?.toDouble()
-////            val height = item?.media?.first()?.media_metadata?.last()?.height?.toDouble()
-//
-//           // val title = item?.title
-//            val target = holder.itemView.stock_image
-//            val imageTarget = holder.itemView.imageHere
-//            val abstract = holder.itemView.abstracts
-//
-//            val windowWidth = GlobalVals.widthWindow.toDouble().div(1.30)
-//            val windowHeight = GlobalVals.widthWindow.toDouble().div(1.30)
-//
-//            val ratio = windowHeight.div(windowWidth)
-//
-//            val finalWidth = windowWidth.toInt() - 30
-//            val finalHeight = windowHeight.times(ratio).toInt() - 30
-//
-//            val resize = target.layoutParams as LinearLayout.LayoutParams
-//
-//
-//
-//            val imageTargetMargins = holder.itemView.imageHere
-//        imageTargetMargins.setPadding(40,40,5,40)
-//
-//
-//
-//
-//            resize.width = finalWidth
-//            resize.height = finalHeight
-//
-//            abstract.layoutParams.width = finalWidth
-//
-//            abstract.text = item?.title
-//
-//
-//
-//            println(
-//                "=========api dimensions ${finalWidth} and ${finalHeight} and ${finalHeight.div(finalWidth)} and ${GlobalVals.widthWindow} and ${GlobalVals.widthWindow.times(
-//                    finalHeight.div(finalWidth)
-//                )} and ${GlobalVals.widthWindow.times(finalHeight.div(finalWidth)).toInt()}"
-//            )
-//
-//
-//            resize.height = GlobalVals.widthWindow.toDouble().times(ratio).toInt()
-//
-//           // println(
-//                //    "we are im the news apadper ${title} widthWindow ${GlobalVals.widthWindow} ratio $ratio width ${GlobalVals.widthWindow / 2} height ${GlobalVals.widthWindow.times(
-//             //       ratio!!.toInt()
-//               // )}"
-//           // )
-//
-//            Picasso.get().load(image).fit().into(imageTarget)
-//            holder.itemView.title.layoutParams.width = finalWidth
-//           // holder.itemView.title.text = title
-//
-//            println("=============we are im the news apadper ${image}")
 
 
     }else if(holder.itemViewType == 4){
@@ -489,23 +531,6 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
 
         println("======inside feed apdapter")
 
-//        val childLayoutManager = StaggeredGridLayoutManager(1, LinearLayout.HORIZONTAL)
-//
-//        val header = holder.itemView.horizontal_name
-//        header.text = CATEGORY
-//        holder.itemView.rv_child.apply {
-//
-//            this.layoutManager = childLayoutManager
-//
-//
-//            this.adapter = BindingHorizontal(holder.itemView.context, 5)
-//            setRecycledViewPool(viewPool)
-//        }
-
-      //  println("======== here is the category $item")
-
-
-
     }else if(holder.itemViewType == 6){
 
         println("=======video is parsed")
@@ -517,22 +542,22 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
         val anim = holder.itemView.load_video.layoutParams
 
         var width = GlobalVals.widthWindow
-        if (GlobalVals.fromExplore) {
+        if (GlobalVals.whatsNew) {
             width = GlobalVals.widthWindow/2
             holder.itemView.card.radius = 30f
             holder.itemView.botton_buttons.visibility = View.GONE
             val changeMargins = holder.itemView.card.layoutParams as LinearLayout.LayoutParams
-            changeMargins.setMargins(20,20,20,20)
+           // changeMargins.setMargins(20,20,20,20)
         }
 
         if (GlobalVals.videoWatch){
             holder.itemView.cell_header_bottom.visibility = View.GONE
             width = GlobalVals.widthWindow
-            holder.itemView.card.radius = 0f
+            holder.itemView.card.radius = 75f
             holder.itemView.botton_buttons.visibility = View.GONE
             holder.itemView.cell_header.visibility = View.GONE
             val changeMargins = holder.itemView.card.layoutParams as LinearLayout.LayoutParams
-            changeMargins.setMargins(0,0,0,20)
+           // changeMargins.setMargins(0,0,0,20)
             holder.itemView.card.elevation = 0f
 
         }
@@ -571,7 +596,7 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
 
 
 
-        if (GlobalVals.fromExplore) holder.itemView.cell_header.visibility = View.GONE
+        if (GlobalVals.whatsNew) holder.itemView.cell_header.visibility = View.GONE
 
 
         holder.itemView.load_video.visibility = View.VISIBLE
@@ -580,57 +605,12 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
         anim.height = width/3
         anim.width = width/3
 
-
-
-
-
-
-
-
-
-
     }else if(holder.itemViewType == 0){
-
-//        val autoHeightChild = holder.itemView.placeImage.layoutParams
-//        autoHeightChild.width = GlobalVals.widthWindow/2
-
-
-
-
-
-//
-//       // holder.itemView.lower_description.text = GlobalVals.imageClassUser[position]?.desc
 
         val item = getItem(position)
 
         GlobalVals.picassoUnit.add(Picasso.get().load(item?.urls?.regular))
         Picasso.get().load(item?.urls?.small).into(holder.itemView.profile_image)
-
-
-
-
-
-    //   val new = Picasso.get().load(item.urls?.regular)
-
-
-//        val resources = holder.itemView.context.resources
-//        val description = item?.description
-//        val new = Uri.parse(item?.urls?.small)
-
-     //   holder.itemView.findViewById<TextView>(R.id.title).bringToFront()
-
-        println("================we are loading")
-
-
-
-
-
-
-
-
-
-
-
 
         val autoHeightChild = holder.itemView.placeImageHere.layoutParams
         autoHeightChild.width = GlobalVals.widthWindow
@@ -658,9 +638,6 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
         GlobalVals.picassoUnit.add("")
         GlobalVals.transitionRatioHeight.add(GlobalVals.heightWindow/2)
 
-
-
-
             val childLayoutManager = StaggeredGridLayoutManager(1, LinearLayout.HORIZONTAL)
 
             val header = holder.itemView.horizontal_name
@@ -683,23 +660,15 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
 
         val new = Uri.parse(item?.urls?.small)
 
-
-
-
-
-
-
-
-
-
-
-
         val autoHeightChild = holder.itemView.placeImage.layoutParams
         autoHeightChild.width = GlobalVals.widthWindow/2
         autoHeightChild.height = (GlobalVals.widthWindow/2).times(item?.height!!.div(item?.width!!)).toInt()
         holder.itemView.placeImage.elevation = 0F
 
         Picasso.get().load(new).into(holder.itemView.placeImage)
+        holder.itemView.lower_description.text = item.user?.location
+
+
 
     }else {
 
@@ -759,7 +728,7 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
         init {
 
             //  if (itemView.placeImage != null) itemView.placeImage.setOnLongClickListener(this)
-              if (itemView.placeImageH != null) itemView.placeImageH.setOnClickListener(this)
+            if (itemView.placeImageH != null) itemView.placeImageH.setOnClickListener(this)
             if (itemView.placeImageHere != null) itemView.placeImageHere.setOnLongClickListener(this)
             if (itemView.placeImage != null) itemView.placeImage.setOnLongClickListener(this)
             if (itemView.placeImage != null) itemView.placeImage.setOnClickListener(this)

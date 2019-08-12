@@ -71,7 +71,13 @@ data class CoreUnSplash(
     var profile_image: ProfileImage? = null,
     var categ_name:String? = "",
     var categ_image_uri:String? = "",
-    var categ_created:String? = ""
+    var categ_created:String? = "",
+    var user:Locate? = null
+)
+
+
+data class Locate(
+    var location:String? = ""
 )
 
 

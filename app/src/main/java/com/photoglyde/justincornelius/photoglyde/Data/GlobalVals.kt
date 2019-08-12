@@ -37,7 +37,7 @@ object GlobalVals {
     var currentUser:UserInfo? = null
     var currentCreator:RequestCreator? = null
    var testUri = ArrayList<String>()
-    var fromExplore = false
+    var whatsNew = false
     var upSplash = ArrayList<CoreUnSplash>()
     var transitionRatioHeight = ArrayList<Int>()
     var currentTransitionHeight = 0

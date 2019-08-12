@@ -1,65 +1,38 @@
-package com.photoglyde.justincornelius.photoglyde.Fragments
+package com.photoglyde.justincornelius.photoglyde.ProfileFragments
 
-import android.app.ActivityOptions
 import android.arch.lifecycle.Observer
 import android.arch.paging.DataSource
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import android.content.Context
-import android.content.Intent
 import android.graphics.Color
-import android.graphics.Rect
-import android.media.Image
-import com.nshmura.recyclertablayout.RecyclerTabLayout
-import android.net.Uri
 import android.os.Bundle
 import android.os.Parcelable
 import android.support.design.widget.TabLayout
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentPagerAdapter
 import android.support.v4.util.Pair
-import android.support.v4.view.ViewPager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.Window
 import kotlinx.android.synthetic.main.activity_test.*
-import kotlinx.android.synthetic.main.test_include.*
-import android.view.animation.AnimationUtils
 import android.widget.*
 import com.photoglyde.justincornelius.photoglyde.Adapters.*
 import com.photoglyde.justincornelius.photoglyde.Data.*
-import com.photoglyde.justincornelius.photoglyde.ExapandDetailActivity
-import com.photoglyde.justincornelius.photoglyde.ExploreActivity
-import com.photoglyde.justincornelius.photoglyde.Networking.ImageDataSource
 import com.photoglyde.justincornelius.photoglyde.Networking.NYCTimesDataResponse
-import com.photoglyde.justincornelius.photoglyde.Networking.NYCTimesResponse
 import com.photoglyde.justincornelius.photoglyde.Networking.NewsDataSource
 import com.photoglyde.justincornelius.photoglyde.R
 
 
-import com.photoglyde.justincornelius.photoglyde.R.id.listVertical2
 import com.photoglyde.justincornelius.photoglyde.Web.NewsWebView
 
 
 import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_edit_photo.*
-import kotlinx.android.synthetic.main.activity_final_post.*
-import kotlinx.android.synthetic.main.activity_test.view.*
 import kotlinx.android.synthetic.main.button_profile.*
-import kotlinx.android.synthetic.main.fragment_explore.*
-import kotlinx.android.synthetic.main.fragment_item_list.*
-import kotlinx.android.synthetic.main.fragment_my_content.*
 import kotlinx.android.synthetic.main.news_lists.*
-import kotlinx.android.synthetic.main.profile_header.*
-import kotlinx.android.synthetic.main.profile_top.*
 import kotlinx.android.synthetic.main.toolbar.view.*
-import kotlinx.android.synthetic.main.vertical_rows.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -67,7 +40,7 @@ import kotlinx.android.synthetic.main.vertical_rows.*
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-class BlankFragment : Fragment() {
+class ProfileLanding : Fragment() {
     lateinit private var adapterVertical: BindingVertical
     lateinit private var adapterHorizontal: BindingHorizontal
     lateinit private var staggeredLayoutManager: StaggeredGridLayoutManager
@@ -93,7 +66,7 @@ class BlankFragment : Fragment() {
 //            startActivityForResult(i, request_code)
 //            // 1
             val transitionIntent = NewsWebView.newIntent(
-                this@BlankFragment.requireContext(),
+                this@ProfileLanding.requireContext(),
                 position
             )
             transitionIntent.putExtra("URL", GlobalVals.savedNews[position].url)
@@ -121,12 +94,12 @@ class BlankFragment : Fragment() {
 //            }
             Data.sendIndexToDetail = position
              5
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@BlankFragment.requireActivity(),imagePair,navPair)
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@ProfileLanding.requireActivity(),imagePair,navPair)
             //val new = ActivityOptionsCompat.makeSceneTransitionAnimation(this@BlankFragment.requireActivity(), pairs.toTypedArray())
 
 
 
-            ActivityCompat.startActivity(this@BlankFragment.requireContext(), transitionIntent, options.toBundle())
+            ActivityCompat.startActivity(this@ProfileLanding.requireContext(), transitionIntent, options.toBundle())
 
         }
     }
@@ -322,10 +295,10 @@ class BlankFragment : Fragment() {
 
     companion object {
 
-        val TAG: String = BlankFragment::class.java.simpleName
+        val TAG: String = ProfileLanding::class.java.simpleName
 
-        fun newInstance() : BlankFragment {
-            val fragment = BlankFragment()
+        fun newInstance() : ProfileLanding {
+            val fragment = ProfileLanding()
             val args = Bundle()
 
             return fragment
@@ -373,10 +346,10 @@ class BlankFragment : Fragment() {
 
 
     fun returnAdapter(id: Int): BindingVertical = when (id) {
-        AdapterSwitch.MYCONTENT.id -> BindingVertical(this@BlankFragment.requireContext(), GlobalVals.currentUser!!.userImages!!, 0)
-        AdapterSwitch.COLLECTIONS.id -> BindingVertical(this@BlankFragment.requireContext(), GlobalVals.currentUser!!.userImages!!, 1)
-        AdapterSwitch.SAVEDCONTENT.id -> BindingVertical(this@BlankFragment.requireContext(), GlobalVals.currentUser!!.userImages!!, 2)
-        else -> BindingVertical(this@BlankFragment.requireContext(), GlobalVals.currentUser!!.userImages!!, 1)
+        AdapterSwitch.MYCONTENT.id -> BindingVertical(this@ProfileLanding.requireContext(), GlobalVals.currentUser!!.userImages!!, 0)
+        AdapterSwitch.COLLECTIONS.id -> BindingVertical(this@ProfileLanding.requireContext(), GlobalVals.currentUser!!.userImages!!, 1)
+        AdapterSwitch.SAVEDCONTENT.id -> BindingVertical(this@ProfileLanding.requireContext(), GlobalVals.currentUser!!.userImages!!, 2)
+        else -> BindingVertical(this@ProfileLanding.requireContext(), GlobalVals.currentUser!!.userImages!!, 1)
     }
 
 

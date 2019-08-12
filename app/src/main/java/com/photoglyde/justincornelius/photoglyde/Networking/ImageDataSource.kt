@@ -35,7 +35,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.obf.it
+
 import com.photoglyde.justincornelius.photoglyde.Data.CoreUnSplash
 import com.photoglyde.justincornelius.photoglyde.Data.FEED
 import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals
@@ -95,7 +95,7 @@ init {
 
 
 
-                                    if (GlobalVals.fromExplore && !GlobalVals.cameFromExa){
+                                    if (GlobalVals.whatsNew && !GlobalVals.cameFromExa){
                                         redditPosts = Helper.main(redditPosts)
                                     }else if (GlobalVals.videoWatch){
                                         redditPosts = Helper.main(redditPosts)
@@ -151,6 +151,15 @@ println("================check data  ${p0.children.first().key} and last ${p0.ch
                                    // print("here is my list ${GlobalVals.imageClassUser.size}")
                                     var redditPosts = listing.children.map {
                                         it.getValue(CoreUnSplash::class.java)
+                                    }
+
+
+                                    if (GlobalVals.whatsNew && !GlobalVals.cameFromExa){
+                                        redditPosts = Helper.main(redditPosts)
+                                    }else if (GlobalVals.videoWatch){
+                                        redditPosts = Helper.main(redditPosts)
+                                    }else if (!GlobalVals.cameFromExa){
+                                      //  redditPosts = Helper.main(redditPosts)
                                     }
 
 //                                    print("here is my list check1 ${redditPosts.size}")

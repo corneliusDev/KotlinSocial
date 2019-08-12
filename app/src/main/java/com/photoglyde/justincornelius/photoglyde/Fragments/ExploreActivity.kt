@@ -1,67 +1,34 @@
-package com.photoglyde.justincornelius.photoglyde
+package com.photoglyde.justincornelius.photoglyde.Fragments
 
 import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.AnimatorSet
-import android.animation.ObjectAnimator
-import android.app.ActivityOptions
 import android.arch.lifecycle.Observer
 import android.arch.paging.DataSource
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import android.content.Context
-import android.graphics.Point
-import android.graphics.Rect
-import android.graphics.RectF
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.VibrationEffect
 import android.os.Vibrator
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.app.Fragment
-import android.support.v4.content.ContextCompat
-import android.support.v4.util.Pair
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
-import android.support.v7.widget.Toolbar
 import android.util.Log
 import android.view.*
-import android.view.animation.DecelerateInterpolator
-import android.widget.*
-import com.google.android.exoplayer2.Player
-import com.google.firebase.database.FirebaseDatabase
 import com.photoglyde.justincornelius.photoglyde.Adapters.*
 import com.photoglyde.justincornelius.photoglyde.Data.*
-import com.photoglyde.justincornelius.photoglyde.Fragments.PostingOptions
 import com.photoglyde.justincornelius.photoglyde.Networking.ImageDataSource
-import com.photoglyde.justincornelius.photoglyde.Networking.PostUN
-import com.photoglyde.justincornelius.photoglyde.Networking.UnSplashService
-import com.photoglyde.justincornelius.photoglyde.R.id.*
-import com.photoglyde.justincornelius.photoglyde.VideoPlayback.VideoActivity
-import com.squareup.picasso.RequestCreator
+import com.photoglyde.justincornelius.photoglyde.R
 import im.ene.toro.PlayerSelector
 import im.ene.toro.ToroPlayer
 import im.ene.toro.widget.Container
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.adapter_row_similar.view.*
 import kotlinx.android.synthetic.main.fragment_explore.*
-import kotlinx.android.synthetic.main.fragment_explore.view.*
-import kotlinx.android.synthetic.main.fragment_item_list.*
-import kotlinx.android.synthetic.main.full_view.*
 import kotlinx.android.synthetic.main.full_view.view.*
-import kotlinx.android.synthetic.main.news_lists.*
 import kotlinx.android.synthetic.main.toolbar.view.*
-import kotlinx.android.synthetic.main.view_holder_exoplayer_basic.*
-import kotlinx.android.synthetic.main.view_image_previewer.view.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -171,67 +138,6 @@ class ExploreActivity : Fragment(){
         override fun onItemClick(view: View, position: Int, data:CoreUnSplash) {
 
 
-//
-//            GlobalVals.isExpanded = true
-//          //  GlobalVals.currentCreator = image
-//           // GlobalVals.currentTransitionHeight = GlobalVals.transitionRatioHeight[position]
-//            Data.sendIndexToDetail = position
-//
-//
-//
-//            println("======this is the position $videoPos")
-//
-//            profile_list_explore.smoothScrollToPosition(position)
-//
-//    val transitionIntent = VideoActivity.newIntent(this@ExploreActivity.requireContext(), position)
-//            transitionIntent.putExtra("videoPos", videoPos)
-//            transitionIntent.putExtra("VIDEO", video)
-//
-//    val placeImage = view.findViewById<ImageButton>(R.id.placeImageHere)
-//
-//
-//
-////            val heart = view.findViewById<LinearLayout>(R.id.list_button_1)
-////            val bookmark = view.findViewById<LinearLayout>(R.id.list_button_2)
-////            val share = view.findViewById<LinearLayout>(R.id.list_button_3)
-////
-////            val heartPair = Pair.create(placeImage as View, "likeAction")
-////            val bookmarkPair = Pair.create(placeImage as View, "bookmarkAction")
-////            val sharePair = Pair.create(placeImage as View, "shareAction")
-//
-//
-//
-//
-//    val navigationBar = activity?.findViewById<View>(R.id.toolbar)
-//
-//
-//    val statusBar = view.findViewById<View>(R.id.navigation)
-//
-//    val imagePair = Pair.create(exo_image as View, "tImage")
-//            val holderPair = Pair.create(navigationBar as View, "tActionBar")
-//
-//    val navPair = Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME)
-//    val statusPair = Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME)
-//  //  val toolbarPair = Pair.create(toolbar as View, "tActionBar")
-//
-//    val pairs = mutableListOf(imagePair)
-//
-////    if (navigationBar != null && navPair != null) {
-////        pairs += navPair
-////    }
-//    // 5
-//
-//    println("===========scroll up")
-//    val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@ExploreActivity.requireActivity(), *pairs.toTypedArray())
-//
-//    ActivityCompat.startActivity(view.context, transitionIntent, options.toBundle())
-//
-//
-//
-//
-//
-
-
             println("===========scroll down")
 
 
@@ -296,7 +202,8 @@ class ExploreActivity : Fragment(){
 //            GlobalVals.loadPicasso = true
             staggeredLayoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
             // val layout = view?.findViewById<RecyclerView>(R.id.list)
-            profile_list_explore?.layoutManager = staggeredLayoutManager
+            profile_list_explore?.layoutManager =
+                staggeredLayoutManager
 ////
 ////
 ////
@@ -307,8 +214,6 @@ class ExploreActivity : Fragment(){
 ////
 ////            println("======this is null o nresume ${GlobalVals.recyclerState2}")
             if (GlobalVals.recyclerState2 != null) {
-
-//
 
                 println("======applied${GlobalVals.recyclerState2}")
                 profile_list_explore.layoutManager?.onRestoreInstanceState(GlobalVals.recyclerState2)

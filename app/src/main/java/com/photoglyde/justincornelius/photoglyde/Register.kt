@@ -41,12 +41,12 @@ class Register : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        val user = FirebaseAuth.getInstance().currentUser
-        if (user != null) {
-            println("=====user not null $user")
-            startActivity(Intent(this, MainActivity::class.java))
-            finish()
-        }
+//        val user = FirebaseAuth.getInstance().currentUser
+//        if (user != null) {
+//            println("=====user not null $user")
+//            startActivity(Intent(this, MainActivity::class.java))
+//            finish()
+//        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -67,8 +67,8 @@ class Register : AppCompatActivity() {
         setContentView(R.layout.onboard_landing)
 
 
-        firebaseAuth = FirebaseAuth.getInstance()
-        configureGoogleSignIn()
+//        firebaseAuth = FirebaseAuth.getInstance()
+//        configureGoogleSignIn()
 
 
 
@@ -92,9 +92,9 @@ class Register : AppCompatActivity() {
         }
 
 
-        google_sign_in.setOnClickListener {
-            signIn()
-        }
+//        google_sign_in.setOnClickListener {
+//            signIn()
+//        }
 
 
     }
