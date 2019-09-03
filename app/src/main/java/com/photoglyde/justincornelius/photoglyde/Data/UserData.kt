@@ -47,7 +47,8 @@ class ImageClass(
     var profile_image: ProfileImage? = null,
     var categ_name:String? = "",
     var categ_image_uri:String? = "",
-    var categ_created:String? = ""
+    var categ_created:String? = "",
+    var file:String? = ""
 
 )
 

@@ -35,17 +35,9 @@ class MyContent : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
-    lateinit private var staggeredLayoutManager: StaggeredGridLayoutManager
+    private lateinit var staggeredLayoutManager: StaggeredGridLayoutManager
     private var listener: OnFragmentInteractionListener? = null
-    lateinit private var adapterProfile: BindingVertical
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-//        arguments?.let {
-//            param1 = it.getString(ARG_PARAM1)
-//            param2 = it.getString(ARG_PARAM2)
-//        }
-    }
+    private lateinit var adapterProfile: BindingVertical
 
 
     override fun onPause() {

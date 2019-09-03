@@ -10,6 +10,7 @@ import android.os.Build
 import android.os.VibrationEffect
 import android.os.Vibrator
 import android.service.autofill.UserData
+import android.support.constraint.ConstraintLayout
 import android.support.v4.content.ContextCompat
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.graphics.Palette
@@ -39,6 +40,7 @@ import im.ene.toro.exoplayer.ExoPlayerViewHelper
 
 import im.ene.toro.media.PlaybackInfo
 import im.ene.toro.widget.Container
+import kotlinx.android.synthetic.main.activity_camera_api.view.*
 import kotlinx.android.synthetic.main.activity_news_web_view.view.*
 import kotlinx.android.synthetic.main.adapter_row.view.*
 import kotlinx.android.synthetic.main.adapter_row_similar.view.*
@@ -62,6 +64,7 @@ import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
+import java.io.File
 
 
 class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>(
@@ -81,63 +84,6 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
 
 
 
-
-
-
-    private val listenerAdapter = object : GestureDetector.SimpleOnGestureListener() {
-
-
-        override fun onSingleTapUp(e: MotionEvent?): Boolean {
-            println("===========hello 1")
-            return super.onSingleTapUp(e)
-        }
-
-        override fun onDown(e: MotionEvent?): Boolean {
-            println("===========hello 2")
-
-            return super.onDown(e)
-        }
-
-        override fun onFling(e1: MotionEvent?, e2: MotionEvent?, velocityX: Float, velocityY: Float): Boolean {
-            println("===========hello 3")
-            return super.onFling(e1, e2, velocityX, velocityY)
-        }
-
-        override fun onDoubleTap(e: MotionEvent?): Boolean {
-            println("===========hello 4")
-            return super.onDoubleTap(e)
-        }
-
-        override fun onScroll(e1: MotionEvent?, e2: MotionEvent?, distanceX: Float, distanceY: Float): Boolean {
-            println("===========hello 5")
-            return super.onScroll(e1, e2, distanceX, distanceY)
-        }
-
-        override fun onContextClick(e: MotionEvent?): Boolean {
-            println("===========hello 6")
-            return super.onContextClick(e)
-        }
-
-        override fun onSingleTapConfirmed(e: MotionEvent?): Boolean {
-            println("===========hello 7")
-            return super.onSingleTapConfirmed(e)
-        }
-
-        override fun onShowPress(e: MotionEvent?) {
-            println("===========hello 8")
-            super.onShowPress(e)
-        }
-
-        override fun onDoubleTapEvent(e: MotionEvent?): Boolean {
-            println("===========hello 9")
-            return super.onDoubleTapEvent(e)
-        }
-
-        override fun onLongPress(e: MotionEvent?) {
-            println("===========hello 10")
-            super.onLongPress(e)
-        }
-    }
 
   //  private val mDetector: GestureDetector = GestureDetector(context, listenerAdapter)
 
@@ -173,6 +119,8 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
 
         10 -> itemView = LayoutInflater.from(parent.context).inflate(R.layout.button_profile, parent, false)
 
+        11 -> itemView = LayoutInflater.from(parent.context).inflate(R.layout.profile_top, parent, false)
+
 
 
     }
@@ -191,7 +139,6 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
 
         if (GlobalVals.whatsNew) returnPos = 9
 
-        println("==========current type ${getItem(position)?.type}")
 
         when(getItem(position)?.type){
 
@@ -225,6 +172,10 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
 
             HEADER -> {
                 returnPos = 4
+            }
+
+            "collection" ->{
+                returnPos  = 11
             }
 
         }
@@ -265,7 +216,7 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
             val headerText = holder.itemView.header
             headerText.text = "created by me"
 
-            val headerTextMargin = holder.itemView.header as LinearLayout.LayoutParams
+        //    val headerTextMargin = holder.itemView.header as LinearLayout.LayoutParams
             //headerTextMargin.setMargins(40,40,40,40)
 
             mContainerTop.height = GlobalVals.heightWindow / 8
@@ -531,40 +482,79 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
 
         println("======inside feed apdapter")
 
+
+    //video
     }else if(holder.itemViewType == 6){
 
         println("=======video is parsed")
         val item = getItem(position)
         val autoHeightChild = holder.itemView.player.layoutParams
+        var cardLinear = holder.itemView.card_linear.layoutParams as StaggeredGridLayoutManager.LayoutParams
+        val playerMargins = holder.itemView.player.layoutParams as RelativeLayout.LayoutParams
+        val exoImageMargins = holder.itemView.exo_image.layoutParams as RelativeLayout.LayoutParams
         val resize = holder.itemView.exo_image.layoutParams
+        val playerWrapper = holder.itemView.card_linear.layoutParams as StaggeredGridLayoutManager.LayoutParams
         val URI = "https://thedailyhustleonline.com/wp-content/uploads/2017/10/circular-profile-image.png"
        // autoHeightChild.width = GlobalVals.widthWindow/2
         val anim = holder.itemView.load_video.layoutParams
+        holder.itemView.card.elevation = 0f
+
 
         var width = GlobalVals.widthWindow
         if (GlobalVals.whatsNew) {
             width = GlobalVals.widthWindow/2
+            cardLinear.height = width
             holder.itemView.card.radius = 30f
             holder.itemView.botton_buttons.visibility = View.GONE
-            val changeMargins = holder.itemView.card.layoutParams as LinearLayout.LayoutParams
-           // changeMargins.setMargins(20,20,20,20)
-        }
+            val changeMargins = holder.itemView.card.layoutParams as ConstraintLayout.LayoutParams
+            holder.itemView.video_back.setBackgroundResource(R.color.gray)
+            exoImageMargins.setMargins(0,0,0,0)
+            playerMargins.setMargins(0,0,0,0)
+            changeMargins.setMargins(30,20,30,20)
+            playerWrapper.setMargins(40,40,40,40)
 
-        if (GlobalVals.videoWatch){
+
+
+            holder.itemView.player.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+            holder.itemView.load_video.visibility = View.GONE
+
+        }else if (GlobalVals.videoWatch){
             holder.itemView.cell_header_bottom.visibility = View.GONE
             width = GlobalVals.widthWindow
-            holder.itemView.card.radius = 75f
+            holder.itemView.card.radius = 0f
             holder.itemView.botton_buttons.visibility = View.GONE
             holder.itemView.cell_header.visibility = View.GONE
-            val changeMargins = holder.itemView.card.layoutParams as LinearLayout.LayoutParams
-           // changeMargins.setMargins(0,0,0,20)
-            holder.itemView.card.elevation = 0f
+            holder.itemView.video_back.setBackgroundResource(R.color.gray)
+            holder.itemView.player.showController()
+            val changeMargins = holder.itemView.card.layoutParams as ConstraintLayout.LayoutParams
+            holder.itemView.player.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+            changeMargins.setMargins(0,0,0,20)
+            playerMargins.setMargins(0,0,0,40)
+            exoImageMargins.setMargins(0,0,0,0)
+            playerWrapper.setMargins(0,0,0,200)
+
+
+
+
+        }else{
+
+            holder.itemView.cell_header_bottom.visibility = View.GONE
+            width = GlobalVals.widthWindow
+            holder.itemView.card.radius = 0f
+            holder.itemView.botton_buttons.visibility = View.GONE
+            holder.itemView.cell_header.visibility = View.GONE
+            val changeMargins = holder.itemView.exo_margin.layoutParams as FrameLayout.LayoutParams
+            holder.itemView.player.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+            changeMargins.setMargins(0,40,0,40)
+            holder.itemView.load_video.visibility = View.GONE
+            playerMargins.setMargins(0,0,0,0)
+            exoImageMargins.setMargins(0,0,0,0)
 
         }
         val ratio = item?.height?.div(item.width!!)
         val height = width.times(ratio!!)
 
-        holder.itemView.ani_holder.bringToFront()
+       // holder.itemView.ani_holder.bringToFront()
 
 
         autoHeightChild.height = width
@@ -574,21 +564,22 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
         resize.width = width
 
 
-       // holder.itemView.player.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
 
 
 
-        Picasso.get().load(item?.urls?.small).into(holder.itemView.profile_image)
+        println("The Video URL: " + item.video_uri)
 
-
-        Picasso.get().load(item?.video_image).fit()
-            .into(holder.itemView.exo_image)
+        Picasso.get().load(item.video_image).fit().into(holder.itemView.exo_image)
 
         holder.itemView.exo_image.bringToFront()
-        holder.itemView.load_video.bringToFront()
+
+        holder.itemView.text_underlay_video.bringToFront()
+
+        holder.bind(Uri.parse(item.video_uri))
+
+       // holder.itemView.load_video.bringToFront()
 
 
-        holder.bind(Uri.parse(item?.video_uri))
 
 
 
@@ -599,11 +590,11 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
         if (GlobalVals.whatsNew) holder.itemView.cell_header.visibility = View.GONE
 
 
-        holder.itemView.load_video.visibility = View.VISIBLE
-        holder.itemView.load_video.progress = 0.1f
 
-        anim.height = width/3
-        anim.width = width/3
+       // holder.itemView.load_video.progress = 0.1f
+
+//        anim.height = width/3
+//        anim.width = width/3
 
     }else if(holder.itemViewType == 0){
 
@@ -625,10 +616,18 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
 
 
 
+      //  "/data/user/0/com.photoglyde.justincornelius.photoglyde/files/food.jpg"
 
-
-        Picasso.get().load(item?.urls?.regular).into(holder.itemView.placeImageHere)
+        Picasso.get().load(File("/data/user/0/com.photoglyde.justincornelius.photoglyde/files/food.jpg")).into(holder.itemView.placeImageHere)
         holder.itemView.placeImageHere.bringToFront()
+
+        holder.itemView.text_underlay.bringToFront()
+
+        holder.itemView.textFullView.bringToFront()
+
+        holder.itemView.textFullView.text = item.user?.location
+
+
 
 
     }else if (holder.itemViewType == 8){
@@ -662,16 +661,107 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
 
         val autoHeightChild = holder.itemView.placeImage.layoutParams
         autoHeightChild.width = GlobalVals.widthWindow/2
-        autoHeightChild.height = (GlobalVals.widthWindow/2).times(item?.height!!.div(item?.width!!)).toInt()
+        autoHeightChild.height = (GlobalVals.widthWindow/2).times(item?.height!!.div(item.width!!)).toInt()
         holder.itemView.placeImage.elevation = 0F
 
         Picasso.get().load(new).into(holder.itemView.placeImage)
         holder.itemView.lower_description.text = item.user?.location
 
+        holder.itemView.lower_description.setTextColor(Color.WHITE)
 
 
-    }else {
 
+    }else if(holder.itemViewType == 11) {
+        val shave = 40
+
+        val item = getItem(position)
+
+        val mContainerTop = holder.itemView.top1Image.layoutParams
+        val mContainerBottom = holder.itemView.top2Image.layoutParams
+        val mTop1 = holder.itemView.top1.layoutParams as LinearLayout.LayoutParams
+        val mTop2 = holder.itemView.top2.layoutParams as LinearLayout.LayoutParams
+
+        val mBottom1 = holder.itemView.bottom1.layoutParams as LinearLayout.LayoutParams
+        val mBottom2 = holder.itemView.bottom2.layoutParams as LinearLayout.LayoutParams
+        val header = holder.itemView.header.layoutParams as LinearLayout.LayoutParams
+
+        val buttonSeeAll = holder.itemView.button_see_all.layoutParams as LinearLayout.LayoutParams
+
+
+        //header.setMargins(40, 20, 40, 40)
+        val headerText = holder.itemView.header
+        headerText.text = "created by me"
+
+        //    val headerTextMargin = holder.itemView.header as LinearLayout.LayoutParams
+        //headerTextMargin.setMargins(40,40,40,40)
+
+        mContainerTop.height = GlobalVals.heightWindow / 8
+        mContainerBottom.height = GlobalVals.heightWindow / 8
+
+
+        mTop1.width = GlobalVals.widthWindow / 4 - shave
+        mTop1.setMargins(0, 0, 8, 8)
+        mTop2.width = GlobalVals.widthWindow / 4 - shave
+        mTop2.setMargins(8, 0, 0, 8)
+
+        holder.itemView.top1.elevation = 0F
+        holder.itemView.top2.elevation = 0F
+        holder.itemView.bottom1.elevation = 0F
+        holder.itemView.bottom2.elevation = 0F
+        holder.itemView.button_see_all.elevation = 0F
+
+
+        mTop1.height = GlobalVals.widthWindow / 4 - shave
+        mTop2.height = GlobalVals.widthWindow / 4 - shave
+
+       // holder.itemView.setBackgroundColor(Color.WHITE)
+        var image1 = item?.collection?.first
+        var image2 = item?.collection?.second
+
+        Picasso.get().load(image1).into(holder.itemView.top1Image)
+        Picasso.get().load(image2).into(holder.itemView.top2Image)
+
+        // buttonSeeAll.setMargins(40, 80, 40, 40)
+//
+//            holder.itemView.top1Image.setBackgroundResource(R.drawable.usej)
+//
+//            holder.itemView.top2Image.setBackgroundResource(R.drawable.usej)
+
+//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.top1Image)
+//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.top2Image)
+
+        println("======check width ${GlobalVals.widthWindow.toDouble().times(0.57).toInt()}")
+
+        val bottomContainerWidthFirst = GlobalVals.widthWindow / 4 - shave
+        val bottomContainerWidthFirstEnd = GlobalVals.widthWindow / 4 - shave
+
+
+        mBottom1.width = bottomContainerWidthFirst
+        mBottom2.width = bottomContainerWidthFirstEnd
+
+        mBottom1.height = GlobalVals.widthWindow / 4 - shave
+        mBottom2.height = GlobalVals.widthWindow / 4 - shave
+
+        mBottom1.setMargins(0, 8, 8, 0)
+        mBottom2.setMargins(8, 8, 0, 0)
+
+        var image3 = item?.collection?.third
+        var image4 = item?.collection?.fourth
+
+        Picasso.get().load(image3).into(holder.itemView.bottom1Image)
+        Picasso.get().load(image4).into(holder.itemView.bottom2Image)
+
+//
+//            holder.itemView.bottom1Image.setBackgroundResource(R.drawable.usej)
+//            holder.itemView.bottom2Image.setBackgroundResource(R.drawable.usej)
+
+//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.bottom1Image)
+//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.bottom2Image)
+
+        holder.itemView.button_see_all.visibility = View.GONE
+        holder.itemView.header.visibility = View.GONE
+
+        holder.itemView.textProfile.text = item?.user?.location
 
         }
     }
@@ -730,6 +820,7 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
             //  if (itemView.placeImage != null) itemView.placeImage.setOnLongClickListener(this)
             if (itemView.placeImageH != null) itemView.placeImageH.setOnClickListener(this)
             if (itemView.placeImageHere != null) itemView.placeImageHere.setOnLongClickListener(this)
+            if (itemView.placeImageHere != null) itemView.placeImageHere.setOnClickListener(this)
             if (itemView.placeImage != null) itemView.placeImage.setOnLongClickListener(this)
             if (itemView.placeImage != null) itemView.placeImage.setOnClickListener(this)
             // if (itemView.placeImage != null) itemView.placeImage.setOnTouchListener(this)
@@ -780,11 +871,13 @@ println("=====lock click")
 
         override fun initialize(container: Container, playbackInfo: PlaybackInfo) {
             if (helper == null) {
-                println("========= inside helper $mediaUri $helper and ${Configuration.config1} and $this")
+
 
 //            val trackSelector = DefaultTrackSelector()
 //            val loadControl = DefaultLoadControl()
 //            val renderersFactory = DefaultRenderersFactory(this)
+
+                itemView.exo_image.bringToFront()
 
 
                 helper = ExoPlayerViewHelper(this, mediaUri!!, null, Configuration.config1!!)
@@ -800,12 +893,12 @@ println("=====lock click")
                 listenerTorro = object : ToroPlayer.EventListener{
                     override fun onBuffering() {
 
-
-
+                        itemView.exo_image.alpha = 1f
+                      //  itemView.exo_image.bringToFront()
 
                         if (itemView.load_video != null) {
 
-                            itemView.load_video.visibility = View.VISIBLE
+                         //   itemView.load_video.visibility = View.VISIBLE
                             itemView.load_video.playAnimation()
 
                         }
@@ -825,8 +918,8 @@ println("=====lock click")
                         //if (itemView.animationLoad != null) itemView.animationLoad.visibility = View.GONE
                         itemView.exo_image.alpha = 0.0f
                         if (itemView.load_video != null) {
-                            itemView.load_video.visibility = View.INVISIBLE
-                            itemView.load_video.pauseAnimation()
+//                            itemView.load_video.visibility = View.INVISIBLE
+//                            itemView.load_video.pauseAnimation()
                             val volumeSet = helper
                             volumeSet?.volume = 0f
 
@@ -836,7 +929,7 @@ println("=====lock click")
                     override fun onPaused() {
 
                         itemView.exo_image.visibility = View.VISIBLE
-                        itemView.exo_image.bringToFront()
+
 
                         println("=======video is paused")
 
@@ -855,7 +948,7 @@ println("=====lock click")
             helper!!.initialize(container, playbackInfo)
         }
         override fun getPlayerView(): View {
-            println("========over 1")
+
 
 
 
@@ -863,7 +956,7 @@ println("=====lock click")
         }
 
         override fun getCurrentPlaybackInfo(): PlaybackInfo {
-            println("========over 2")
+
             return if (helper != null) helper!!.latestPlaybackInfo else PlaybackInfo()
         }
 
@@ -894,7 +987,7 @@ println("=====lock click")
 
         override fun isPlaying(): Boolean {
 
-            println("===========the video is playing")
+          //  println("===========the video is playing")
 
 
             // itemView.exo_image.visibility = View.GONE
@@ -903,7 +996,7 @@ println("=====lock click")
         }
 
         override fun release() {
-            println("========over 11")
+
             if (listenerTorro != null) {
                 helper?.removePlayerEventListener(listenerTorro!!)
                 listenerTorro = null
@@ -913,7 +1006,7 @@ println("=====lock click")
         }
 
         override fun wantsToPlay(): Boolean {
-            println("========over 13 ${ToroUtil.visibleAreaOffset(this, itemView.parent)}")
+          //  println("========over 13 ${ToroUtil.visibleAreaOffset(this, itemView.parent)}")
             return ToroUtil.visibleAreaOffset(this, itemView.parent) >= 0.85
         }
 
@@ -928,7 +1021,7 @@ println("=====lock click")
         }
 
         internal fun bind(media: Uri) {
-            println("========over 15 $media")
+
             this.mediaUri = media
 
 

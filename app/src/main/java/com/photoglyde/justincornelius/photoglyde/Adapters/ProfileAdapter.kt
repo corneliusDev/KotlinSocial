@@ -695,7 +695,7 @@ class ProfileAdapter(private var context: Context, private var unSplash:List<Cor
                         .setDuration(200).start()
                     println("===========profile down")
                     if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
-                        p0?.getParent()?.requestDisallowInterceptTouchEvent(false)
+                        p0?.parent?.requestDisallowInterceptTouchEvent(false)
                         println("===========profile up")
                         ViewPropertyObjectAnimator.animate(p0?.placeImage).scaleY(1.0f).scaleX(1.0f)
                             .setDuration(200).start()
@@ -796,7 +796,7 @@ class ProfileAdapter(private var context: Context, private var unSplash:List<Cor
             helper!!.initialize(container, playbackInfo)
         }
         override fun getPlayerView(): View {
-            println("========over 1")
+
 
 
 
@@ -831,14 +831,14 @@ class ProfileAdapter(private var context: Context, private var unSplash:List<Cor
 
         override fun isPlaying(): Boolean {
 
-            println("===========the video is playing")
+          //  println("===========the video is playing")
            // itemView.exo_image.visibility = View.GONE
             //  println("========over 10 ${helper != null} and ${helper!!.isPlaying}")
             return helper != null && helper!!.isPlaying
         }
 
         override fun release() {
-            println("========over 11")
+
             if (listenerTorro != null) {
                 helper?.removePlayerEventListener(listenerTorro!!)
                 listenerTorro = null

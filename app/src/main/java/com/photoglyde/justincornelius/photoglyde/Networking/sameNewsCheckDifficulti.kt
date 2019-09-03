@@ -9,11 +9,7 @@ class sameNewsCheckDifficulti : DiffUtil.ItemCallback<NYCTimesDataResponse>() {
     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
   }
 
-  override fun getChangePayload(oldItem: NYCTimesDataResponse, newItem: NYCTimesDataResponse): Any? {
-    return super.getChangePayload(oldItem, newItem)
-  }
-
-  override fun areContentsTheSame(p0: NYCTimesDataResponse, p1: NYCTimesDataResponse): Boolean {
+    override fun areContentsTheSame(p0: NYCTimesDataResponse, p1: NYCTimesDataResponse): Boolean {
     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
   }
 }

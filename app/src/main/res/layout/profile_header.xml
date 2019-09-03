@@ -17,7 +17,7 @@
     <ImageView android:layout_width="150dp"
                android:layout_height="150dp"
                android:id="@+id/user_image"
-               android:background="@drawable/usej"
+               android:background="@drawable/pastry1"
 
 
     />
@@ -47,7 +47,7 @@
                     android:layout_height="match_parent"
                     android:text="Justin Cornelius"
                     android:textSize="23sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
 
 
                     android:fontFamily="@font/source_sans_pro" android:textStyle="bold"/>
@@ -58,7 +58,7 @@
                     android:layout_height="match_parent"
                     android:text="Aspiring journalist with a dream to sing and change lives"
                     android:textSize="14sp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/white"
                     android:layout_marginBottom="10dp"
 
 

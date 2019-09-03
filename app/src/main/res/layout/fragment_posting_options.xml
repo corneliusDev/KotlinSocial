@@ -5,7 +5,7 @@
              android:layout_height="300dp"
               android:id="@+id/background"
               android:orientation="vertical"
-              android:background="@color/white"
+              android:background="@color/dark_gray"
               android:clickable="true"
              tools:context=".Fragments.PostingOptions">
 
@@ -35,7 +35,7 @@
                                            app:cardCornerRadius="5dp"
                                            android:layout_marginStart="10dp"
                                            android:layout_marginEnd="10dp"
-                                           android:backgroundTint="#F5F5F5"
+                                           android:backgroundTint="@color/gray"
                                            android:layout_gravity="center_vertical"
                                            app:cardElevation="0dp"
                                            android:background="@drawable/posting_options"
@@ -65,7 +65,7 @@
                          android:id="@+id/camera_text"
                          android:text="camera"
                          android:fontFamily="@font/noto_sans_bold"
-                         android:textColor="@color/black"
+                         android:textColor="@color/dark_gray"
                          android:textSize="16sp"/>
 
            </LinearLayout>
@@ -80,7 +80,7 @@
                                             app:cardCornerRadius="5dp"
                                             android:layout_marginStart="10dp"
                                             android:layout_marginEnd="10dp"
-                                            android:backgroundTint="#F5F5F5"
+                                            android:backgroundTint="@color/gray"
                                             android:layout_gravity="center_vertical"
                                             app:cardElevation="0dp"
                                             android:background="@drawable/posting_options"
@@ -134,7 +134,7 @@
                                         android:layout_marginBottom="30dp"
                                         android:layout_marginStart="10dp"
                                         android:layout_marginEnd="10dp"
-                                        android:backgroundTint="#F5F5F5"
+                                        android:backgroundTint="@color/gray"
                                         android:layout_gravity="center_horizontal"
                                         app:cardElevation="0dp"
                                         android:background="@drawable/posting_options"

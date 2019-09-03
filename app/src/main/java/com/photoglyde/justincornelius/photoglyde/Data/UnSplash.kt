@@ -72,9 +72,16 @@ data class CoreUnSplash(
     var categ_name:String? = "",
     var categ_image_uri:String? = "",
     var categ_created:String? = "",
-    var user:Locate? = null
+    var user:Locate? = null,
+    var collection:Collection? = null
 )
 
+data class Collection(
+    var first:String? = "",
+    var second:String? = "",
+    var third:String? = "",
+    var fourth:String? = ""
+)
 
 data class Locate(
     var location:String? = ""

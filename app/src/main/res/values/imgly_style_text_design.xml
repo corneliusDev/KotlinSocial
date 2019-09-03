@@ -1,7 +1,7 @@
 <!--
   ~ This file is part of the PhotoEditor Software Development Kit.
   ~
-  ~ Copyright (C) 2018 9elements GmbH <contact@9elements.com>
+  ~ Copyright (C) 2019 img.ly GmbH <contact@img.ly>
   ~ All rights reserved.
   ~
   ~ Redistribution and use in source and binary forms, without
@@ -12,6 +12,8 @@
   ~
   ~ https://www.photoeditorsdk.com/LICENSE.txt
   -->
+
+
 <resources>
 
     <style name="Imgly.PESDK.Editor.Panel.TextDesign.TextDesignItem" parent="Imgly.PESDK.default.Item">
@@ -30,7 +32,6 @@
     <style name="Imgly.PESDK.Editor.Panel.TextDesign.ColorItem" parent="Imgly.PESDK.default.Item">
         <item name="android:layout_width">36dp</item>
         <item name="android:layout_height">32dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
         <item name="android:layout_marginLeft">@dimen/text_design_margin_left</item>
         <item name="android:layout_marginStart">@dimen/text_design_margin_left</item>
         <item name="android:layout_marginRight">@dimen/text_design_margin_right</item>
@@ -46,7 +47,7 @@
     <style name="Imgly.PESDK.Editor.Panel.TextDesign" parent="Imgly.PESDK.Editor.Panel">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:background">@color/imgly_editor_text_background</item>
+        <item name="android:background">@color/imgly_text_input_background_color</item>
         <item name="android:clickable">false</item>
     </style>
 
@@ -75,10 +76,10 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:lines">5</item>
         <item name="android:maxLines">50</item>
-        <item name="android:background">@color/transparent</item>
+        <item name="android:background">@color/imgly_transparent_color</item>
         <item name="android:inputType">textCapSentences|textAutoCorrect</item>
         <item name="android:imeOptions">actionDone</item>
-        <item name="android:textColor">@color/imgly_text_color</item>
+        <item name="android:textColor">@color/imgly_text_on_image_color</item>
         <item name="android:layout_centerInParent">true</item>
         <item name="android:gravity">center</item>
         <item name="android:hint">@string/pesdk_text_text_editTextPlaceholder</item>
@@ -88,15 +89,8 @@
     <style name="Imgly.PESDK.Editor.Panel.TextDesign.ColorList" parent="Imgly.PESDK">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_centerInParent">true</item>
-        <item name="android:layout_marginLeft">0dp</item>
-        <item name="android:layout_marginStart">0dp</item>
-        <item name="android:layout_marginRight">0dp</item>
-        <item name="android:layout_marginEnd">0dp</item>
-        <item name="android:layout_marginTop">0dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:layout_centerHorizontal">true</item>
         <item name="android:layout_alignParentBottom">true</item>
-        <item name="android:rotation">180</item>
     </style>
 
     <style name="Imgly.PESDK.Editor.Panel.TextDesign.TextDesignItem.Overlay" parent="Imgly.PESDK">

@@ -21,7 +21,7 @@
 
     <android.support.v7.widget.CardView
             android:id="@+id/stock_image1"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:cardElevation="0dp"
             android:layout_marginStart="1dp"
@@ -29,22 +29,21 @@
             >
 
 
-        <LinearLayout android:layout_width="match_parent"
+        <LinearLayout android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:orientation="vertical"
         >
 
 
+            <ImageView
+                    android:id="@+id/imageHere1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
+                    android:layout_gravity="center_vertical"
+                    android:transitionName="toWeb"
 
-
-        <ImageView
-                android:id="@+id/imageHere1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:transitionName="toWeb"
-
-        />
+            />
 
 
 

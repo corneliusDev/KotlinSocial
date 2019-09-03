@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.provider.MediaStore
 import android.support.constraint.ConstraintSet
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.view.View
 import com.photoglyde.justincornelius.photoglyde.Camera.Camera2BasicFragment
@@ -119,9 +119,9 @@ class CamerOpenActivity : AppCompatActivity() {
         }
 
         select.setOnClickListener {
-            val intent = Intent(Intent.ACTION_PICK);
-            intent.setType("image/*");
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), 101)
         }
 

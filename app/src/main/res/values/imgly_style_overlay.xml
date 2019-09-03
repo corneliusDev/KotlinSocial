@@ -1,7 +1,7 @@
 <!--
   ~ This file is part of the PhotoEditor Software Development Kit.
   ~
-  ~ Copyright (C) 2017 9elements GmbH <contact@9elements.com>
+  ~ Copyright (C) 2019 img.ly GmbH <contact@img.ly>
   ~ All rights reserved.
   ~
   ~ Redistribution and use in source and binary forms, without
@@ -13,6 +13,8 @@
   ~ https://www.photoeditorsdk.com/LICENSE.txt
   -->
 
+
+
 <resources>
 
     <style name="Imgly.PESDK.Editor.Panel.Overlay" parent="Imgly.PESDK.Editor.Panel">
@@ -20,8 +22,6 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
     </style>
-
-    <style name="Imgly.PESDK.Editor.Panel.default.Item.SelectBackground" parent="Imgly.PESDK"/>
 
     <style name="Imgly.PESDK.Editor.Panel.Overlay.OverlayItem" parent="Imgly.PESDK.default.Item">
         <item name="android:layout_marginTop">@dimen/container_item_marginTop</item>
@@ -40,32 +40,13 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/item_label_text_size</item>
-        <item name="android:textColor">@color/imgly_text_color</item>
+        <item name="android:textColor">@color/imgly_text_on_image_color</item>
         <item name="android:paddingTop">4dp</item>
         <item name="android:paddingBottom">4dp</item>
         <item name="android:background">@drawable/imgly_list_item_label_background</item>
         <item name="android:text">@string/pesdk_overlay_title_name</item>
         <item name="android:lines">1</item>
         <item name="android:layout_alignParentBottom">true</item>
-    </style>
-
-    <style name="Imgly.PESDK.Editor.Panel.Overlay.OverlayItem.Value" parent="Imgly.PESDK.default.Item.Value">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">18dp</item>
-        <item name="android:textColor">@color/imgly_text_color</item>
-        <item name="android:text">100</item>
-        <item name="android:layout_centerInParent">true</item>
-        <item name="android:gravity">center</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:lines">1</item>
-        <item name="android:visibility">invisible</item>
-    </style>
-
-    <style name="Imgly.PESDK.Editor.Panel.Overlay.OverlayItem.SelectBackground" parent="Imgly.PESDK.Editor.Panel.default.Item.SelectBackground">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:padding">0dp</item>
     </style>
 
     <style name="Imgly.PESDK.Editor.Panel.Overlay.BlendModeItem" parent="Imgly.PESDK">
@@ -89,6 +70,7 @@
         <item name="android:gravity">center</item>
         <item name="android:lines">1</item>
         <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@color/imgly_text_on_image_color</item>
     </style>
 
     <style name="Imgly.PESDK.Editor.Panel.Overlay.ModeList" parent="Imgly.PESDK">

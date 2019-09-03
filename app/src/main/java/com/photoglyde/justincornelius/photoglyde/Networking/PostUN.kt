@@ -97,7 +97,8 @@ class PostUN {
                    val list = p0.children
 
                    list.forEach {
-                       new.add(it.getValue(CoreUnSplash::class.java))
+                       val categItem = it.getValue(CoreUnSplash::class.java)
+                       if (categItem?.categ_image_uri != null) if (categItem.categ_image_uri.toString().isNotEmpty()) new.add(categItem)
                    }
 
                    GlobalVals.listCateg = new

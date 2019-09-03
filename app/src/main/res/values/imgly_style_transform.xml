@@ -1,7 +1,7 @@
 <!--
   ~ This file is part of the PhotoEditor Software Development Kit.
   ~
-  ~ Copyright (C) 2017 9elements GmbH <contact@9elements.com>
+  ~ Copyright (C) 2019 img.ly GmbH <contact@img.ly>
   ~ All rights reserved.
   ~
   ~ Redistribution and use in source and binary forms, without
@@ -12,18 +12,14 @@
   ~
   ~ https://www.photoeditorsdk.com/LICENSE.txt
   -->
+
+
 <resources>
 
     <style name="Imgly.PESDK.Editor.Panel.Transform" parent="Imgly.PESDK.Editor.Panel">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:orientation">vertical</item>
-    </style>
-
-    <style name="Imgly.PESDK.Editor.Panel.Transform.Crop" parent="Imgly.PESDK">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">horizontal</item>
     </style>
 
     <style name="Imgly.PESDK.Editor.Panel.Transform.CropItem" parent="Imgly.PESDK.default.Item">
@@ -64,6 +60,7 @@
         <item name="android:layout_height">@dimen/transform_SliderBar_height</item>
         <item name="android:textSize">15dp</item>
         <item name="android:layout_weight">1</item>
+        <item name="android:textColor">@color/imgly_editor_text_color</item>
     </style>
 
     <style name="Imgly.PESDK.Editor.Panel.Transform.CropItem.Border" parent="Imgly.PESDK">

@@ -20,7 +20,7 @@ class DemoColorPagerAdapter : PagerAdapter() {
             .inflate(R.layout.layout_page, container, false)
 
         val textView = view.findViewById(R.id.title) as TextView
-        textView.setText("Page: " + mItems[position].name)
+        textView.text = "Page: " + mItems[position].name
         container.addView(view)
 
         return view

@@ -130,7 +130,7 @@ class NewsWebView : AppCompatActivity() {
 
     private fun setUpWebView(url:String){
         // Get the web view settings instance
-        val settings = webview.settings;
+        val settings = webview.settings
 
         // Enable java script in web view
         settings.javaScriptEnabled = true
@@ -212,9 +212,9 @@ class NewsWebView : AppCompatActivity() {
         toolbar = findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)
         toolbar.bringToFront()
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayShowTitleEnabled(false);
-        getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar()?.setDisplayShowHomeEnabled(true);
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
+        supportActionBar?.setDisplayShowHomeEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24px)
 
     }

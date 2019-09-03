@@ -91,16 +91,18 @@ class BindingHorizontal(private var context: Context, private var layoutViews:In
 
           textCateg.text = "Womans Style"
 
-          Picasso.get().load(item?.categ_image_uri)
-              .fit()
-              .into(holder.itemView.circle)
+          if (item?.categ_image_uri?.isNotEmpty()!!) {
+              Picasso.get().load(item.categ_image_uri)
+                  .fit()
+                  .into(holder.itemView.circle)
+          }
 
 
           val resize = holder.itemView.placeCard12.layoutParams
           resize.width = GlobalVals.widthWindow/4
           resize.height = GlobalVals.widthWindow/3
 
-          textCateg.text = item?.categ_name
+          textCateg.text = item.categ_name
           textCateg.bringToFront()
 
 
@@ -160,7 +162,7 @@ class BindingHorizontal(private var context: Context, private var layoutViews:In
 
         println(
           "we are im the news apadper ${title} widthWindow ${GlobalVals.widthWindow} ratio $ratio width ${GlobalVals.widthWindow / 2} height ${GlobalVals.widthWindow.times(
-            ratio!!.toInt()
+            ratio.toInt()
           )}"
         )
 

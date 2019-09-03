@@ -19,7 +19,7 @@ class LocationAddAdapter(val userList: ArrayList<String?>, val clickListener: (A
     //this method is binding the data on the list
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bindItems(userList[position])
-        (holder).bind(userList!!, clickListener)
+        (holder).bind(userList, clickListener)
 
         val margins = holder.itemView.card_location_holder.layoutParams as LinearLayout.LayoutParams
 
@@ -57,7 +57,7 @@ class LocationAddAdapter(val userList: ArrayList<String?>, val clickListener: (A
         fun bind(part: ArrayList<String?>, clickListener: (ArrayList<String?>, Int) -> Unit) {
 
 
-            var position: Int = getAdapterPosition()
+            var position: Int = adapterPosition
             itemView.setOnClickListener { clickListener(part, position) }
 
 

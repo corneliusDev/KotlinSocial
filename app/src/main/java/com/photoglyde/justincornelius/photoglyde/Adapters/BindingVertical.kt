@@ -22,6 +22,8 @@ import kotlinx.android.synthetic.main.horizontal_rows.view.*
 import kotlinx.android.synthetic.main.nested_recycler.view.*
 import kotlinx.android.synthetic.main.news_layout.view.*
 import kotlinx.android.synthetic.main.vertical_rows.view.*
+import java.io.File
+import kotlin.math.roundToInt
 
 
 class BindingVertical(private var context: Context, private var userImageData: ArrayList<ImageClass>, private var viewType:Int) : RecyclerView.Adapter<BindingVertical.ViewHolder>() {
@@ -35,7 +37,7 @@ class BindingVertical(private var context: Context, private var userImageData: A
     var returnCount = 0
 
     if (viewType == 0) {
-      if (userImageData?.size != null) returnCount = userImageData!!.size
+      if (userImageData.size != null) returnCount = userImageData.size
     }else{
       returnCount = 1
     }
@@ -96,13 +98,13 @@ println("=====this is the view type $viewType")
       val imageTarget = holder.itemView.imageHere1
       // val abstract = holder.itemView.abstracts
 
-      val windowWidth = GlobalVals.widthWindow.toDouble() / 3
+      val windowWidth = GlobalVals.widthWindow.toDouble()
       val windowHeight = windowWidth
 
       val ratio = height?.div(width!!)
       println("=======here is the ratio $ratio and height $height and width $width")
 
-      val finalWidth = windowWidth.toInt() - 10
+      val finalWidth = windowWidth.roundToInt().div(3)
       val finalHeight = windowHeight.times(ratio!!).toInt() - 10
 
       println("=======here is the ratio two $ratio and height $finalHeight and width $finalWidth")
@@ -116,16 +118,16 @@ println("=====this is the view type $viewType")
       // abstract.text = item?.description
 
 
-
-      println(
-        "=========api dimensions ${finalWidth} and ${finalHeight} and ${finalHeight.div(finalWidth)} and ${GlobalVals.widthWindow} and ${GlobalVals.widthWindow.times(
-          finalHeight.div(finalWidth)
-        )} and ${GlobalVals.widthWindow.times(finalHeight.div(finalWidth)).toInt()}"
-      )
+//
+//      println(
+//        "=========api dimensions ${finalWidth} and ${finalHeight} and ${finalHeight.div(finalWidth)} and ${GlobalVals.widthWindow} and ${GlobalVals.widthWindow.times(
+//          finalHeight.div(finalWidth)
+//        )} and ${GlobalVals.widthWindow.times(finalHeight.div(finalWidth)).toInt()}"
+//      )
 
 
       resize.width = finalWidth
-      resize.height = finalHeight
+      resize.height = 400
 
 
       if (position == 0) {
@@ -142,11 +144,11 @@ println("=====this is the view type $viewType")
 //        )}"
 //      )
 
-      Picasso.get().load(image).resize(finalWidth, finalHeight).into(imageTarget)
+      Picasso.get().load(File(item.file)).into(imageTarget)
       // holder.itemView.title.layoutParams.width = finalWidth
       //  holder.itemView.title.text = title
 
-      println("=============we are im the news apadper ${image}")
+      println("=============we are im the news apadper ${item.file}")
     }
 
 

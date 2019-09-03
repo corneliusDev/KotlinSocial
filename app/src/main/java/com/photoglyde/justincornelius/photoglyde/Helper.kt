@@ -27,7 +27,10 @@ import com.photoglyde.justincornelius.photoglyde.Camera.ImageSaver
 import com.photoglyde.justincornelius.photoglyde.Data.*
 import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals.test
 import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals.videoWatch
+import com.photoglyde.justincornelius.photoglyde.Networking.DataDump
 import com.photoglyde.justincornelius.photoglyde.Networking.PostUN
+import com.photoglyde.justincornelius.photoglyde.Networking.UnSplashService
+import com.photoglyde.justincornelius.photoglyde.Utilities.PREFIX_FILE
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
@@ -60,9 +63,9 @@ object Helper {
         var bmp: Bitmap? = null
         val mediaRetriever = MediaMetadataRetriever()
         mediaRetriever.setDataSource(contex, uri)
-        bmp = mediaRetriever.getFrameAtTime();
-        val videoHeight = bmp.getHeight();
-        val videoWidth = bmp.getWidth();
+        bmp = mediaRetriever.frameAtTime
+        val videoHeight = bmp.getHeight()
+        val videoWidth = bmp.getWidth()
 
         println("======== here is the video dimension $videoHeight and $videoWidth")
 
@@ -76,7 +79,7 @@ object Helper {
     fun queryFile(context: Context, uri:Uri) : String? {
 
         val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = context?.contentResolver?.query(uri, filePathColumn, null, null, null)
+        val cursor = context.contentResolver?.query(uri, filePathColumn, null, null, null)
         cursor?.moveToFirst()
 
         val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
@@ -87,15 +90,15 @@ object Helper {
     }
 
 
-        fun getImageUri(inContext: Context, inImage: Bitmap?): Uri {
+    fun getImageUri(inContext: Context, inImage: Bitmap?): Uri {
 
-            val bytes = ByteArrayOutputStream()
-            inImage?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
-            val path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
+        val bytes = ByteArrayOutputStream()
+        inImage?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
+        val path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
 
-            println("======= damm this ${path}")
-            return Uri.parse(path)
-        }
+        println("======= damm this ${path}")
+        return Uri.parse(path)
+    }
 
 
 
@@ -117,7 +120,7 @@ object Helper {
             try {
                 println("======== we are attempting to save ${file.toString()} and ${file} and ${file}")
 
-                val dir = context?.getExternalFilesDir(null)
+                val dir = context.getExternalFilesDir(null)
 
 
                 println("======== we are attempting to save ${dir} and ${file} and ${file}  \"${dir.absolutePath}/74.mp4\"")
@@ -171,14 +174,14 @@ object Helper {
 
             arg = args as ArrayList<CoreUnSplash>
 
-            var data1 = CoreUnSplash()
-            data1.type = BANNER
-            arg.add(0, data1)
+//            var data1 = CoreUnSplash()
+//            data1.type = BANNER
+//            arg.add(0, data1)
 
-            var data2 = CoreUnSplash()
-            data2.type = HEADER
-            data2.categ_name = "Top Videos Today"
-            arg.add(1, data2)
+//            var data2 = CoreUnSplash()
+//            data2.type = HEADER
+//            data2.categ_name = "Top Videos Today"
+//            arg.add(1, data2)
 
         }else if(GlobalVals.whatsNew && !GlobalVals.cameFromExa) {
 
@@ -188,10 +191,10 @@ object Helper {
             arg = args as ArrayList<CoreUnSplash>
             val from = 0
             // randomly inserts categories inside list
-            val to = args?.size.div(2)
+            val to = args.size.div(2)
             val random = Random()
             val categs = GlobalVals.listCateg
-            val arraySize = floor((to?.div(2))!!.toFloat())
+            val arraySize = floor((to.div(2)).toFloat())
 
             if (categs.size > 0 && to > 0) {
                 val amplititudes = IntArray(categs.size / 2) { random.nextInt(to - from) + from }.asList()
@@ -202,10 +205,12 @@ object Helper {
                 var data1 = CoreUnSplash()
                 data1.type = "GRID"
 
+                print("Index pair ${amplititudes}")
                 for (i in 0..amplititudes.size.minus(1)) {
-                    arg.add(amplititudes[i], categs[i]!!)
-                    arg.add(amplititudes[i], data1)
-                    print("Index $i pair ${amplititudes[i]}")
+                    arg.add(amplititudes[i], GlobalVals.listCateg[categs.count()-1]!!)
+                    GlobalVals.listCateg.removeAt(categs.count()-1)
+                   // arg.add(amplititudes[i], data1)
+
                 }
             }
 
@@ -220,14 +225,22 @@ object Helper {
         }else{
 
 
-            var data1 = CoreUnSplash()
-            data1.type = BANNER
-            arg.add(0, data1)
+//            var data1 = CoreUnSplash()
+////            data1.type = BANNER
+////            arg.add(0, data1)
+////
+////            var data2 = CoreUnSplash()
+////            data2.type = "GRID"
+////            arg.add(0, data2)
 
-            var data2 = CoreUnSplash()
-            data2.type = "GRID"
-            arg.add(0, data2)
 
+
+         //   println("EXOFIRST: " + args.size)
+       //     arg = args.filter { it?.type.toString() != "collection" } as ArrayList<CoreUnSplash>
+           // println("EXOSECOND: " + arg.size)
+
+
+            arg = args as ArrayList<CoreUnSplash>
 //            var data2 = CoreUnSplash()
 //            data2.type = HEADER
 //            data2.categ_name = "Top Post Today"
@@ -247,7 +260,7 @@ object Helper {
 
     @SuppressLint("ClickableViewAccessibility")
     fun show(context: Context, source: PlayerView, core:CoreUnSplash?) {
-        val background = ImagePreviewerUtils().getBlurredScreenDrawable(context, source.getRootView())
+        val background = ImagePreviewerUtils().getBlurredScreenDrawable(context, source.rootView)
 
 
         val dialogView = LayoutInflater.from(context).inflate(R.layout.view_player, null)
@@ -272,14 +285,15 @@ object Helper {
 
 
         val dialog = Dialog(context, R.style.ImagePreviewerTheme)
-        dialog.getWindow().setBackgroundDrawable(background)
+        dialog.window.setBackgroundDrawable(background)
         dialog.setContentView(dialogView)
         dialog.show()
 
 
         dialogView.setOnClickListener {
             dialog.dismiss()
-            source.player.stop()
+            source.player.release()
+
 
         }
 
@@ -288,5 +302,33 @@ object Helper {
 
 
     }
+
+
+
+
+
+//    fun apiCall(search:String?){
+//
+//        val api = UnSplashService.createService()
+//
+//        api.getPosts("photos",search, count.toString(), "29").enqueue(object : retrofit2.Callback<UnSplashBegin> {
+//            override fun onFailure(call: retrofit2.Call<UnSplashBegin>, t: Throwable) {
+//                println("=======this is unsplash error ${t.message} and ${t.localizedMessage} and ${t.localizedMessage} and ${t}")
+//            }
+//
+//            override fun onResponse(
+//                call: retrofit2.Call<UnSplashBegin>,
+//                response: retrofit2.Response<UnSplashBegin>
+//            ) {
+//
+//                count++
+//                println("=======this is unsplash${response.body()} ${response.body()?.results}  ${response.code()} and ${response.raw()}\" ${response.message()}\"")
+//
+//                val splashData = response.body()
+//
+//                DataDump().dumpNow(search, splashData!!)
+//            }
+//        })
+//    }
 
     }

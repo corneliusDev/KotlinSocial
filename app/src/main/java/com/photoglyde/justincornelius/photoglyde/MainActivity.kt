@@ -3,9 +3,10 @@
 package com.photoglyde.justincornelius.photoglyde
 
 import android.animation.ObjectAnimator
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
-import android.os.Bundle
+import android.os.*
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
@@ -19,6 +20,9 @@ import android.view.MenuItem
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import com.google.android.gms.maps.*
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.mancj.materialsearchbar.MaterialSearchBar
 import com.photoglyde.justincornelius.photoglyde.Adapters.ImageAdapter
 import com.photoglyde.justincornelius.photoglyde.Camera.CamerOpenActivity
@@ -26,31 +30,69 @@ import com.photoglyde.justincornelius.photoglyde.Data.*
 import com.photoglyde.justincornelius.photoglyde.Fragments.*
 import com.photoglyde.justincornelius.photoglyde.Networking.PostUN
 import com.photoglyde.justincornelius.photoglyde.ProfileFragments.ProfileLanding
+import com.photoglyde.justincornelius.photoglyde.Utilities.AnimateWindow
+import com.photoglyde.justincornelius.photoglyde.Utilities.FileHandler
+import com.photoglyde.justincornelius.photoglyde.Utilities.FindUserImage
+import com.photoglyde.justincornelius.photoglyde.Utilities.PREFIX_FILE
+import com.photoglyde.justincornelius.photoglyde.Web.MapFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.*
+import java.io.File
+import java.io.FileNotFoundException
+import java.io.FileOutputStream
 import java.io.IOException
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
     PostingOptions.OnFragmentInteractionListener,
     ExploreActivity.OnFragmentInteractionListenerExplore,
-    ProfileLanding.OnFragmentInteractionListenerNews, WhatsNew.OnListFragmentInteractionListener, MaterialSearchBar.OnSearchActionListener{
+    ProfileLanding.OnFragmentInteractionListenerNews, WhatsNew.OnListFragmentInteractionListener, MaterialSearchBar.OnSearchActionListener, MapFragment.OnFragmentInteractionListener
+     {
 
   private val adapter = ImageAdapter()
     private val request_code = 101
-    lateinit private var staggeredLayoutManager: StaggeredGridLayoutManager
+    private lateinit var staggeredLayoutManager: StaggeredGridLayoutManager
     private lateinit var toolbar: Toolbar
     private var navPosition: BottomNavigationPosition = BottomNavigationPosition.HOME
     lateinit var fragment:Fragment
     private val client = OkHttpClient()
     val MOVEVALUE = 240f
+    private lateinit var mMap: GoogleMap
+         var mapFragment = MapFragment.newInstance()
+         private lateinit var bottomNavigation: BottomNavigationView
 
 
     override fun onButtonClicked(buttonCode: Int) {
 
     }
 
-    override fun onSearchStateChanged(enabled: Boolean) {
+     override fun onPause() {
+             super.onPause()
+             GlobalVals.cameFromMain = false
+         }
+
+     override fun onResume() {
+             super.onResume()
+             GlobalVals.cameFromMain = true
+         }
+
+     override fun onFragmentInteraction(ani: String, fragment: Fragment) {
+
+             when(ani) {
+
+                 "Map Close" -> {
+
+                     supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_down, R.anim.slide_down)
+                         .remove(fragment).commit()
+
+                     AnimateWindow().animateDown(this, containerOptionsDim)
+
+                 }
+             }
+
+         }
+
+     override fun onSearchStateChanged(enabled: Boolean) {
 
     }
 
@@ -83,7 +125,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     override fun onFragmentInteractionNews(fragment: Fragment, animateDirection: String) {
-        println("====we are on main $animateDirection")
+      //  println("====we are on main $animateDirection")
         when(animateDirection){
 
 
@@ -106,11 +148,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
         }
     }
-
-
 
     override fun onFragmentInteractionExplore(fragment: Fragment, animateDirection: String) {
-        println("=============on main listener")
+
         when(animateDirection){
 
             DOWN -> {
@@ -128,21 +168,47 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 }
             }
 
+            "Map Open" ->{
 
+             //   println("Map Main")
+
+
+                containerOptionsDim.visibility = View.VISIBLE
+                containerOptionsDim.bringToFront()
+                containerMap.visibility = View.VISIBLE
+                containerMap.bringToFront()
+
+                containerOptionsDim.isEnabled  = false
+
+
+
+                AnimateWindow().animateUp(this, containerOptionsDim, object : AnimateWindow.AnimationEnd {
+
+                    override fun animationOver() {
+
+                    }
+
+                })
+
+                supportFragmentManager
+                    .beginTransaction()
+                    .setCustomAnimations(R.anim.slide_up, R.anim.slide_up)
+                    .replace(R.id.containerMap, mapFragment)
+                    .commit()
+            }
 
         }
+
+
     }
-
-    //
-
 
     override fun onFragmentInteraction(fragment: Fragment, action:String) {
 
         when(action){
 
             "close" ->{
-                val anim = AlphaAnimation(1.0f, 0.0f);
-                anim.setDuration(500);
+                val anim = AlphaAnimation(1.0f, 0.0f)
+                anim.duration = 500
                 containerOptionsDim.startAnimation(anim)
                supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_down,R.anim.slide_down).remove(fragment).commit()
                 anim.setAnimationListener(object : Animation.AnimationListener{
@@ -163,15 +229,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
             "camera" ->{
 
                 val i = Intent(this, CamerOpenActivity::class.java)
-               // i.putExtra("qString", R.drawable.judy_use)
-
-               // val options = ActivityOptions.makeCustomAnimation(this, R.anim.slide_up, R.anim.slide_up);
-               // this.startActivity(i, options.toBundle())
-
-
                 startActivityForResult(i, request_code)
-              //  supportFragmentManager.beginTransaction().remove(fragment).commit()
-
             }
 
 
@@ -187,7 +245,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
 
-        println("=======home check selecteed ${item?.itemId} and ${R.id.mClose} and ${R.id.miCompose}")
+
 
         when(item?.itemId){
 
@@ -197,9 +255,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 containerOptions.bringToFront()
 
 //
-                val anim = AlphaAnimation(0.0f, 1.0f);
-                anim.setDuration(500);
-                containerOptionsDim.startAnimation(anim);
+                val anim = AlphaAnimation(0.0f, 1.0f)
+                anim.duration = 500
+                containerOptionsDim.startAnimation(anim)
                 fragment = PostingOptions.newInstance()
 //
 //
@@ -219,8 +277,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
             16908332 ->{
 
-                val anim = AlphaAnimation(1.0f, 0.0f);
-                anim.setDuration(500);
+                val anim = AlphaAnimation(1.0f, 0.0f)
+                anim.duration = 500
                 containerOptionsDim.startAnimation(anim)
                 anim.setAnimationListener(object : Animation.AnimationListener{
                     override fun onAnimationRepeat(p0: Animation?) {
@@ -237,24 +295,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 })
 
 
-                println("=======are in close")
+
               //  window.addFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND)
                 supportFragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_down,R.anim.slide_down).remove(fragment).commit()
-                getSupportActionBar()?.setDisplayHomeAsUpEnabled(false);
-                getSupportActionBar()?.setDisplayShowHomeEnabled(false);
+                supportActionBar?.setDisplayHomeAsUpEnabled(false)
+                supportActionBar?.setDisplayShowHomeEnabled(false)
 
             }
 
         }
         return super.onOptionsItemSelected(item)
     }
-
-
-
-    private lateinit var bottomNavigation: BottomNavigationView
-
-
-
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         menuInflater.inflate(R.menu.options_menu, menu)
@@ -269,11 +320,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
 
 
+
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
      setContentView(R.layout.activity_main)
 
-      GlobalVals.onBoardingComplete = false
+   //   GlobalVals.onBoardingComplete = false
 
       if(!GlobalVals.onBoardingComplete){
           GlobalVals.onBoardingComplete = true
@@ -288,80 +341,27 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
           })
       }
 
+      containerMap.visibility = View.INVISIBLE
+      val transaction = supportFragmentManager
+          .beginTransaction()
+          .setCustomAnimations(R.anim.slide_up, R.anim.slide_up)
+          .replace(R.id.containerMap, mapFragment)
+
+      transaction.commit()
+      transaction.remove(mapFragment)
 
 
-      GlobalVals.testUri.add("https://firebasestorage.googleapis.com/v0/b/photoglyde.appspot.com/o/video%2FVideos%2Fvideos%2FTrump%E2%80%99s%20Conflicting%20Border%20Wall%20Demands%20_%20The%20Daily%20Show.mp4?alt=media&token=fe5288d3-2754-42d8-9259-dc31a9e62ac7")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541605138/nasa_orion_sm.mp4")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541597296/Nasa_orinon_swing_drop.mp4")
-
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1538912176/porto.mp4")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541605224/nasa_earth_night_rotate.mov")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541605138/nasa_orion_sm.mp4")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541597296/Nasa_orinon_swing_drop.mp4")
-
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1538912176/porto.mp4")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541605224/nasa_earth_night_rotate.mov")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541605138/nasa_orion_sm.mp4")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541597296/Nasa_orinon_swing_drop.mp4")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541410675/Product")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541408816/Product")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1538912176/porto.mp4")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541605224/nasa_earth_night_rotate.mov")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541605138/nasa_orion_sm.mp4")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541597296/Nasa_orinon_swing_drop.mp4")
-
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1538912176/porto.mp4")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541605224/nasa_earth_night_rotate.mov")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541605138/nasa_orion_sm.mp4")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541597296/Nasa_orinon_swing_drop.mp4")
-
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1538912176/porto.mp4")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541605224/nasa_earth_night_rotate.mov")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541605138/nasa_orion_sm.mp4")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541597296/Nasa_orinon_swing_drop.mp4")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541410675/Product")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1541408816/Product")
-      GlobalVals.testUri.add("https://res.cloudinary.com/demo/video/upload/v1538912176/porto.mp4")
-
-//
-//      GlobalVals.listCateg.add(Categories.CARS)
-//      GlobalVals.listCateg.add(Categories.DESIGN)
-//      GlobalVals.listCateg.add(Categories.DIY)
-//      GlobalVals.listCateg.add(Categories.EXPLORE)
-//      GlobalVals.listCateg.add(Categories.FOOD)
-//      GlobalVals.listCateg.add(Categories.HOME)
-//      GlobalVals.listCateg.add(Categories.MENS_STYLE)
-//      GlobalVals.listCateg.add(Categories.RANDOM)
-//      GlobalVals.listCateg.add(Categories.TECH)
-//      GlobalVals.listCateg.add(Categories.TRAVEL)
-//      GlobalVals.listCateg.add(Categories.WOMANS_STYLE)
-//
-//      PostUN().postCategory()
-
-      //PostUN().downloadCategs()
+      setUpDummyUserStart()
+    //  FileHandler(this, "food.jpg", "https://images.unsplash.com/photo-1556227703-ab57dbc6f839?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1231&q=80").run()
 
 
 
 
-      val apiCall = ArrayList<String>()
-      apiCall.add(NEWS.TOPHEADLINES)
-      apiCall.add(NEWS.SOURCES)
-      apiCall.add(NEWS.EVERYTHING)
+      //FindUserImage(this).run()
+      this.fileList().forEach {
+          println("*******" + it)
 
-      GlobalVals.categoryList.addAll(arrayListOf("ABC News","Technology", "Turner Broadcasting", "Tesla", "All Weather", "Coming Home", "Random Shit", "Stub Hub Hotter", "Turner Broadcasting"))
-
-
-
-
-
-
-
-
-
-
-
-
-
+      }
 
       SetUpToolBar()
       setUpDummyUserStart()
@@ -373,6 +373,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
       initFragment(savedInstanceState)
 
 
+      println("CURRENT PATH: " + applicationContext.filesDir)
+
+
       val displayMetrics = DisplayMetrics()
       windowManager.defaultDisplay.getMetrics(displayMetrics)
       GlobalVals.heightWindow = displayMetrics.heightPixels
@@ -382,38 +385,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
   }
 
-
-
-
-
-//    private fun initializedPagedListBuilder(config: PagedList.Config):
-//            LivePagedListBuilder<String, GrabImageData> {
-//
-//        val dataSourceFactory = object : DataSource.Factory<String, GrabImageData>() {
-//            override fun create(): DataSource<String, GrabImageData> {
-//                return ImageDataSource()
-//            }
-//        }
-//        return LivePagedListBuilder<String, GrabImageData>(dataSourceFactory, config)
-//    }
-
-
-    fun printThis(string:String){
-        println("==================$string")
-    }
-
-    fun createInstance(fragment:Fragment){
-
-
-
-        supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.container, fragment)
-                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                .commit()
-
-
-    }
 
     fun FragmentManager.detach() {
         findFragmentById(R.id.container)?.also {
@@ -459,42 +430,11 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     fun SetUpToolBar(){
         toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
-       // supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setHomeAsUpIndicator(R.drawable.baseline_arrow_back_ios_black_18dp)
         supportActionBar?.setDisplayShowTitleEnabled(false)
 
-      //  toolbar.searchBar.setCardViewElevation(0)
-       // toolbar.searchBar.setSpeechMode(false)
-
-
-//        toolbar.searchBar.setSearchIcon(R.id.)
-
-
-
-
-
-        // supportActionBar?.elevation = 7.0f
-      //  getSupportActionBar()?.setDisplayShowTitleEnabled(false)
-
     }
 
-    fun run(url: String) {
-        val request = Request.Builder()
-            .url(url)
-            .build()
-
-        client.newCall(request).enqueue(object : Callback {
-            override fun onFailure(call: Call, e: IOException) {}
-            override fun onResponse(call: Call, response: Response) {
-                println("main body" +response.body().toString())
-
-
-
-
-            }
-
-        })
-    }
 
     fun setUpDummyUserStart(){
 
@@ -516,6 +456,23 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         )
 
         GlobalVals.currentUser = dummyUser
+
+        this.fileList().forEach {
+            println("=========Looking File: " + it.toString())
+            if (it.toString().contains(PREFIX_FILE)){
+                var image = ImageClass()
+                println("=========Found File: " + it.toString())
+                image.file = this.filesDir.path + "/" + it.toString()
+
+                GlobalVals.currentUser?.userImages?.add(image)
+                GlobalVals.currentUser?.userImages?.add(image)
+                GlobalVals.currentUser?.userImages?.add(image)
+                GlobalVals.currentUser?.userImages?.add(image)
+                GlobalVals.currentUser?.userImages?.add(image)
+                GlobalVals.currentUser?.userImages?.add(image)
+            }
+
+        }
 
 
 

@@ -56,15 +56,9 @@ class OnBoardingActivity : AppCompatActivity() {
     private var onBoaredAdapter: MyViewPagerAdapter? = null
     private var layoutDots: LinearLayout? = null
     private var layouts: IntArray? = null
-    lateinit private var staggeredLayoutManager: StaggeredGridLayoutManager
-    lateinit private var adapterInterest: BindingHorizontal
+    private lateinit var staggeredLayoutManager: StaggeredGridLayoutManager
+    private lateinit var adapterInterest: BindingHorizontal
     private var currentUser:FirebaseUser? = null
-
-    override fun onDestroy() {
-        super.onDestroy()
-
-        //FirebaseAuth.getInstance().signOut()
-    }
 
     private val onItemClickListenerHorizontal = object : BindingHorizontal.OnItemClickListener {
         override fun onItemClick(view: View, position: Int) {
@@ -209,7 +203,7 @@ class OnBoardingActivity : AppCompatActivity() {
 
 
 
-                        println("======== user profile ${user_profile.email} and ${user_email.toString()}")
+                        println("======== user profile ${user_profile.email} and $user_email")
                     }
 
 
@@ -227,7 +221,7 @@ class OnBoardingActivity : AppCompatActivity() {
                         nextPage()
 
 
-                        println("======== user profile ${user_profile.userName} and ${user_name.toString()}")
+                        println("======== user profile ${user_profile.userName} and $user_name")
                     }
 
                     3 ->{

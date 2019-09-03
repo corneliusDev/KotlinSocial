@@ -2,7 +2,7 @@ package com.photoglyde.justincornelius.photoglyde.Adapters
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatActivity
 import com.photoglyde.justincornelius.photoglyde.R
 
 import kotlinx.android.synthetic.main.activity_retro_fit.*

@@ -6,7 +6,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:id="@+id/mapNow"
-                android:background="@color/white"
+                android:background="@color/basically_black"
                 tools:context=".DeleveryNow"
                 android:orientation="vertical"
                 android:name="com.google.android.gms.maps.SupportMapFragment">
@@ -28,7 +28,7 @@
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"
                   android:orientation="vertical"
-                  android:background="@color/white"
+                  android:background="@color/basically_black"
     >
         <include layout="@layout/profile_header">
 
@@ -46,21 +46,16 @@
         <!--/>-->
 
 
-
-
-
-
         <android.support.v7.widget.RecyclerView
-        android:id="@+id/home_page"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="15dp"
+                android:id="@+id/home_page"
+                android:background="@color/basically_black"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="5dp"
 
 
 
-
-        android:scrollbars="vertical"
+                android:scrollbars="vertical"
 
         />
 

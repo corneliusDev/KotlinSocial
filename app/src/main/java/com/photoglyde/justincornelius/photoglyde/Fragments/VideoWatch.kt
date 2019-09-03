@@ -41,9 +41,9 @@ class BlankFragment2 : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
-    lateinit private var staggeredLayoutManager: StaggeredGridLayoutManager
-    lateinit private var adapterProfile:ProfileAdapter
-    lateinit private var adapter : FeedAdapter
+    private lateinit var staggeredLayoutManager: StaggeredGridLayoutManager
+    private lateinit var adapterProfile:ProfileAdapter
+    private lateinit var adapter : FeedAdapter
 
 
     override fun onResume() {
@@ -57,7 +57,7 @@ class BlankFragment2 : Fragment() {
             home_page_video_feed?.adapter = adapter
             adapter.setOnItemClickListener(onItemClickListenerVertical)
         }else{
-            initializeList(VIDEOS, FEED, 2)
+            initializeList(VIDEOS, FEED, 1)
         }
     }
 
@@ -100,7 +100,7 @@ class BlankFragment2 : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity?.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)?.searchBar?.visibility = View.VISIBLE
+        activity?.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)?.searchBar?.visibility = View.INVISIBLE
         GlobalVals.videoWatch = true
 
 
@@ -197,7 +197,7 @@ class BlankFragment2 : Fragment() {
         adapter.setOnItemClickListener(onItemClickListenerVertical)
 
         val layoutManager =
-            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL) as StaggeredGridLayoutManager
+            StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
 
 

@@ -23,6 +23,7 @@
     <color name="blue">#3788E0</color>
     <color name="dark_gray">#343434</color>
     <color name="actual_black">#000000</color>
+    <color name="theme">#343434</color>
 
     <color name="basically_black">#212121</color>
 
@@ -35,4 +36,7 @@
         <item>@color/dot_dark_4</item>
         <item>@color/dot_dark_4</item>
     </array>
+
+
+
 </resources>

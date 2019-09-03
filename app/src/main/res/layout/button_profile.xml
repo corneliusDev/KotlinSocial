@@ -16,10 +16,11 @@
             android:background="@drawable/back_white"
             android:text="photos"
             android:elevation="0dp"
+
             android:stateListAnimator="@null"
             android:id="@+id/button_profile_1"
             android:layout_marginEnd="30dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" android:textColor="@color/dark_gray"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" android:textColor="@color/white"
             android:fontFamily="@font/noto_sans"/>
 
     <Button android:layout_width="wrap_content"
@@ -30,7 +31,7 @@
             android:text="photos"
             android:stateListAnimator="@null"
             android:layout_marginEnd="30dp"
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" android:textColor="@color/dark_gray"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" android:textColor="@color/white"
             android:fontFamily="@font/noto_sans"/>
 
     <Button android:layout_width="wrap_content"
@@ -40,7 +41,7 @@
             android:text="photos"
             android:stateListAnimator="@null"
 
-            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" android:textColor="@color/dark_gray"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" android:textColor="@color/white"
             android:fontFamily="@font/noto_sans"/>
 
 </LinearLayout>

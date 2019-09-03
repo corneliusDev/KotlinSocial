@@ -9,9 +9,12 @@ import android.arch.paging.PagedList
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
+import android.graphics.Color
 import android.graphics.drawable.Animatable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.os.Vibrator
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
@@ -26,6 +29,7 @@ import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.photoglyde.justincornelius.photoglyde.Adapters.FeedAdapter
 import com.photoglyde.justincornelius.photoglyde.Adapters.ImageAdapter
+import com.photoglyde.justincornelius.photoglyde.Adapters.ImagePreview
 import com.photoglyde.justincornelius.photoglyde.Adapters.ScrollDownListener
 import com.photoglyde.justincornelius.photoglyde.Data.CoreUnSplash
 import com.photoglyde.justincornelius.photoglyde.Data.Data
@@ -33,6 +37,7 @@ import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals
 import com.photoglyde.justincornelius.photoglyde.Fragments.listenerExplore
 import com.photoglyde.justincornelius.photoglyde.Networking.ImageDataSource
 import com.squareup.picasso.Callback
+import com.squareup.picasso.NetworkPolicy
 import com.squareup.picasso.Picasso
 
 import kotlinx.android.synthetic.main.activity_detail.*
@@ -41,6 +46,10 @@ import im.ene.toro.PlayerSelector
 import im.ene.toro.ToroPlayer
 import im.ene.toro.widget.Container
 import kotlinx.android.synthetic.main.activity_test2.*
+import kotlinx.android.synthetic.main.adapter_row_similar.view.*
+import kotlinx.android.synthetic.main.fragment_explore.*
+import kotlinx.android.synthetic.main.full_view.*
+import kotlinx.android.synthetic.main.full_view.view.*
 import kotlinx.android.synthetic.main.test_include.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import kotlinx.coroutines.GlobalScope
@@ -48,19 +57,22 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 
 import java.lang.Exception
+import kotlin.math.roundToInt
+
 
 
 class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
 
 
   private val adapter1 = ImageAdapter()
-  lateinit private var staggeredLayoutManager: StaggeredGridLayoutManager
-    lateinit private var inputManager: InputMethodManager
+  private lateinit var staggeredLayoutManager: StaggeredGridLayoutManager
+    private lateinit var inputManager: InputMethodManager
     var test:Int = 0
+     var type:String? = ""
 
-    lateinit private var todoList: ArrayList<String>
-    lateinit private var toDoAdapter: ArrayAdapter<*>
-    lateinit private var adapterProfile: FeedAdapter
+    private lateinit var todoList: ArrayList<String>
+    private lateinit var toDoAdapter: ArrayAdapter<*>
+    private lateinit var adapterProfile: FeedAdapter
 
     private var isEditTextVisible: Boolean = false
     private var defaultColor: Int = 0
@@ -79,16 +91,76 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
     }
   }
 
-    override fun onPause() {
-        GlobalVals.cameFromExa = false
-        super.onPause()
+    override fun onResume() {
+        super.onResume()
+        GlobalVals.whatsNew = true
     }
 
-    override fun startActivityForResult(intent: Intent?, requestCode: Int) {
+    private val listener3 = object : FeedAdapter.OnItemLockClickListener {
+        // , View.OnTouchListener {
+        override fun onItemLongClick(view: View, position: Int, core:CoreUnSplash?) {
+
+            println("Info on Image: " + core)
+
+            GlobalVals.currentCore = core
+
+            Data.sendIndexToDetail = position
+            ImagePreview().show(this@ExapandDetailActivity, view.placeImage, object : ImagePreview.ExpandActivity{
+
+
+                override fun onCallback(action:String) {
 
 
 
-        super.startActivityForResult(intent, requestCode)
+
+                    val v = this@ExapandDetailActivity.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
+// Vibrate for 500 milliseconds
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                        //    v.vibrate(VibrationEffect.createOneShot(500, VibrationEffect.DEFAULT_AMPLITUDE))
+                    } else {
+                        //deprecated in API 26
+                        v.vibrate(500)
+                    }
+
+                    when(action){
+
+//                        "map_open" ->{
+//                            listenerExplore?.onFragmentInteractionExplore(this@ExapandDetailActivity, "Map Open")
+//                        }
+
+                        "expand_image" ->{
+                            println("Expand Image")
+                            val transitionIntent = ExapandDetailActivity.newIntent(this@ExapandDetailActivity, position)
+
+                            val imagePair = Pair.create(view.placeImageHere as View, "x")
+                            val textPair = Pair.create(view.textFullView as View, "categ_text")
+                            transitionIntent.putExtra("type", core?.type)
+                            transitionIntent.putExtra("image_uri", core?.urls?.regular)
+                            transitionIntent.putExtra("height", core?.height)
+                            transitionIntent.putExtra("width", core?.width)
+                            transitionIntent.putExtra("cameFrom", "HOME")
+                            transitionIntent.putExtra("image_tag", core?.user?.location)
+
+                            val pairs = mutableListOf(imagePair, textPair)
+
+                            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@ExapandDetailActivity, *pairs.toTypedArray())
+
+                            ActivityCompat.startActivity(this@ExapandDetailActivity, transitionIntent, options.toBundle())
+                        }
+
+                    }
+
+
+
+
+
+                }
+            })
+            expanded_image_holder_sec.bringToFront()
+            expanded_linear_sec.bringToFront()
+            expanded_image_sec.bringToFront()
+        }
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -124,13 +196,19 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
             listVertical2.smoothScrollToPosition(position)
 
             val transitionIntent = ExapandDetailActivity.newIntent(this@ExapandDetailActivity, position)
+            transitionIntent.putExtra("type", data.type)
+            transitionIntent.putExtra("image_uri", data.urls?.regular)
+            transitionIntent.putExtra("height", data.height)
+            transitionIntent.putExtra("width", data.width)
+            transitionIntent.putExtra("cameFrom", "HOME")
+            transitionIntent.putExtra("image_tag", data.user?.location)
             val placeImage = view.findViewById<ImageView>(R.id.placeImage)
             val placeNameHolder = view.findViewById<LinearLayout>(R.id.placeNameHolder)
 
             val navigationBar = view.findViewById<View>(android.R.id.navigationBarBackground)
             val statusBar = view.findViewById<View>(R.id.navigation)
 
-            val imagePair = Pair.create(placeImage as View, "tImage")
+            val imagePair = Pair.create(placeImage2 as View, "x")
             //    val holderPair = Pair.create(placeNameHolder as View, "tNameHolder")
 
             val navPair = Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME)
@@ -159,18 +237,64 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_test2)
     text_categ.bringToFront()
-      scrollview.setBackgroundResource(R.drawable.round_expanded)
+    //  scrollview.setBackgroundResource(R.drawable.round_expanded)
       val toolbar = findViewById<Toolbar>(R.id.toolbar)
-      setSupportActionBar(toolbar)
-      supportActionBar?.setDisplayShowTitleEnabled(false);
-      getSupportActionBar()?.setDisplayHomeAsUpEnabled(true);
-      getSupportActionBar()?.setDisplayShowHomeEnabled(true);
-      supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24px)
-      GlobalVals.cameFromExa = true
 
-      val type = intent.getStringExtra("type").toString()
+
+     // scrollview.visibility = View.GONE
+      setSupportActionBar(toolbar)
+      supportActionBar?.setDisplayShowTitleEnabled(false)
+      supportActionBar?.setDisplayHomeAsUpEnabled(true)
+      supportActionBar?.setDisplayShowHomeEnabled(true)
+      supportActionBar?.setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_ios_24px)
+
+      window.sharedElementEnterTransition.duration = 100L
+
+      val cameFrom:String? = intent.getStringExtra("cameFrom")
+
+
+      if (cameFrom == "HOME"){
+          val imageTag:String? = intent.getStringExtra("image_tag")
+          collapsingToolbarLayout.setBackgroundResource(R.color.dark_gray)
+          toolbar.searchBar.visibility = View.GONE
+          toolbar.setBackgroundResource(R.color.dark_gray)
+          text_categ.text = imageTag
+          println("*******EXPAND: " + imageTag)
+      }else{
+         // toolbar.setBackgroundColor(Color.WHITE)
+      }
+
+
+
+      type = intent.getStringExtra("type").toString()
 
       println("======== this is the expanded type $type")
+
+      var height = placeImage2.layoutParams
+      var width = placeImage2.layoutParams
+
+      var imageHeight = intent.getDoubleExtra("height", 0.0)
+      var imageWidth = intent.getDoubleExtra("width", 0.0)
+
+      println("Image Height second: " + imageHeight + " and " + imageWidth)
+
+      height.height = GlobalVals.widthWindow
+      width.width = GlobalVals.widthWindow
+
+
+     if (imageHeight != 0.0) {
+         val ratio = imageHeight.div(imageWidth)
+         println("Image ratio Double: " + ratio)
+         println("Image ratio Int: " + ratio.toInt())
+
+
+         val ratioHeight = GlobalVals.widthWindow.times(ratio).roundToInt()
+
+         println("Image ratio: " + ratioHeight)
+
+         height.height = ratioHeight
+         width.width = GlobalVals.widthWindow
+     }
 
 
 
@@ -181,18 +305,6 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
 
 
       val image_categ = intent.getStringExtra("image_uri").toString()
-      println("=====checking exa uri $image_categ")
-
-     // loadPlace(image_categ)
-
-      toolbar?.searchBar?.visibility = View.INVISIBLE
-
-      GlobalVals.whatsNew = true
-
-
-
-
-
 
       runBlocking {
 
@@ -201,73 +313,24 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
 
               loadPlace(image_categ)
 
-            //   delay(2000)
-
-
-              print("=======block2")
-
-
           }
-
 
           job1.join()
 
-         // delay(2000)
-
-
-
-
-
       }
 
-      if (type == GlobalVals.CATEGORY) {
-          val ref1 = intent.getStringExtra("ref1").toString()
-          val ref2 = intent.getStringExtra("ref2").toString()
-          val count = intent.getIntExtra("count", 0)
-          initializeList(ref1, ref2, count)
-      }
-
-
-
-
-     // println("=========== shared trans values $ref1 and $ref1 and $count")
-
-
-
-//      GlobalScope.launch {
-//
-//
-//         // initializeList(ref1, ref2, count)
+//      if (type == GlobalVals.CATEGORY) {
+//          val ref1 = intent.getStringExtra("ref1").toString()
+//          val ref2 = intent.getStringExtra("ref2").toString()
+//          val count = intent.getIntExtra("count", 0)
+//          initializeList(ref1, ref2, count)
 //      }
-
-
-
-
-
-
-
-
-
   }
 
     fun showToast(message : String) = Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 
 
 
-    private fun setupValues() {
-   // place = FoodNames.placeList()[intent.getIntExtra(EXTRA_PARAM_ID, 0)]
-    //addButton.setOnClickListener(this)
-    defaultColor = ContextCompat.getColor(this, R.color.primary_dark)
-    inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
-   // revealView.visibility = View.INVISIBLE
-    isEditTextVisible = false
-  }
-
-  private fun setUpAdapter() {
-    todoList = ArrayList()
-    toDoAdapter = ArrayAdapter(this, R.layout.other_row, todoList)
-   // listVertical2.adapter = toDoAdapter
-  }
 
   private fun loadPlace(uri:String?) {
    // placeTitle.text = place.name
@@ -284,7 +347,7 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
     //  placeNameH.text = intent.getStringExtra("ref2")
 
 
-      supportPostponeEnterTransition();
+      supportPostponeEnterTransition()
 
       runOnUiThread {
           Picasso.get()
@@ -292,9 +355,17 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
               .fit()
               .noFade()
               .centerCrop()
+              .networkPolicy(NetworkPolicy.OFFLINE)
               .into(placeImage2, object : Callback {
                   override fun onSuccess() {
                       supportStartPostponedEnterTransition()
+                      if (type == GlobalVals.CATEGORY) {
+                          val ref1 = intent.getStringExtra("ref1").toString()
+                          val ref2 = intent.getStringExtra("ref2").toString()
+                          val count = intent.getIntExtra("count", 0)
+                          initializeList(ref1, ref2, count)
+                      }
+
 
 
                       print("=======block3")
@@ -307,7 +378,7 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
                   }
 
 
-              });
+              })
       }
 
           // GlobalVals.picassoUnit[GlobalVals.currentCreator.into(placeImage2))
@@ -320,41 +391,7 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
     todoList.add(todo)
   }
 
-//  private fun getPhoto() {
-//
-//
-//
-//    Picasso.get().load("http://images.ctfassets.net/7ca9kifzimh6/5hq0VNkATK6AU2YgaiyguO/63a5e8c3c122544ee12c7979634ed767/travel.jpg?q=50&fl=progressive").into(object : Target {
-//
-//      override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
-//
-//      }
-//
-//      override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
-//        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-//      }
-//
-//      override fun onBitmapLoaded(bitmap: Bitmap?, from: LoadedFrom?) {
-//
-//
-//       // colorize(bitmap)
-//      }
-//    })
-//
-//
-//
-//  }
 
-  private fun colorize(photo: Bitmap) {
-    val palette = Palette.from(photo).generate()
-  //  applyPalette(palette)
-  }
-
-  private fun applyPalette(palette: Palette) {
-    //window.setBackgroundDrawable(ColorDrawable(palette.getDarkMutedColor(defaultColor)))
-    //placeNameHolder.setBackgroundColor(palette.getMutedColor(defaultColor))
-    //revealView.setBackgroundColor(palette.getLightVibrantColor(defaultColor))
-  }
 
   override fun onClick(v: View) {
     when (v.id) {
@@ -419,6 +456,11 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
 
   }
 
+    override fun onPause() {
+        super.onPause()
+        GlobalVals.whatsNew = false
+    }
+
     private fun initializeList(ref1:String?, ref2:String?, count:Int) {
 
 
@@ -435,6 +477,7 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
 
         adapterProfile = FeedAdapter()
         listVertical2.adapter = adapterProfile
+        adapterProfile.SetOnLock(listener3)
 
 
         //  adapter.SetOnLock(listener3)
@@ -504,10 +547,10 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
                 var toSelect:List<ToroPlayer>
                 if (count < 1) {
                     println("==========player select1")
-                    toSelect = Collections.emptyList();
+                    toSelect = Collections.emptyList()
                 }else{
 
-                    val firstOrder = items.get(0).getPlayerOrder()
+                    val firstOrder = items.get(0).playerOrder
 
                     val span = staggeredLayoutManager.spanCount
 //                    count = Math.min(count, span / span)

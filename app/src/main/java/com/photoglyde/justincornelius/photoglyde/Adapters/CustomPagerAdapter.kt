@@ -80,7 +80,7 @@ class CustomPagerAdapter(viewPager: ViewPager) :
     }
 
     override fun getItemCount(): Int {
-        return mAdapater.getCount()
+        return mAdapater.count
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

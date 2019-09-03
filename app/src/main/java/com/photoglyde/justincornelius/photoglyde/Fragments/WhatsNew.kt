@@ -24,6 +24,7 @@ import com.mancj.materialsearchbar.MaterialSearchBar
 import com.photoglyde.justincornelius.photoglyde.*
 import com.photoglyde.justincornelius.photoglyde.Adapters.*
 import com.photoglyde.justincornelius.photoglyde.Data.*
+import com.photoglyde.justincornelius.photoglyde.Networking.DataDump
 import com.photoglyde.justincornelius.photoglyde.Networking.ImageDataSource
 import com.photoglyde.justincornelius.photoglyde.Networking.NodeExist
 import com.photoglyde.justincornelius.photoglyde.Networking.UnSplashService
@@ -34,6 +35,7 @@ import com.photoglyde.justincornelius.photoglyde.Utilities.PlayerSelectorOption
 import kotlinx.android.synthetic.main.adapter_row_similar.view.*
 import kotlinx.android.synthetic.main.fragment_item_list.*
 import kotlinx.android.synthetic.main.horizontal_rows.view.*
+import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import kotlinx.android.synthetic.main.view_holder_exoplayer_basic.view.*
 
@@ -42,9 +44,9 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
 
     // TODO: Customize parameters
     private var columnCount = 1
-    lateinit private var adapterProfile: FeedAdapter
-    lateinit private var adapterHorizotal: BindingHorizontal
-    lateinit private var staggeredLayoutManager: StaggeredGridLayoutManager
+    private lateinit var adapterProfile: FeedAdapter
+    private lateinit var adapterHorizotal: BindingHorizontal
+    private lateinit var staggeredLayoutManager: StaggeredGridLayoutManager
     private var listener: OnListFragmentInteractionListener? = null
     private lateinit var mMap: GoogleMap
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -80,7 +82,7 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
 
             val transitionIntent = ExapandDetailActivity.newIntent(this@WhatsNew.requireContext(), position)
 
-            println("======= shared type ${data.type}")
+
 
             when(data.type){
 
@@ -89,11 +91,17 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
                     ref2 = data.categ_name
                     count = 2
 
+
+                    println("======= shared type ${data.type} and " + ref2)
                     transitionIntent.putExtra("image_uri", data.categ_image_uri)
                     transitionIntent.putExtra("type", data.type)
                     transitionIntent.putExtra("ref1", ref1)
                     transitionIntent.putExtra("ref2", ref2)
                     transitionIntent.putExtra("count", count)
+                    transitionIntent.putExtra("cameFrom", "HOME")
+                    transitionIntent.putExtra("height", data.height)
+                    transitionIntent.putExtra("width", data.width)
+                    transitionIntent.putExtra("image_tag", data.categ_name)
 
 
                     // profile_list_explore.smoothScrollToPosition(position)
@@ -131,6 +139,8 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
 
                     transitionIntent.putExtra("image_uri", data.urls?.regular)
                     transitionIntent.putExtra("type", data.type)
+                    transitionIntent.putExtra("height", data.height)
+                    transitionIntent.putExtra("width", data.width)
 
                     val placeImage = view.findViewById<ImageView>(R.id.placeImageH)
 
@@ -162,6 +172,9 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
 
                     transitionIntent.putExtra("image_uri", data.urls?.regular)
                     transitionIntent.putExtra("type", data.type)
+
+                    transitionIntent.putExtra("height", data.height)
+                    transitionIntent.putExtra("width", data.width)
 
                     val placeImage = view.findViewById<ImageView>(R.id.placeImageH)
 
@@ -259,42 +272,8 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
 
             }else{
 
-                initializeList("Feed","test",2)
+                initializeList("Feed","Random",2)
 
-
-//                val api = UnSplashService.createService()
-//
-//
-//                api.getPosts("photos", "9").enqueue(object : retrofit2.Callback<ArrayList<CoreUnSplash>> {
-//                    override fun onFailure(call: retrofit2.Call<ArrayList<CoreUnSplash>>, t: Throwable) {
-//                        println("=======this is unsplash error ${t.message} and ${t.localizedMessage} and ${t.localizedMessage} and ${t}")
-//                    }
-//
-//                    override fun onResponse(
-//                        call: retrofit2.Call<ArrayList<CoreUnSplash>>,
-//                        response: retrofit2.Response<ArrayList<CoreUnSplash>>
-//                    ) {
-//
-//                        println("=======this is unsplash${response.body()?.size}  ${response.code()} and ${response.raw()}\" ${response.headers()}\"")
-//
-//                        val splashData = response.body()
-//                       // GlobalVals.upSplash = splashData!!
-//
-//                        GlobalVals.apiCount++
-//
-//                        GlobalVals.upSplash = splashData!!
-//
-//                       // FirebaseDatabase.getInstance().getReference("Photos").child("random").child("page${GlobalVals.apiCount}").setValue(splashData)
-//
-//                        for (i in splashData) {
-//                            FirebaseDatabase.getInstance().getReference("Feed").push().setValue(i)
-//                        }
-//
-//                        adapterSetUpVertical(splashData)
-//
-//
-//                    }
-//                })
             }
         }
 
@@ -317,7 +296,7 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
                 ImagePreview().show(this@WhatsNew.requireContext(), view.placeImage, object : ImagePreview.ExpandActivity{
 
 
-                    override fun onCallback(source: View) {
+                    override fun onCallback(action:String) {
                         println("=======we have swiped up $position")
 
                     }
@@ -330,6 +309,11 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
         }
 
 
+    }
+
+    override fun onStart() {
+        super.onStart()
+        GlobalVals.whatsNew = true
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -364,7 +348,9 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
 
         val toolbarItemFrag = activity?.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)?.searchBar
 
-        toolbarItemFrag?.visibility = View.VISIBLE
+        toolbarItemFrag?.visibility = View.INVISIBLE
+
+
 
        // setHorizontal()
 
@@ -546,7 +532,7 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
 
                     val splashData = response.body()
 
-                  // DataDump().dumpNow(search, splashData!!)
+                   DataDump().dumpNow(search, splashData!!)
                 }
             })
     }

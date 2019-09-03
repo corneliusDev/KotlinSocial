@@ -188,8 +188,7 @@ class PhotoEditor : Activity(), PermissionRequest.Response {
     fun openEditor(inputImage: Uri) {
         val settingsList = createPesdkSettingsList()
 
-        settingsList.getSettingsModel(EditorLoadSettings::class.java)
-            .setImageSource(inputImage)
+        settingsList.getSettingsModel(EditorLoadSettings::class.java).imageSource = inputImage
 
         PhotoEditorBuilder(this)
             .setSettingsList(settingsList)
@@ -207,11 +206,11 @@ class PhotoEditor : Activity(), PermissionRequest.Response {
     private fun getDropboxIMGSize(uri:Uri): ArrayList<Int>{
 
         var dimen = ArrayList<Int>()
-        val options = BitmapFactory.Options() as BitmapFactory.Options
-        options.inJustDecodeBounds = true;
-        BitmapFactory.decodeFile(File(uri.getPath()).getAbsolutePath(), options);
-        val imageHeight = options.outHeight;
-        val imageWidth = options.outWidth;
+        val options = BitmapFactory.Options()
+        options.inJustDecodeBounds = true
+        BitmapFactory.decodeFile(File(uri.path).absolutePath, options)
+        val imageHeight = options.outHeight
+        val imageWidth = options.outWidth
         dimen.add(imageWidth)
         dimen.add(imageHeight)
 

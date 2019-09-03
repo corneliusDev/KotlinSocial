@@ -68,23 +68,7 @@ class ImageAdapter : PagedListAdapter<CoreUnSplash, ImageAdapter.ViewHolder>(sam
   lateinit var onItemTouchListener: speakTouchListener
 
 
-
-
-  override fun getItemCount(): Int {
-    return super.getItemCount()
-    //print()
-  }
-
-  override fun getItemViewType(position: Int): Int {
-
-
-    return super.getItemViewType(position)
-
-
-
-  }
-
-  override fun saveState(adapterPosition: Int, itemPosition: Int, lastItemAngleShift: Double) {
+    override fun saveState(adapterPosition: Int, itemPosition: Int, lastItemAngleShift: Double) {
     TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
   }
 
@@ -352,7 +336,7 @@ class ImageAdapter : PagedListAdapter<CoreUnSplash, ImageAdapter.ViewHolder>(sam
 
     override fun isPlaying(): Boolean {
 
-      println("===========the video is playing")
+      //println("===========the video is playing")
       // itemView.exo_image.visibility = View.GONE
       //  println("========over 10 ${helper != null} and ${helper!!.isPlaying}")
       return helper != null && helper!!.isPlaying

@@ -71,21 +71,16 @@ class NewsAdapter : PagedListAdapter<NYCTimesDataResponse, NewsAdapter.ViewHolde
   var count = 0
 
 
-  override fun getItemCount(): Int {
-    return super.getItemCount()
-    //print()
-  }
-
-  override fun getItemViewType(position: Int): Int {
+    override fun getItemViewType(position: Int): Int {
 
     println("my position $position")
     if (position == 40) {
-      return 2;
+      return 2
     }
     if (position == 41) {
-      return 1;
+      return 1
     }
-    return 0;
+    return 0
 
 
   }

@@ -6,7 +6,7 @@ import com.google.firebase.database.FirebaseDatabase
 class WriteNewVideo {
     // Create new post at /user-posts/$userid/$postid and at
     // /posts/$postid simultaneously
-    val key = FirebaseDatabase.getInstance().getReference().child("posts").push().key
+    val key = FirebaseDatabase.getInstance().reference.child("posts").push().key
 
 //    if (key == null) {
 //        Log.w(TAG, "Couldn't get push key for posts")

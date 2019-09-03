@@ -89,7 +89,17 @@ init {
 
                 val listing = p0
 
-                var redditPosts = listing.children.map { it.getValue(CoreUnSplash::class.java) }
+                println()
+
+
+
+
+                var redditPosts = listing.children.map {
+                    it.getValue(CoreUnSplash::class.java)
+
+                }
+
+
 
                                                     println("here is my list check1 ${redditPosts.size}")
 
@@ -115,7 +125,7 @@ init {
 
 
 
-                callback.onResult(redditPosts ?: listOf(), listing.children.first().key, listing.children.last().key)
+                callback.onResult(redditPosts, listing.children.first().key, listing.children.last().key)
 
 println("================check data  ${p0.children.first().key} and last ${p0.children.last().key}")
                 println("======list initial ${p0.childrenCount}")
@@ -184,7 +194,7 @@ println("================check data  ${p0.children.first().key} and last ${p0.ch
                                         if (params.key == listing.children.last().key){
                                             callback.onResult(null ?: listOf(), listing.children.last().key)
                                         }else{
-                                            callback.onResult(redditPosts ?: listOf(), listing.children.last().key)
+                                            callback.onResult(redditPosts, listing.children.last().key)
                                         }
 
 
@@ -229,7 +239,7 @@ println("================check data  ${p0.children.first().key} and last ${p0.ch
                                     val redditPosts = listing.children.map { it.getValue(CoreUnSplash::class.java) }
 
                                     println("=====values first and last ${listing.children.first().key} and ${listing.children.last().key}")
-                                        callback.onResult(redditPosts ?: listOf(), listing.children.first().key)
+                                        callback.onResult(redditPosts, listing.children.first().key)
 
 
 

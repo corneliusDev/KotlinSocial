@@ -34,21 +34,6 @@ class Register : AppCompatActivity() {
 
    // var mSelected =  List<Uri>()
 
-    override fun onDestroy() {
-        super.onDestroy()
-       // FirebaseAuth.getInstance().signOut()
-    }
-
-    override fun onStart() {
-        super.onStart()
-//        val user = FirebaseAuth.getInstance().currentUser
-//        if (user != null) {
-//            println("=====user not null $user")
-//            startActivity(Intent(this, MainActivity::class.java))
-//            finish()
-//        }
-    }
-
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {

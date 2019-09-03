@@ -60,7 +60,6 @@
     <string name="dialog_box">Move only or Move and Copy?</string>
 
 
-
     <string name="client_id">838378557304-d61s1sksd50ja54sbcdg2ss2u408o6u6.apps.googleusercontent.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
@@ -69,4 +68,5 @@
     <string name="title_activity_delevery_now">Map</string>
     <string name="title_activity_retro_fit">RetroFit</string>
     <string name="title_activity_video">VideoActivity</string>
+    <string name="title_activity_maps">Map</string>
 </resources>

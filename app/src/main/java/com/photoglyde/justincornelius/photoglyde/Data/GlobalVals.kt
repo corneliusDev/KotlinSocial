@@ -46,7 +46,8 @@ object GlobalVals {
     val CATEGORY = "category"
     var listCateg = ArrayList<CoreUnSplash?>()
     var cameFromExa = false
-    var onBoardingComplete = false
+    var onBoardingComplete = true
+    var currentCore:CoreUnSplash? = null
 }
 
 object Categories {

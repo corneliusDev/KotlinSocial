@@ -24,12 +24,12 @@ class ScrollDownListener {
 
 
                 super.onScrolled(recyclerView, dx, dy)
-                println("===on scrolled $dy")
+
 
 
                 if (dy > 0 && scrolDown) {
                     scrolDown = false
-                    println("===We are Down $scrolDown")
+
 
 
 
@@ -39,7 +39,7 @@ class ScrollDownListener {
 
                 } else if (dy < 0 && !scrolDown) {
                     scrolDown = true
-                    println("===We are Up $scrolDown")
+
                     hideShow.onCallback(UP)
 
                 }

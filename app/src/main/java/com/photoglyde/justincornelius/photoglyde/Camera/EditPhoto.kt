@@ -40,11 +40,11 @@ class EditPhoto : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(com.photoglyde.justincornelius.photoglyde.R.layout.activity_edit_photo)
 
-        mLocationEditText = findViewById(R.id.location_edit) as EditText
-        mTagEditText = findViewById(R.id.location_tags_edittext) as EditText
+        mLocationEditText = findViewById<EditText>(R.id.location_edit)
+        mTagEditText = findViewById<EditText>(R.id.location_tags_edittext)
 
 
-        val recyclernTags = findViewById(R.id.tags_list) as RecyclerView
+        val recyclernTags = findViewById<RecyclerView>(R.id.tags_list)
         val arrayTags = ArrayList<String?>()
         val adapterTags = LocationAddAdapter(arrayTags, { partItem: ArrayList<String?>, position: Int -> clickedTags(partItem, position) })
         recyclernTags.layoutManager = LinearLayoutManager(this, LinearLayout.HORIZONTAL, false)
@@ -54,7 +54,7 @@ class EditPhoto : AppCompatActivity() {
 
 
 
-        val recyclerLocation = findViewById(R.id.location_tags_edit) as RecyclerView
+        val recyclerLocation = findViewById<RecyclerView>(R.id.location_tags_edit)
         val arrayLocation = ArrayList<String?>()
         val adapterLocation = LocationAddAdapter(arrayLocation, { partItem: ArrayList<String?>, position: Int -> clickedLocation(partItem, position) })
         recyclerLocation.layoutManager = LinearLayoutManager(this, LinearLayout.HORIZONTAL, false)
@@ -193,11 +193,11 @@ class EditPhoto : AppCompatActivity() {
 fun getDropboxIMGSize(uri:Uri): ArrayList<Int>{
 
     var dimen = ArrayList<Int>()
-    val options = BitmapFactory.Options() as BitmapFactory.Options
-    options.inJustDecodeBounds = true;
-    BitmapFactory.decodeFile(File(uri.getPath()).getAbsolutePath(), options);
-    val imageHeight = options.outHeight;
-    val imageWidth = options.outWidth;
+    val options = BitmapFactory.Options()
+    options.inJustDecodeBounds = true
+    BitmapFactory.decodeFile(File(uri.path).absolutePath, options)
+    val imageHeight = options.outHeight
+    val imageWidth = options.outWidth
 
     println("======= dimensions rendered $${imageWidth} and ${imageHeight}")
     dimen.add(imageWidth)

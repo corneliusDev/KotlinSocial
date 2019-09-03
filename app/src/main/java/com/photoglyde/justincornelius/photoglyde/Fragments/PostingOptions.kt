@@ -34,6 +34,7 @@ import android.view.animation.AnimationUtils
 import android.widget.TextView
 import kotlinx.android.synthetic.main.fragment_posting_options.view.*
 import android.R.attr.data
+import com.photoglyde.justincornelius.photoglyde.Camera.CamerOpenActivity
 import com.photoglyde.justincornelius.photoglyde.VideoPlayback.VideoActivity
 import java.io.File
 
@@ -101,7 +102,7 @@ class PostingOptions : Fragment() {
                             println("=======posting options path check ${selectedVideoPath} and ${selectedVideoPath}")
 
 
-                            val intent = Intent(this.context, VideoActivity::class.java);
+                            val intent = Intent(this.context, VideoActivity::class.java)
                             intent.putExtra("VIDEO", selectedVideoPath)
                             startActivityForResult(intent, GALLERY_REQUEST)
 
@@ -181,13 +182,15 @@ class PostingOptions : Fragment() {
         }
 //
         camera.setOnClickListener {
-
+            val intent = Intent(this.context, CamerOpenActivity::class.java)
+            intent.putExtra("option", "gallery")
+            startActivity(intent)
 //
        }
 //
         gallery.setOnClickListener {
 
-            val intent = Intent(this.context, PhotoEditor::class.java);
+            val intent = Intent(this.context, PhotoEditor::class.java)
             intent.putExtra("option", "gallery")
             startActivityForResult(intent, SDK_RETURN)
 
@@ -203,9 +206,9 @@ class PostingOptions : Fragment() {
 
         video_text.setOnClickListener {
 
-            val intent = Intent(Intent.ACTION_PICK);
-            intent.setType("video/*");
-            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "video/*"
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
             startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST)
 
 
@@ -309,7 +312,7 @@ class PostingOptions : Fragment() {
 
              when(camera_text.text){
 
-                 "camera" ->{val intent = Intent(this.context, PhotoEditor::class.java);
+                 "camera" ->{val intent = Intent(this.context, PhotoEditor::class.java)
                      intent.putExtra("option", "camera")
                      startActivityForResult(intent, 102)}
 
@@ -323,16 +326,16 @@ class PostingOptions : Fragment() {
 
              when(camera_text.text){
 
-                 "camera" ->{val intent = Intent(this.context, PhotoEditor::class.java);
+                 "camera" ->{val intent = Intent(this.context, PhotoEditor::class.java)
                      intent.putExtra("option", "camera")
                      startActivityForResult(intent, 102)}
 
                  "video" ->{
                      //open camera to video recorder
 
-                     val intent = Intent(Intent.ACTION_PICK);
-                     intent.setType("video/*");
-                     intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
+                     val intent = Intent(Intent.ACTION_PICK)
+                     intent.type = "video/*"
+                     intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
                      startActivityForResult(Intent.createChooser(intent, "Select Picture"), 101)
 
                  }

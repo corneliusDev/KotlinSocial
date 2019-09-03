@@ -41,12 +41,12 @@ private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
 class ProfileLanding : Fragment() {
-    lateinit private var adapterVertical: BindingVertical
-    lateinit private var adapterHorizontal: BindingHorizontal
-    lateinit private var staggeredLayoutManager: StaggeredGridLayoutManager
+    private lateinit var adapterVertical: BindingVertical
+    private lateinit var adapterHorizontal: BindingHorizontal
+    private lateinit var staggeredLayoutManager: StaggeredGridLayoutManager
     lateinit var mListener: OnFragmentInteractionListenerNews
     private  var adapterM = NewsAdapter()
-    lateinit private var adapterProfile: BindingVertical
+    private lateinit var adapterProfile: BindingVertical
     private var scrollDown = true
     private val request_code = 101
     var restoreContent: Parcelable? = null
@@ -116,16 +116,13 @@ class ProfileLanding : Fragment() {
     private lateinit var recyclerTabLayout: TabLayout
     private var listener: OnFragmentInteractionListenerNews? = null
     var adapterPOS = findNavigationPositionById(R.id.button_profile_1)
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onResume() {
         super.onResume()
-        staggeredLayoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
-        home_page.layoutManager = staggeredLayoutManager
+
         if (returnSavedInstance(adapterPOS.id) != null) {
+            staggeredLayoutManager = StaggeredGridLayoutManager(getSpan(adapterPOS.id), StaggeredGridLayoutManager.VERTICAL)
+            home_page.layoutManager = staggeredLayoutManager
             home_page.layoutManager?.onRestoreInstanceState(returnSavedInstance(adapterPOS.id))
             home_page.adapter = returnAdapter(adapterPOS.id)
         }
@@ -150,80 +147,33 @@ class ProfileLanding : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-//        button_profile_1.elevation = 0f
-//        button_profile_2.elevation = 0f
-//        button_profile_3.elevation = 0f
-
         activity?.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)?.searchBar?.visibility = View.INVISIBLE
 
         moveBorder(adapterPOS.id)
 
+        println("USER PHOTO: " + GlobalVals.currentUser?.userImages)
 
-   //     Picasso.get().load(GlobalVals.upSplash.first().urls?.small).into(user_image)
 
 //
         button_profile_1?.setOnClickListener {
 
             adapterPOS = findNavigationPositionById(R.id.button_profile_1)
-            setUpAdapter(adapterPOS.id)
+            setUpAdapter(adapterPOS.id, 3)
             moveBorder(adapterPOS.id)
 
-
-
-            println("========= button profile 1 $adapterPOS")
-//
-//            if (returnSavedInstance(adapterPOS.id) != null){
-//                println("========= button profile 1 $restoreContent")
-//                home_page.layoutManager?.onRestoreInstanceState(returnSavedInstance(adapterPOS.id))
-//                home_page.adapter = adapterProfile
-//            }else{
-//                setUpAdapter(adapterPOS.id)
-//            }
         }
 
         button_profile_2?.setOnClickListener {
-//            button_profile_1.setBackgroundResource(R.drawable.rounded_button_post_list_option)
-//            button_profile_1?.setTextColor(Color.WHITE)
-
-
-
             adapterPOS = findNavigationPositionById(R.id.button_profile_2)
             println("========= button profile 2 $adapterPOS")
-            setUpAdapter(adapterPOS.id)
+            setUpAdapter(adapterPOS.id,1)
             moveBorder(adapterPOS.id)
-
-
-
-
-//            if (returnSavedInstance(adapterPOS.id) != null){
-//                println("========= button profile 2 $restoreStateSaved")
-//                home_page.layoutManager?.onRestoreInstanceState(returnSavedInstance(adapterPOS.id))
-//                home_page.adapter = adapterProfile
-//            }else{
-//                setUpAdapter(adapterPOS.id)
-//            }
         }
 
         button_profile_3?.setOnClickListener {
-//            button_profile_1.setBackgroundResource(R.drawable.rounded_button_post_list_option)
-//            button_profile_1?.setTextColor(Color.WHITE)
-
             adapterPOS = findNavigationPositionById(R.id.button_profile_3)
-            setUpAdapter(adapterPOS.id)
+            setUpAdapter(adapterPOS.id,1)
             moveBorder(adapterPOS.id)
-
-
-
-
-            println("========= button profile 3 $adapterPOS")
-
-//            if (returnSavedInstance(adapterPOS.id) != null){
-//                println("========= button profile 3 $restoreStateCollection")
-//                home_page.layoutManager?.onRestoreInstanceState(returnSavedInstance(adapterPOS.id))
-//                home_page.adapter = adapterProfile
-//            }else{
-//                setUpAdapter(adapterPOS.id)
-//            }
         }
 
 
@@ -319,9 +269,9 @@ class ProfileLanding : Fragment() {
 
 
 
-    fun setUpAdapter(id: Int){
+    fun setUpAdapter(id: Int, span:Int){
         println("======applied from setup ${returnAdapter(id)} and ${findNavigationPositionById(id)}")
-        staggeredLayoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
+        staggeredLayoutManager = StaggeredGridLayoutManager(span, StaggeredGridLayoutManager.VERTICAL)
         home_page.layoutManager = staggeredLayoutManager
         adapterProfile = returnAdapter(id)
         home_page.isNestedScrollingEnabled = true
@@ -336,6 +286,14 @@ class ProfileLanding : Fragment() {
         SAVEDCONTENT(2, R.id.button_profile_3),
 
     }
+
+    fun getSpan(id: Int): Int = when (id) {
+        AdapterSwitch.MYCONTENT.id -> 3
+        AdapterSwitch.COLLECTIONS.id -> 1
+        AdapterSwitch.SAVEDCONTENT.id -> 1
+        else -> 1
+    }
+
 
     fun findNavigationPositionById(id: Int): AdapterSwitch = when (id) {
         AdapterSwitch.MYCONTENT.id -> AdapterSwitch.MYCONTENT
@@ -376,10 +334,10 @@ class ProfileLanding : Fragment() {
 
             AdapterSwitch.MYCONTENT.id -> {
                 view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setBackgroundResource(R.drawable.rounded_button_post_list_option)
-                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setBackgroundResource(R.color.white)
-                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setBackgroundResource(R.color.white)
+                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setBackgroundResource(R.color.dark_gray)
+                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setBackgroundResource(R.color.dark_gray)
 
-                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setTextColor(Color.DKGRAY)
+                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setTextColor(Color.BLACK)
                 view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setTextColor(Color.LTGRAY)
                 view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setTextColor(Color.LTGRAY)
 
@@ -389,21 +347,21 @@ class ProfileLanding : Fragment() {
 
             AdapterSwitch.SAVEDCONTENT.id -> {
                 view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setBackgroundResource(R.drawable.rounded_button_post_list_option)
-                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setBackgroundResource(R.color.white)
-                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setBackgroundResource(R.color.white)
+                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setBackgroundResource(R.color.dark_gray)
+                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setBackgroundResource(R.color.dark_gray)
 
 
-                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setTextColor(Color.DKGRAY)
+                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setTextColor(Color.BLACK)
                 view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setTextColor(Color.LTGRAY)
                 view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setTextColor(Color.LTGRAY)
             }
 
             AdapterSwitch.COLLECTIONS.id -> {
                 view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setBackgroundResource(R.drawable.rounded_button_post_list_option)
-                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setBackgroundResource(R.color.white)
-                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setBackgroundResource(R.color.white)
+                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setBackgroundResource(R.color.dark_gray)
+                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setBackgroundResource(R.color.dark_gray)
 
-                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setTextColor(Color.DKGRAY)
+                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setTextColor(Color.BLACK)
                 view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setTextColor(Color.LTGRAY)
                 view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setTextColor(Color.LTGRAY)
             }
