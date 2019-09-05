@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
-              android:layout_width="wrap_content"
+              android:layout_width="match_parent"
               android:id="@+id/cell_header_layout"
+              android:background="@color/basically_black"
               android:layout_height="wrap_content">
 
 
 <LinearLayout android:layout_width="match_parent"
               android:layout_height="wrap_content"
-
+                android:layout_margin="5dp"
               android:orientation="horizontal"
 >
 
@@ -34,13 +35,13 @@
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="Judy Lien"
-                  android:fontFamily="@font/noto_sans_bold" android:textColor="@color/actual_black"
+                  android:fontFamily="@font/noto_sans_bold" android:textColor="@color/white"
                   android:textSize="14sp"/>
 
         <TextView android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:text="Lead Flight Attendant at Delta"
-                  android:textColor="@color/black" android:fontFamily="@font/noto_sans" android:textSize="12sp"/>
+                  android:textColor="@color/white" android:fontFamily="@font/noto_sans" android:textSize="12sp"/>
 
     </LinearLayout>
 
@@ -61,23 +62,26 @@
                 android:textAppearance="@style/TextAppearance.AppCompat"
                 android:fontFamily="@font/source_sans_pro"
                 android:textColor="@color/white"
+                android:visibility="invisible"
                 android:textSize="30sp" android:layout_marginEnd="35dp">
 
-            <TextView
-                    android:id="@+id/title"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+"
-                    android:textColor="@color/dark_gray"
-                    android:textSize="20sp"
-                    android:fontFamily="@font/noto_sans" android:textAlignment="viewStart"/>
+
 
         </LinearLayout>
     </RelativeLayout>
 
+
+
+
 </LinearLayout>
 
 
-
+    <TextView android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:text="My Travels from Around"
+              android:textSize="15sp"
+              android:layout_margin="10dp"
+              android:textColor="@color/white"
+    />
 
 </LinearLayout>

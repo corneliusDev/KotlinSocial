@@ -1,5 +1,6 @@
 package com.photoglyde.justincornelius.photoglyde.Networking
 
+import android.content.Context
 import android.net.Uri
 import android.provider.MediaStore
 import com.google.android.gms.tasks.Continuation
@@ -236,10 +237,14 @@ class PostUN {
 
 
         val file1 = File(data.urls?.regular)
+
+        println("===========here is the name ${file1.name}" + "also: " + file1)
+
         val currentRef1 = ref.child("photos/${file1.name}")
         val stream1 = FileInputStream(file1)
+
         val uploadTask1 = currentRef1.putStream(stream1)
-        println("===========here is the name ${file1.name}")
+
         uploadTask1.continueWithTask(Continuation<UploadTask.TaskSnapshot, Task<Uri>> { task ->
             if (!task.isSuccessful) {
                 task.exception?.let {

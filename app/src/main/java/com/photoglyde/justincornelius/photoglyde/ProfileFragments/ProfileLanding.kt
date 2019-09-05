@@ -334,12 +334,12 @@ class ProfileLanding : Fragment() {
 
             AdapterSwitch.MYCONTENT.id -> {
                 view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setBackgroundResource(R.drawable.rounded_button_post_list_option)
-                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setBackgroundResource(R.color.dark_gray)
-                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setBackgroundResource(R.color.dark_gray)
+                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setBackgroundResource(R.color.basically_black)
+                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setBackgroundResource(R.color.basically_black)
 
-                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setTextColor(Color.BLACK)
-                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setTextColor(Color.LTGRAY)
-                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setTextColor(Color.LTGRAY)
+                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setTextColor(Color.LTGRAY)
+                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setTextColor(Color.GRAY)
+                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setTextColor(Color.GRAY)
 
 
 
@@ -347,23 +347,23 @@ class ProfileLanding : Fragment() {
 
             AdapterSwitch.SAVEDCONTENT.id -> {
                 view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setBackgroundResource(R.drawable.rounded_button_post_list_option)
-                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setBackgroundResource(R.color.dark_gray)
-                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setBackgroundResource(R.color.dark_gray)
+                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setBackgroundResource(R.color.basically_black)
+                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setBackgroundResource(R.color.basically_black)
 
 
-                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setTextColor(Color.BLACK)
-                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setTextColor(Color.LTGRAY)
-                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setTextColor(Color.LTGRAY)
+                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setTextColor(Color.LTGRAY)
+                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setTextColor(Color.GRAY)
+                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setTextColor(Color.GRAY)
             }
 
             AdapterSwitch.COLLECTIONS.id -> {
                 view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setBackgroundResource(R.drawable.rounded_button_post_list_option)
-                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setBackgroundResource(R.color.dark_gray)
-                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setBackgroundResource(R.color.dark_gray)
+                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setBackgroundResource(R.color.basically_black)
+                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setBackgroundResource(R.color.basically_black)
 
-                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setTextColor(Color.BLACK)
-                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setTextColor(Color.LTGRAY)
-                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setTextColor(Color.LTGRAY)
+                view?.findViewById<Button>(AdapterSwitch.COLLECTIONS.id)?.setTextColor(Color.LTGRAY)
+                view?.findViewById<Button>(AdapterSwitch.SAVEDCONTENT.id)?.setTextColor(Color.GRAY)
+                view?.findViewById<Button>(AdapterSwitch.MYCONTENT.id)?.setTextColor(Color.GRAY)
             }
 
 

@@ -17,16 +17,22 @@ import java.net.URI
 import android.graphics.Bitmap
 
 import android.content.Context
+import android.graphics.drawable.Drawable
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.TextUtils
 import android.widget.EditText
 import android.widget.LinearLayout
+import android.widget.Toast
 import com.photoglyde.justincornelius.photoglyde.Adapters.LocationAddAdapter
 import com.photoglyde.justincornelius.photoglyde.Data.*
 import com.photoglyde.justincornelius.photoglyde.Networking.PostUN
 import com.photoglyde.justincornelius.photoglyde.R
+import com.photoglyde.justincornelius.photoglyde.Utilities.FileHandler
+import com.photoglyde.justincornelius.photoglyde.Utilities.PREFIX_FILE
+import com.squareup.picasso.Target
 import kotlinx.android.synthetic.main.activity_edit_photo.view.*
+import java.lang.Exception
 
 
 class EditPhoto : AppCompatActivity() {
@@ -109,14 +115,39 @@ class EditPhoto : AppCompatActivity() {
 
 
 
-
+        println("FILE: " + intent.getStringExtra("source"))
 
         selectedImage = Uri.parse(intent.getStringExtra("source"))
 
+      //  FileHandler(this,File(selectedImage.toString()).name.toString(), selectedImage)
+
         println("=======selected $selectedImage")
+
+
+
+//        val target: Target = object : Target {
+//            override fun onPrepareLoad(placeHolderDrawable: Drawable?) {
+//                println("************ Prepared")
+//            }
+//
+//            override fun onBitmapFailed(e: Exception?, errorDrawable: Drawable?) {
+//                println("************ Failed")
+//            }
+//
+//            override fun onBitmapLoaded(bitmap: Bitmap, from: Picasso.LoadedFrom?) {
+//                println("************ Bitmap")
+//
+//                if (bitmap != null){
+//                  //  saveme(this, file, bitmap)
+//                }
+//            }
+//        }
 
         Picasso.get().load(selectedImage)
             .into(selected_photo)
+
+//        Picasso.get().load(selectedImage)
+//            .into(target)
 
         close_edit_photo.setOnClickListener {
            finish()
@@ -124,7 +155,7 @@ class EditPhoto : AppCompatActivity() {
 
 
 
-
+     //   FileHandler(this, File(selectedImage.toString()).name, selectedImage).run()
 
 
     }
@@ -152,7 +183,11 @@ class EditPhoto : AppCompatActivity() {
         imageNew.profile_image = ProfileImage("",profile_image)
         GlobalVals.currentUser?.userImages?.add(imageNew)
 
-        PostUN().postStoragePhoto(imageNew, ArrayList<String>(), TYPE_PHOTO)
+
+
+
+
+       // PostUN().postStoragePhoto(imageNew, ArrayList<String>(), TYPE_PHOTO)
 
 
 

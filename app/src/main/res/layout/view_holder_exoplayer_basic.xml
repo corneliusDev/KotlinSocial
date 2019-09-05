@@ -7,12 +7,12 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/card_linear"
         android:layout_width="match_parent"
-        android:layout_height="300dp"
-        android:layout_marginEnd="2dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
         android:layout_marginBottom="2dp"
 
 
-        android:background="@color/dark_gray"
+        android:background="@color/basically_black"
         android:orientation="vertical"
         app:cardBackgroundColor="@color/cardview_light_background"
 
@@ -41,7 +41,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cardMaxElevation="10dp"
-            app:cardBackgroundColor="@color/dark_gray" app:layout_constraintTop_toTopOf="parent"
+            app:cardBackgroundColor="@color/basically_black" app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent" app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent">
 
@@ -50,6 +50,7 @@
                 android:layout_width="match_parent"
                       android:layout_height="wrap_content"
                       android:orientation="vertical"
+                android:background="@color/basically_black"
 
 
         >
@@ -58,37 +59,31 @@
                      android:layout_width="match_parent"
                      android:layout_height="wrap_content"
                      android:id="@+id/cell_header"
-                     android:visibility="gone"
-                     android:layout_margin="8dp"
+                     android:visibility="visible"
+
             />
 
 
             <RelativeLayout android:id="@+id/video_back"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:background="@color/dark_gray"
+                            android:background="@color/basically_black"
 
             >
 
 
-
-
-
-
-
-
                 <ImageView android:layout_width="match_parent"
-                           android:layout_height="match_parent"
-                           android:layout_margin="10dp"
+                           android:layout_height="wrap_content"
                            android:id="@+id/exo_image"
                 />
                 <com.google.android.exoplayer2.ui.PlayerView
                         android:id="@+id/player"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        app:use_controller="false"
+                        android:layout_height="300dp"
+                        app:use_controller="true"
                         app:resize_mode="fill"
                         android:layout_margin="10dp"
+                        android:background="@color/basically_black"
                         app:surface_type="texture_view"
                 />
 
@@ -108,9 +103,9 @@
 
             <include layout="@layout/video_button_layout"
                      android:id="@+id/botton_buttons"
-                     android:layout_width="wrap_content"
+                     android:layout_width="match_parent"
                      android:layout_height="wrap_content"
-                     android:visibility="gone"
+                     android:visibility="visible"
                      android:layout_margin="8dp"/>
 
 

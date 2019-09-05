@@ -20,6 +20,8 @@ val RANDOM = "random"
 val BANNER = "banner"
 val HEADER = "header"
 val USER = "user"
+val HTTP = "http"
+val FILE_LOAD = "FILE_LOAD"
 
 
 object NEWS {

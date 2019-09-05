@@ -21,6 +21,7 @@ import android.widget.*
 import com.bartoszlipinski.viewpropertyobjectanimator.ViewPropertyObjectAnimator
 import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals
 import com.photoglyde.justincornelius.photoglyde.ExapandDetailActivity
+import com.photoglyde.justincornelius.photoglyde.Utilities.FileHandler
 import kotlinx.android.synthetic.main.full_view.view.*
 import javax.microedition.khronos.opengles.GL
 import kotlin.math.roundToInt
@@ -225,6 +226,7 @@ class ImagePreview {
                             else -> {
                                 new = 1
                                 v.parent.requestDisallowInterceptTouchEvent(false)
+                                listener.onCallback("Save")
                                 dialog.dismiss()
                             }
                         }

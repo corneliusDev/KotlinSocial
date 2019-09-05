@@ -75,7 +75,7 @@
             android:id="@+id/home_page_video_feed"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/theme"
+            android:background="@color/dark_gray"
     />
 
 

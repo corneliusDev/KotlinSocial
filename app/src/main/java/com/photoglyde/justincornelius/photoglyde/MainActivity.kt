@@ -41,6 +41,8 @@ import java.io.File
 import java.io.FileNotFoundException
 import java.io.FileOutputStream
 import java.io.IOException
+import java.util.*
+import kotlin.collections.ArrayList
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
@@ -197,6 +199,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                     .commit()
             }
 
+
+
         }
 
 
@@ -352,16 +356,17 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
 
       setUpDummyUserStart()
-    //  FileHandler(this, "food.jpg", "https://images.unsplash.com/photo-1556227703-ab57dbc6f839?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1231&q=80").run()
+      FileHandler(this, "TESTING.jpg",  "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Chrome_icon_%28September_2014%29.svg/1200px-Google_Chrome_icon_%28September_2014%29.svg.png").start()
+
 
 
 
 
       //FindUserImage(this).run()
-      this.fileList().forEach {
-          println("*******" + it)
-
-      }
+//      this.fileList().forEach {
+//          println("*******" + it)
+//
+//      }
 
       SetUpToolBar()
       setUpDummyUserStart()
@@ -465,11 +470,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 image.file = this.filesDir.path + "/" + it.toString()
 
                 GlobalVals.currentUser?.userImages?.add(image)
-                GlobalVals.currentUser?.userImages?.add(image)
-                GlobalVals.currentUser?.userImages?.add(image)
-                GlobalVals.currentUser?.userImages?.add(image)
-                GlobalVals.currentUser?.userImages?.add(image)
-                GlobalVals.currentUser?.userImages?.add(image)
+
             }
 
         }

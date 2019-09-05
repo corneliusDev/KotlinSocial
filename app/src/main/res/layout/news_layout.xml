@@ -5,9 +5,9 @@
               android:id="@+id/news_target"
               android:layout_width="wrap_content"
               android:layout_height="wrap_content"
+              android:layout_margin="1dp"
 
-
-              android:background="@color/white"
+              android:background="@color/theme"
 
               android:layout_gravity="center_horizontal"
 
@@ -23,14 +23,15 @@
             android:id="@+id/stock_image1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:background="@color/basically_black"
             app:cardElevation="0dp"
-            android:layout_marginStart="1dp"
-            android:layout_marginEnd="1dp"
+
             >
 
 
         <LinearLayout android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
+                      android:background="@color/basically_black"
                       android:orientation="vertical"
         >
 
@@ -39,79 +40,12 @@
                     android:id="@+id/imageHere1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleType="fitXY"
+                    android:scaleType="centerCrop"
                     android:layout_gravity="center_vertical"
                     android:transitionName="toWeb"
 
             />
 
-
-
-    <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="vertical"-->
-            <!--android:id="@+id/text_wrapper"-->
-
-
-
-
-    <!--&gt;-->
-
-        <!--<TextView android:id="@+id/title"-->
-                  <!--android:layout_width="match_parent"-->
-                  <!--android:layout_height="wrap_content"-->
-                  <!--android:textStyle="bold"-->
-                  <!--android:textColor="@color/black"-->
-                  <!--android:textSize="15sp"-->
-                  <!--android:layout_marginTop="5dp"-->
-                  <!--android:lineSpacingMultiplier="0.8"-->
-                  <!--android:transitionName="textWeb"-->
-
-                  <!--android:fontFamily="@font/noto_sans_bold"/>-->
-
-        <!--<TextView android:id="@+id/abstracts"-->
-                  <!--android:layout_width="match_parent"-->
-                  <!--android:layout_height="wrap_content"-->
-                  <!--android:textStyle="normal"-->
-                  <!--android:textColor="@color/gray"-->
-                  <!--android:layout_marginEnd="5dp"-->
-                  <!--android:textSize="13sp"-->
-                  <!--android:text="Today we go to the mall"-->
-                  <!--android:fontFamily="@font/sourcesansproregular"/>-->
-    <!--</LinearLayout>-->
-
-
-    <!--<LinearLayout android:id="@+id/article_options"-->
-                  <!--android:layout_width="match_parent"-->
-                  <!--android:layout_height="wrap_content"-->
-                  <!--android:orientation="horizontal"-->
-                  <!--android:layout_marginTop="5dp"-->
-                  <!--android:layout_marginBottom="2dp"-->
-                    <!--&gt;-->
-
-        <!--<TextView android:id="@+id/read"-->
-                  <!--android:layout_width="wrap_content"-->
-                  <!--android:layout_height="wrap_content"-->
-                  <!--android:textStyle="normal"-->
-                  <!--android:text="READ"-->
-                  <!--android:textColor="@color/dot_dark_2"-->
-
-
-                  <!--android:textSize="15sp"-->
-                  <!--android:fontFamily="@font/noto_sans_bold"/>-->
-
-        <!--<TextView android:id="@+id/bookmark"-->
-                  <!--android:layout_width="wrap_content"-->
-                  <!--android:layout_height="wrap_content"-->
-                  <!--android:textStyle="normal"-->
-                  <!--android:text="BOOKMARK"-->
-                  <!--android:layout_marginStart="20dp"-->
-                  <!--android:textColor="@color/dot_dark_2"-->
-                  <!--android:textSize="15sp"-->
-                  <!--android:fontFamily="@font/noto_sans_bold"/>-->
-
-    <!--</LinearLayout>-->
         </LinearLayout>
     </android.support.v7.widget.CardView>
 

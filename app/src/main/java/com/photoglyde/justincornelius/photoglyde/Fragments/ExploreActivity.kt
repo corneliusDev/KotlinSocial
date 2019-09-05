@@ -26,11 +26,13 @@ import com.photoglyde.justincornelius.photoglyde.Data.*
 import com.photoglyde.justincornelius.photoglyde.ExapandDetailActivity
 import com.photoglyde.justincornelius.photoglyde.Networking.ImageDataSource
 import com.photoglyde.justincornelius.photoglyde.R
+import com.photoglyde.justincornelius.photoglyde.Utilities.FileHandler
 import kotlinx.android.synthetic.main.activity_test2.view.*
 import kotlinx.android.synthetic.main.fragment_explore.*
 import kotlinx.android.synthetic.main.full_view.view.*
 import kotlinx.android.synthetic.main.horizontal_rows.view.*
 import kotlinx.android.synthetic.main.toolbar.view.*
+import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -101,6 +103,10 @@ class ExploreActivity : Fragment(){
                         val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@ExploreActivity.requireActivity(), *pairs.toTypedArray())
 
                         ActivityCompat.startActivity(this@ExploreActivity.requireActivity(), transitionIntent, options.toBundle())
+                    }
+
+                    "Save" -> {
+                        FileHandler(this@ExploreActivity.requireContext(), UUID.randomUUID().toString() + ".jpg", core?.urls?.regular)
                     }
 
                 }

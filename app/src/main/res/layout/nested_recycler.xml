@@ -7,7 +7,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginBottom="1dp"
 
-                                    card_view:cardBackgroundColor="@color/white"
+                                    card_view:cardBackgroundColor="@color/theme"
 
 
                                     card_view:cardElevation="0dp"
@@ -16,7 +16,7 @@
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@color/theme"
             android:orientation="vertical">
 
         <TextView
@@ -24,7 +24,6 @@
                 style="@style/Base.TextAppearance.AppCompat.Subhead"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
                 android:paddingBottom="8dp"

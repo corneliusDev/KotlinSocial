@@ -48,6 +48,7 @@ object GlobalVals {
     var cameFromExa = false
     var onBoardingComplete = true
     var currentCore:CoreUnSplash? = null
+
 }
 
 object Categories {

@@ -84,7 +84,7 @@
             app:itemIconTint="@drawable/selector_bottom_nav"
             app:itemTextColor="@drawable/selector_bottom_nav"
             app:elevation="0dp"
-            android:background="@color/dark_gray"
+            android:background="@color/basically_black"
             app:menu="@menu/navigation" />
 
 

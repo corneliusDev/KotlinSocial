@@ -46,6 +46,29 @@ import kotlin.math.floor
 object Helper {
 
 
+    fun updateUserImages(context: Context){
+
+        context.fileList().forEach { it ->
+            println("=========Looking File: " + it.toString())
+            println("=========Looking DUPLICATES: " + GlobalVals.currentUser?.userImages?.filter {it.file.equals(it.toString()) }?.size)
+            if (it.toString().contains(PREFIX_FILE) && GlobalVals.currentUser?.userImages?.filter {it.file.equals(it.toString()) }?.size == 0){
+
+
+
+
+
+                var image = ImageClass()
+                println("=========Found File: " + it.toString())
+                image.file = context.filesDir.path + "/" + it.toString()
+
+                GlobalVals.currentUser?.userImages?.add(image)
+
+            }
+
+        }
+    }
+
+
     fun getDateTimeLong(): Long {
         val sdf = SimpleDateFormat("yyyyMMddHHmmss", Locale.US)
         val sdf1 = SimpleDateFormat("MM")

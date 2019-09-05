@@ -67,7 +67,8 @@ import kotlinx.coroutines.runBlocking
 import java.io.File
 
 
-class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>(
+class
+FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>(
     sameCheckDifficulti()) {
 
     private val viewPool = RecyclerView.RecycledViewPool()
@@ -521,17 +522,21 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
         }else if (GlobalVals.videoWatch){
             holder.itemView.cell_header_bottom.visibility = View.GONE
             width = GlobalVals.widthWindow
+            playerMargins.height = width
             holder.itemView.card.radius = 0f
+
             holder.itemView.botton_buttons.visibility = View.GONE
-            holder.itemView.cell_header.visibility = View.GONE
+            holder.itemView.cell_header.visibility = View.VISIBLE
             holder.itemView.video_back.setBackgroundResource(R.color.gray)
             holder.itemView.player.showController()
             val changeMargins = holder.itemView.card.layoutParams as ConstraintLayout.LayoutParams
             holder.itemView.player.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
-            changeMargins.setMargins(0,0,0,20)
-            playerMargins.setMargins(0,0,0,40)
+            holder.itemView.player.showController()
+            changeMargins.setMargins(0,100,0,100)
+            playerMargins.setMargins(0,0,0,0)
             exoImageMargins.setMargins(0,0,0,0)
-            playerWrapper.setMargins(0,0,0,200)
+            playerWrapper.setMargins(0,0,0,10)
+            Picasso.get().load(item?.video_image).into(holder.itemView.profile_image)
 
 
 
@@ -549,6 +554,7 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
             holder.itemView.load_video.visibility = View.GONE
             playerMargins.setMargins(0,0,0,0)
             exoImageMargins.setMargins(0,0,0,0)
+            holder.itemView.text_underlay_video.visibility = View.GONE
 
         }
         val ratio = item?.height?.div(item.width!!)
@@ -618,7 +624,7 @@ class FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewH
 
       //  "/data/user/0/com.photoglyde.justincornelius.photoglyde/files/food.jpg"
 
-        Picasso.get().load(File("/data/user/0/com.photoglyde.justincornelius.photoglyde/files/food.jpg")).into(holder.itemView.placeImageHere)
+        Picasso.get().load(item?.urls?.regular).into(holder.itemView.placeImageHere)
         holder.itemView.placeImageHere.bringToFront()
 
         holder.itemView.text_underlay.bringToFront()
