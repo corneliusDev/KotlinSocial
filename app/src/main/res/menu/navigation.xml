@@ -18,9 +18,4 @@
         android:title="watch"
          />
 
-    <item
-        android:id="@+id/profile"
-        android:icon="@drawable/baseline_account_circle_black_48dp"
-        android:title="Profile"
-         />
 </menu>

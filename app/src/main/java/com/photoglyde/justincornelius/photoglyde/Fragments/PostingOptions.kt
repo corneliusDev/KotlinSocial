@@ -2,41 +2,24 @@ package com.photoglyde.justincornelius.photoglyde.Fragments
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.WindowManager
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
-import com.photoglyde.justincornelius.photoglyde.Adapters.ImagePreviewerUtils
 
 
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.content_camer_open.*
 import kotlinx.android.synthetic.main.fragment_posting_options.*
 import android.provider.MediaStore
-import android.graphics.Bitmap
-import android.R.attr.data
 import android.app.Activity
 import android.graphics.Color
-import android.util.Log
-import com.photoglyde.justincornelius.photoglyde.Camera.EditPhoto
-import com.photoglyde.justincornelius.photoglyde.Camera.PhotoEditor
-import kotlinx.android.synthetic.main.activity_camera_api.*
 
 import java.io.IOException
-import ly.img.android.pesdk.backend.exif.Exify.TAG
-import android.view.animation.AnimationUtils.loadAnimation
-import android.view.animation.AnimationUtils
-import android.widget.TextView
-import kotlinx.android.synthetic.main.fragment_posting_options.view.*
-import android.R.attr.data
 import com.photoglyde.justincornelius.photoglyde.Camera.CamerOpenActivity
+import com.photoglyde.justincornelius.photoglyde.Camera.EditPhoto
 import com.photoglyde.justincornelius.photoglyde.VideoPlayback.VideoActivity
-import java.io.File
+import java.io.FileNotFoundException
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -62,59 +45,29 @@ class PostingOptions : Fragment() {
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
     private val GALLERY_REQUEST = 102
+    private val VIDEO_REQUEST = 103
     private val SDK_RETURN = 109
 
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        println("======hitting request1")
+
+        activity?.containerOptionsDim?.visibility = View.GONE
+        activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+
         if (resultCode == Activity.RESULT_OK)
-            println("======hitting request2")
+
         when (requestCode) {
+
+            VIDEO_REQUEST -> {
+
+                queryFile(data, VIDEO_REQUEST)
+
+            }
+
             GALLERY_REQUEST -> {
 
-
-                println("====posting on result")
-
-                //removes only when preceding activities have finished
-                activity?.containerOptionsDim?.visibility = View.GONE
-                activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
-
-
-                val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-                val cursor = context?.contentResolver?.query(data?.data, filePathColumn, null, null, null)
-                cursor?.moveToFirst()
-
-                val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
-                val picturePath = cursor?.getString(columnIndex!!)
-                cursor?.close()
-
-
-
-                    val selectedVideoPath = picturePath
-
-
-                    try {
-                        if (selectedVideoPath == null) {
-
-                        } else {
-
-                            println("=======posting options path check ${selectedVideoPath} and ${selectedVideoPath}")
-
-
-                            val intent = Intent(this.context, VideoActivity::class.java)
-                            intent.putExtra("VIDEO", selectedVideoPath)
-                            startActivityForResult(intent, GALLERY_REQUEST)
-
-                        }
-                    } catch (e: IOException) {
-                        //#debug
-                        e.printStackTrace()
-                    }
-
-
-
-
+                queryFile(data, GALLERY_REQUEST)
 
             }
 
@@ -124,31 +77,6 @@ class PostingOptions : Fragment() {
             }
         }
     }
-
-//    override fun onCreateAnimation(transit: Int, enter: Boolean, nextAnim: Int): Animation {
-//
-//         val TAG = "MyFragment"
-//
-//        val anim = AnimationUtils.loadAnimation(activity, nextAnim)
-//
-//        anim.setAnimationListener(object : Animation.AnimationListener {
-//
-//            override fun onAnimationRepeat(p0: Animation?) {
-//                Log.d(TAG, "Animation repeat.")
-//            }
-//
-//            override fun onAnimationEnd(p0: Animation?) {
-//                Log.d(TAG, "Animation end.")
-//            }
-//
-//            override fun onAnimationStart(p0: Animation?) {
-//                Log.d(TAG, "Animation start.");
-//            }
-//        })
-//
-//        return anim
-//    }
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -171,45 +99,34 @@ class PostingOptions : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
 
-
-
-//
         close.setOnClickListener {
-
 
             listener?.onFragmentInteraction(this, "close")
 
         }
-//
+
         camera.setOnClickListener {
             val intent = Intent(this.context, CamerOpenActivity::class.java)
             intent.putExtra("option", "gallery")
             startActivity(intent)
-//
+
        }
-//
+
         gallery.setOnClickListener {
 
-            val intent = Intent(this.context, PhotoEditor::class.java)
-            intent.putExtra("option", "gallery")
-            startActivityForResult(intent, SDK_RETURN)
-
-
-
-
-
-           // fragmentManager.beginTransaction().setCustomAnimations(R.anim.slide_down, R.anim.slide_down).commit()
-
+            val intent = Intent(Intent.ACTION_PICK)
+            intent.type = "image/*"
+            intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST)
 
         }
-
 
         video_text.setOnClickListener {
 
             val intent = Intent(Intent.ACTION_PICK)
             intent.type = "video/*"
             intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-            startActivityForResult(Intent.createChooser(intent, "Select Picture"), GALLERY_REQUEST)
+            startActivityForResult(Intent.createChooser(intent, "Select Picture"), VIDEO_REQUEST)
 
 
         }
@@ -225,7 +142,6 @@ class PostingOptions : Fragment() {
         super.onActivityCreated(savedInstanceState)
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
 
 
     override fun onAttach(context: Context) {
@@ -267,6 +183,8 @@ class PostingOptions : Fragment() {
          * @param param2 Parameter 2.
          * @return A new instance of fragment PostingOptions.
          */
+        val TAG: String = PostingOptions::class.java.simpleName
+
         // TODO: Rename and change types and number of parameters
         @JvmStatic
         fun newInstance() : PostingOptions {
@@ -280,75 +198,120 @@ class PostingOptions : Fragment() {
     }
 
 
-     fun onClick(view: View){
+    private fun queryFile(data: Intent?, route:Int){
 
+        try {
 
-         if (view == video_text){
+            val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+            val cursor = context?.contentResolver?.query(data?.data, filePathColumn, null, null, null)
+            cursor?.moveToFirst()
 
-             when(camera_text.text){
+            val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
+            val picturePath = cursor?.getString(columnIndex!!)
+            cursor?.close()
 
-                 "camera" ->{
-                     camera_text.text = "record"
-                     video_text.text = "photo"
+            val selectedPath = picturePath
 
-                     camera_text.setTextColor(Color.RED)
-                     camera.setBackgroundResource(com.photoglyde.justincornelius.photoglyde.R.drawable.ic_movie_symbol_of_video_camera)
-                 }
+            if (selectedPath != null) {
 
-                 "video" ->{
-                     //open camera to video recorder
+                when(route){
 
-                     camera_text.text = "photo"
-                     video_text.text = "record"
+                    GALLERY_REQUEST -> {
+                        val intent = Intent(this.context, EditPhoto::class.java)
+                        intent.putExtra("IMAGE", selectedPath)
+                        startActivityForResult(intent, GALLERY_REQUEST)
+                    }
 
-                     camera_text.setTextColor(Color.GRAY)
-                     camera.setBackgroundResource(com.photoglyde.justincornelius.photoglyde.R.drawable.ic_photo_camera)
-
-                 }
-
-             }
-
-         }else if (view == camera){
-
-             when(camera_text.text){
-
-                 "camera" ->{val intent = Intent(this.context, PhotoEditor::class.java)
-                     intent.putExtra("option", "camera")
-                     startActivityForResult(intent, 102)}
-
-                 "video" ->{
-                     //open camera to video recorder
-                 }
-
-             }
-
-         }else if(view == gallery){
-
-             when(camera_text.text){
-
-                 "camera" ->{val intent = Intent(this.context, PhotoEditor::class.java)
-                     intent.putExtra("option", "camera")
-                     startActivityForResult(intent, 102)}
-
-                 "video" ->{
-                     //open camera to video recorder
-
-                     val intent = Intent(Intent.ACTION_PICK)
-                     intent.type = "video/*"
-                     intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-                     startActivityForResult(Intent.createChooser(intent, "Select Picture"), 101)
-
-                 }
-
-             }
-
-         }
+                    VIDEO_REQUEST -> {
+                        val intent = Intent(this.context, VideoActivity::class.java)
+                        intent.putExtra("VIDEO", selectedPath)
+                        startActivityForResult(intent, GALLERY_REQUEST)
+                    }
 
 
 
+                }
+
+                println("=======posting options path check ${selectedPath}")
+
+            }
+
+        } catch (e: FileNotFoundException) {
+            //#debug
+            e.printStackTrace()
+        }
+    }
 
 
-     }
+//     fun onClick(view: View){
+//
+//
+//         if (view == video_text){
+//
+//             when(camera_text.text){
+//
+//                 "camera" ->{
+//                     camera_text.text = "record"
+//                     video_text.text = "photo"
+//
+//                     camera_text.setTextColor(Color.RED)
+//                     camera.setBackgroundResource(com.photoglyde.justincornelius.photoglyde.R.drawable.ic_movie_symbol_of_video_camera)
+//                 }
+//
+//                 "video" ->{
+//                     //open camera to video recorder
+//
+//                     camera_text.text = "photo"
+//                     video_text.text = "record"
+//
+//                     camera_text.setTextColor(Color.GRAY)
+//                     camera.setBackgroundResource(com.photoglyde.justincornelius.photoglyde.R.drawable.ic_photo_camera)
+//
+//                 }
+//
+//             }
+//
+//         }else if (view == camera){
+//
+//             when(camera_text.text){
+//
+//                 "camera" ->{val intent = Intent(this.context, PhotoEditor::class.java)
+//                     intent.putExtra("option", "camera")
+//                     startActivityForResult(intent, 102)}
+//
+//                 "video" ->{
+//                     //open camera to video recorder
+//                 }
+//
+//             }
+//
+//         }else if(view == gallery){
+//
+//             when(camera_text.text){
+//
+//                 "camera" ->{val intent = Intent(this.context, PhotoEditor::class.java)
+//                     intent.putExtra("option", "camera")
+//                     startActivityForResult(intent, 102)}
+//
+//                 "video" ->{
+//                     //open camera to video recorder
+//
+//                     val intent = Intent(Intent.ACTION_PICK)
+//                     intent.type = "video/*"
+//                     intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+//                     startActivityForResult(Intent.createChooser(intent, "Select Picture"), 101)
+//
+//                 }
+//
+//             }
+//
+//         }
+//
+//
+//
+//
+//
+//     }
 
 
 

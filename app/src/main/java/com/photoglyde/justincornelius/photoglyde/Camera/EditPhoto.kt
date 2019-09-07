@@ -28,15 +28,13 @@ import com.photoglyde.justincornelius.photoglyde.Adapters.LocationAddAdapter
 import com.photoglyde.justincornelius.photoglyde.Data.*
 import com.photoglyde.justincornelius.photoglyde.Networking.PostUN
 import com.photoglyde.justincornelius.photoglyde.R
-import com.photoglyde.justincornelius.photoglyde.Utilities.FileHandler
-import com.photoglyde.justincornelius.photoglyde.Utilities.PREFIX_FILE
 import com.squareup.picasso.Target
 import kotlinx.android.synthetic.main.activity_edit_photo.view.*
 import java.lang.Exception
 
 
 class EditPhoto : AppCompatActivity() {
-    lateinit var selectedImage:Uri
+    private lateinit var selectedImage:Uri
     lateinit var adapterLocation:LocationAddAdapter
     lateinit var adapterTags:LocationAddAdapter
     lateinit var mLocationEditText:EditText
@@ -162,42 +160,42 @@ class EditPhoto : AppCompatActivity() {
 
 
 
-    fun onClick(view:View){
-
-        var dimensions = ArrayList<Int>()
-
-        dimensions = getDropboxIMGSize(selectedImage)
-
-        println("========== here is the Uri dimension $dimensions")
-
-       // val imageNew = ImageClass(selectedImage, Helper.getDateTimeLong().toInt(), null,null,null,GlobalVals.currentUser!!.userName, , dimensions[1])
-
-        //check rules for nullanility here
-        val profile_image = GlobalVals.currentUser!!.userImageURI.toString()
-        val imageNew = ImageClass()
-        imageNew.urls = Urls("","",selectedImage.toString())
-        imageNew.created = Helper.getDateTimeLong().toString()
-        imageNew.username = GlobalVals.currentUser!!.userName
-        imageNew.height = dimensions[1].toDouble()
-        imageNew.width = dimensions[0].toDouble()
-        imageNew.profile_image = ProfileImage("",profile_image)
-        GlobalVals.currentUser?.userImages?.add(imageNew)
-
-
-
-
-
-       // PostUN().postStoragePhoto(imageNew, ArrayList<String>(), TYPE_PHOTO)
-
-
-
-
-
-        println("========== image class size check ${GlobalVals.currentUser?.userImages?.last()?.height}")
-
-        finish()
-
-    }
+//    fun onClick(view:View){
+//
+//        var dimensions = ArrayList<Int>()
+//
+//        dimensions = getDropboxIMGSize(selectedImage)
+//
+//        println("========== here is the Uri dimension $dimensions")
+//
+//       // val imageNew = ImageClass(selectedImage, Helper.getDateTimeLong().toInt(), null,null,null,GlobalVals.currentUser!!.userName, , dimensions[1])
+//
+//        //check rules for nullanility here
+//        val profile_image = GlobalVals.currentUser!!.userImageURI.toString()
+//        val imageNew = ImageClass()
+//        imageNew.urls = Urls("","",selectedImage.toString())
+//        imageNew.created = Helper.getDateTimeLong().toString()
+//        imageNew.username = GlobalVals.currentUser!!.userName
+//        imageNew.height = dimensions[1].toDouble()
+//        imageNew.width = dimensions[0].toDouble()
+//        imageNew.profile_image = ProfileImage("",profile_image)
+//        GlobalVals.currentUser?.userImages?.add(imageNew)
+//
+//
+//
+//
+//
+//       // PostUN().postStoragePhoto(imageNew, ArrayList<String>(), TYPE_PHOTO)
+//
+//
+//
+//
+//
+//        println("========== image class size check ${GlobalVals.currentUser?.userImages?.last()?.height}")
+//
+//        finish()
+//
+//    }
 
     override fun finish() {
         val data = Intent()

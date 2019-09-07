@@ -12,31 +12,23 @@ import java.util.*
             return reverse()
         }
 
-        override fun select(
-            container: Container,
-            items: MutableList<ToroPlayer>
-        ): List<ToroPlayer> {
+        override fun select(container: Container, items: MutableList<ToroPlayer>): List<ToroPlayer> {
+
             var count = items.size
-            //    println("=====player count $count and ${items[0]}")
+
             var toSelect: List<ToroPlayer>
+
             if (count < 1) {
-                println("==========player select1")
+
                 toSelect = Collections.emptyList()
+
             } else {
-
-                val firstOrder = items.get(0).playerOrder
-
-                val span = 2
-//                    count = Math.min(count, span / span)
 
                 toSelect = ArrayList<ToroPlayer>()
 
-
-               // println("==========player select2 ${staggeredLayoutManager.spanCount} and $count and $firstOrder")
                 for (i in 0 until count) {
                     if (i < items.size) toSelect.add(items[i])
                 }
-
 
             }
 

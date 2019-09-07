@@ -11,14 +11,10 @@
 
     <FrameLayout
             android:id="@+id/containerMap"
-
             android:layout_width="match_parent"
             android:visibility="invisible"
             android:layout_alignParentBottom="true"
-
             android:layout_height="600dp"
-
-
             android:layout_marginStart="0dp"/>
 
     <FrameLayout

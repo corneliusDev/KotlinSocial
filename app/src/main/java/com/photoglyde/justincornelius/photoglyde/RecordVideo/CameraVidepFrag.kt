@@ -202,10 +202,10 @@ class CameraVideoFrag : Fragment(), View.OnClickListener,
         textureView = view.findViewById(R.id.texture)
 
 
-        videoButton = view.findViewById<Button>(R.id.video).also {
-
-            it.setOnClickListener(this)
-        }
+//        videoButton = view.findViewById<Button>(R.id.video).also {
+//
+//            it.setOnClickListener(this)
+//        }
         view.findViewById<View>(R.id.info).setOnClickListener(this)
     }
 
@@ -231,17 +231,17 @@ class CameraVideoFrag : Fragment(), View.OnClickListener,
     }
 
     override fun onClick(view: View) {
-        when (view.id) {
-            R.id.video -> if (isRecordingVideo) stopRecordingVideo() else startRecordingVideo()
-            R.id.info -> {
-                if (activity != null) {
-                    AlertDialog.Builder(activity)
-                            .setMessage(R.string.camera_error)
-                            .setPositiveButton(android.R.string.ok, null)
-                            .show()
-                }
-            }
-        }
+//        when (view.id) {
+//            R.id.video -> if (isRecordingVideo) stopRecordingVideo() else startRecordingVideo()
+//            R.id.info -> {
+//                if (activity != null) {
+//                    AlertDialog.Builder(activity)
+//                            .setMessage(R.string.camera_error)
+//                            .setPositiveButton(android.R.string.ok, null)
+//                            .show()
+//                }
+//            }
+//        }
     }
 
     /**

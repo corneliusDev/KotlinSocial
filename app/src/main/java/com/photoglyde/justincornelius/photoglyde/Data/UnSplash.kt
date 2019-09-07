@@ -1,7 +1,6 @@
 package com.photoglyde.justincornelius.photoglyde.Data
 
 import com.google.gson.annotations.SerializedName
-import com.photoglyde.justincornelius.photoglyde.Networking.NYCTimesMedia
 import com.squareup.moshi.Json
 
 data class UnSplashBegin(@field:Json(name = "results") val results:ArrayList<CoreUnSplashCall>)

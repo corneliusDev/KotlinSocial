@@ -4,59 +4,9 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
-apply plugin: 'ly.img.android.pesdk'
 
-pesdkConfig {
 
-    // Name of the Licence file in the asset folder
-    licencePath "LICENSE"
 
-    // If you use another supportLibVersion ('com.android.support'), change this version here to update your own supportLibVersion
-    supportLibVersion "27.1.1"
-
-    // Define the modules you are need
-    modules {
-        // Add all the backend modules you need
-
-        include 'ly.img.android.pesdk.operation:text'
-        include 'ly.img.android.pesdk.operation:frame'
-        include 'ly.img.android.pesdk.operation:focus'
-        include 'ly.img.android.pesdk.operation:brush'
-        include 'ly.img.android.pesdk.operation:camera'
-        include 'ly.img.android.pesdk.operation:filter'
-        include 'ly.img.android.pesdk.operation:sticker'
-        include 'ly.img.android.pesdk.operation:overlay'
-        include 'ly.img.android.pesdk.operation:adjustment'
-        include 'ly.img.android.pesdk.operation:text-design'
-        include 'ly.img.android.pesdk.operation:abstract-sticker'
-
-        // Add all the UI modules you are need
-        include 'ly.img.android.pesdk.ui.mobile_ui:core'
-        include 'ly.img.android.pesdk.ui.mobile_ui:text'
-        include 'ly.img.android.pesdk.ui.mobile_ui:focus'
-        include 'ly.img.android.pesdk.ui.mobile_ui:frame'
-        include 'ly.img.android.pesdk.ui.mobile_ui:brush'
-        include 'ly.img.android.pesdk.ui.mobile_ui:filter'
-        include 'ly.img.android.pesdk.ui.mobile_ui:camera'
-        include 'ly.img.android.pesdk.ui.mobile_ui:sticker'
-        include 'ly.img.android.pesdk.ui.mobile_ui:overlay'
-        include 'ly.img.android.pesdk.ui.mobile_ui:transform'
-        include 'ly.img.android.pesdk.ui.mobile_ui:text-design'
-        include 'ly.img.android.pesdk.ui.mobile_ui:adjustment'
-
-        // Add the serializer if you need
-        include 'ly.img.android.pesdk:serializer'
-
-        // Add asset packs if you need
-        include 'ly.img.android.pesdk.assets:font-basic'
-        include 'ly.img.android.pesdk.assets:font-text-design'
-        include 'ly.img.android.pesdk.assets:frame-basic'
-        include 'ly.img.android.pesdk.assets:filter-basic'
-        include 'ly.img.android.pesdk.assets:overlay-basic'
-        include 'ly.img.android.pesdk.assets:sticker-shapes'
-        include 'ly.img.android.pesdk.assets:sticker-emoticons'
-    }
-}
 
 
 android {
@@ -78,13 +28,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
-//        debug {
-//            useProguard true
-//            minifyEnabled true
-//            shrinkResources true
-//            zipAlignEnabled true
-//            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-//        }
     }
     sourceSets { main { assets.srcDirs = ['src/main/assets', 'src/main/assets/'] } }
 }
@@ -116,8 +59,6 @@ def support_version = "27.1.1"
 
 
 dependencies {
-    implementation 'com.github.mancj:MaterialSearchBar:0.8.1'
-    implementation 'de.hdodenhof:circleimageview:3.0.0'
     implementation 'com.github.Bleoo:WindowImageView:1.0.2'
     implementation 'com.cleveroad:cycle-menu:1.0.2'
     implementation "com.squareup.retrofit2:converter-moshi:2.4.0"

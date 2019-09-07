@@ -2,82 +2,37 @@ package com.photoglyde.justincornelius.photoglyde
 
 import android.annotation.SuppressLint
 import android.app.Dialog
-import android.arch.paging.PagedList
-import android.content.ContentResolver
 import android.content.Context
 import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.media.Image
 import android.media.MediaMetadataRetriever
 import android.media.ThumbnailUtils
 import android.net.Uri
-import android.os.Build
 import android.provider.MediaStore
-import android.provider.MediaStore.Video.VideoColumns.CATEGORY
 import android.util.Log
 import android.view.LayoutInflater
 import com.google.android.exoplayer2.ui.PlayerView
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 
-import com.photoglyde.justincornelius.photoglyde.Adapters.ImagePreviewerUtils
-import com.photoglyde.justincornelius.photoglyde.Camera.ImageSaver
+import com.photoglyde.justincornelius.photoglyde.HoldImageViewer.ImagePreviewerUtils
 import com.photoglyde.justincornelius.photoglyde.Data.*
-import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals.test
 import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals.videoWatch
-import com.photoglyde.justincornelius.photoglyde.Networking.DataDump
 import com.photoglyde.justincornelius.photoglyde.Networking.PostUN
-import com.photoglyde.justincornelius.photoglyde.Networking.UnSplashService
-import com.photoglyde.justincornelius.photoglyde.Utilities.PREFIX_FILE
 import java.io.ByteArrayOutputStream
-import java.io.File
-import java.io.FileOutputStream
-import java.io.IOException
+import java.io.FileNotFoundException
 import java.lang.Exception
-import java.net.URL
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.ArrayList
-import kotlin.concurrent.thread
 import kotlin.math.floor
 
 object Helper {
 
 
-    fun updateUserImages(context: Context){
 
-        context.fileList().forEach { it ->
-            println("=========Looking File: " + it.toString())
-            println("=========Looking DUPLICATES: " + GlobalVals.currentUser?.userImages?.filter {it.file.equals(it.toString()) }?.size)
-            if (it.toString().contains(PREFIX_FILE) && GlobalVals.currentUser?.userImages?.filter {it.file.equals(it.toString()) }?.size == 0){
-
-
-
-
-
-                var image = ImageClass()
-                println("=========Found File: " + it.toString())
-                image.file = context.filesDir.path + "/" + it.toString()
-
-                GlobalVals.currentUser?.userImages?.add(image)
-
-            }
-
-        }
-    }
 
 
     fun getDateTimeLong(): Long {
         val sdf = SimpleDateFormat("yyyyMMddHHmmss", Locale.US)
-        val sdf1 = SimpleDateFormat("MM")
-        val sdf2 = SimpleDateFormat("dd")
-        val sdf3 = SimpleDateFormat("yyyy")
         val currentDate = sdf.format(Date()).toLong()
-        println("========test date ${currentDate}")
-
-
         return currentDate
 
     }
@@ -87,11 +42,8 @@ object Helper {
         val mediaRetriever = MediaMetadataRetriever()
         mediaRetriever.setDataSource(contex, uri)
         bmp = mediaRetriever.frameAtTime
-        val videoHeight = bmp.getHeight()
-        val videoWidth = bmp.getWidth()
-
-        println("======== here is the video dimension $videoHeight and $videoWidth")
-
+        val videoHeight = bmp.height
+        val videoWidth = bmp.width
         val dimen = ArrayList<Int>()
         dimen.add(videoWidth)
         dimen.add(videoHeight)
@@ -101,15 +53,20 @@ object Helper {
 
     fun queryFile(context: Context, uri:Uri) : String? {
 
-        val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-        val cursor = context.contentResolver?.query(uri, filePathColumn, null, null, null)
-        cursor?.moveToFirst()
+        var picturePath:String? = null
 
-        val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
-        val picturePath = cursor?.getString(columnIndex!!)
-        cursor?.close()
+        try{
+            val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
+            val cursor = context.contentResolver?.query(uri, filePathColumn, null, null, null)
+            cursor?.moveToFirst()
+            val columnIndex = cursor?.getColumnIndex(filePathColumn[0])
+            picturePath = cursor?.getString(columnIndex!!)
+            cursor?.close()
+            return picturePath
+        }catch (e: FileNotFoundException){
 
-        return picturePath
+        }
+            return picturePath
     }
 
 
@@ -118,8 +75,6 @@ object Helper {
         val bytes = ByteArrayOutputStream()
         inImage?.compress(Bitmap.CompressFormat.JPEG, 100, bytes)
         val path = MediaStore.Images.Media.insertImage(inContext.contentResolver, inImage, "Title", null)
-
-        println("======= damm this ${path}")
         return Uri.parse(path)
     }
 
@@ -164,12 +119,12 @@ object Helper {
                 val dimen = Helper.getVideoHeight(videoUri, context)
                 val width = dimen.first().toDouble()
                 val height = dimen.last().toDouble()
-                val userName = GlobalVals.currentUser?.userName
+
 
                 println("=====thumbnail Uri $thumbnailUri and $thumbnailFile and ${bitmap.byteCount}")
 
                 val recentVideo = VideoClass(
-                    "", createdOn.toString(), "", width, height, "", userName, "",
+                    "", createdOn.toString(), "", width, height, "", "", "",
                     "", TYPE_VIDEO, "", thumbnailFile, videoUri.toString()
                 )
 
@@ -197,14 +152,6 @@ object Helper {
 
             arg = args as ArrayList<CoreUnSplash>
 
-//            var data1 = CoreUnSplash()
-//            data1.type = BANNER
-//            arg.add(0, data1)
-
-//            var data2 = CoreUnSplash()
-//            data2.type = HEADER
-//            data2.categ_name = "Top Videos Today"
-//            arg.add(1, data2)
 
         }else if(GlobalVals.whatsNew && !GlobalVals.cameFromExa) {
 
@@ -248,27 +195,7 @@ object Helper {
         }else{
 
 
-//            var data1 = CoreUnSplash()
-////            data1.type = BANNER
-////            arg.add(0, data1)
-////
-////            var data2 = CoreUnSplash()
-////            data2.type = "GRID"
-////            arg.add(0, data2)
-
-
-
-         //   println("EXOFIRST: " + args.size)
-       //     arg = args.filter { it?.type.toString() != "collection" } as ArrayList<CoreUnSplash>
-           // println("EXOSECOND: " + arg.size)
-
-
             arg = args as ArrayList<CoreUnSplash>
-//            var data2 = CoreUnSplash()
-//            data2.type = HEADER
-//            data2.categ_name = "Top Post Today"
-//            arg.add(1, data2)
-//
 
         }
 
@@ -283,7 +210,8 @@ object Helper {
 
     @SuppressLint("ClickableViewAccessibility")
     fun show(context: Context, source: PlayerView, core:CoreUnSplash?) {
-        val background = ImagePreviewerUtils().getBlurredScreenDrawable(context, source.rootView)
+        val background = ImagePreviewerUtils()
+            .getBlurredScreenDrawable(context, source.rootView)
 
 
         val dialogView = LayoutInflater.from(context).inflate(R.layout.view_player, null)
@@ -302,13 +230,8 @@ object Helper {
 
         resize.height = finalHeight.toInt()
 
-
-
-
-
-
         val dialog = Dialog(context, R.style.ImagePreviewerTheme)
-        dialog.window.setBackgroundDrawable(background)
+        dialog.window?.setBackgroundDrawable(background)
         dialog.setContentView(dialogView)
         dialog.show()
 
@@ -317,7 +240,6 @@ object Helper {
             dialog.dismiss()
             source.player.release()
 
-
         }
 
 
@@ -325,6 +247,8 @@ object Helper {
 
 
     }
+
+
 
 
 

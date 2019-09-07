@@ -1,42 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#008577</color>
-    <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
     <color name="primary">#747474</color>
     <color name="primary_dark">#E05353</color>
     <color name="accent">#E22F84</color>
-    <color name="light_green">#7ABA34</color>
-    <color name="dark_green">#5B852D</color>
     <color name="light_gray">#EEECEC</color>
-    <color name="photo_tint">#7f101010</color>
-    <color name="dot_dark_1">#138D75</color>
-    <color name="dot_dark_2">#FF9C24CC</color>
-    <color name="dot_dark_3">#FFD15605</color>
-    <color name="dot_dark_4">#FFA76905</color>
     <color name="white">#FFFFFF</color>
     <color name="gray">#707070</color>
-    <color name="primaryPressed">#00A651</color>
-    <color name="primary_darkPressed">#009348</color>
     <color name="black">#383838</color>
     <color name="cyan">#0097A7</color>
     <color name="blue">#3788E0</color>
     <color name="dark_gray">#343434</color>
-    <color name="actual_black">#000000</color>
     <color name="theme">#343434</color>
 
     <color name="basically_black">#212121</color>
 
     <color name="medium_gray">#afafaf</color>
-    <array name="inactive_dots">
-
-        <item>@color/dot_dark_1</item>
-        <item>@color/dot_dark_2</item>
-        <item>@color/dot_dark_3</item>
-        <item>@color/dot_dark_4</item>
-        <item>@color/dot_dark_4</item>
-    </array>
-
 
 
 </resources>

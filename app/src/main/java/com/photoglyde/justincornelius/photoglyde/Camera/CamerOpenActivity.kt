@@ -41,26 +41,7 @@ class CamerOpenActivity : AppCompatActivity() {
         super.onResume()
     }
 
-//    override fun startActivityForResult(intent: Intent?, requestCode: Int) {
-//
-//
-//        println("======hitting request")
-//        when (requestCode) {
-//            GALLERY_REQUEST -> {
-//                val selectedImage = intent?.getData()
-//                println("======this is my photo $selectedImage")
-//                try {
-//                   // val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, selectedImage)
-//                   // container.setImageBitmap(bitmap)
-//                } catch (e: IOException) {
-//                    Log.i("TAG", "Some exception $e")
-//                }
-//
-//            }
-//        }
-//
-//        super.startActivityForResult(intent, requestCode)
-//    }
+
 
      override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)

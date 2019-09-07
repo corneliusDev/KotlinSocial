@@ -8,8 +8,6 @@ import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
-import android.graphics.Color
 import android.graphics.drawable.Animatable
 import android.net.Uri
 import android.os.Build
@@ -17,22 +15,17 @@ import android.os.Bundle
 import android.os.Vibrator
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
-import android.support.v4.content.ContextCompat
 import android.support.v4.util.Pair
-import android.support.v4.view.GestureDetectorCompat
 import android.support.v7.app.AppCompatActivity
-import android.support.v7.graphics.Palette
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.support.v7.widget.Toolbar
 import android.view.*
 import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import com.photoglyde.justincornelius.photoglyde.Adapters.FeedAdapter
-import com.photoglyde.justincornelius.photoglyde.Adapters.ImageAdapter
-import com.photoglyde.justincornelius.photoglyde.Adapters.ImagePreview
-import com.photoglyde.justincornelius.photoglyde.Adapters.ScrollDownListener
+import com.photoglyde.justincornelius.photoglyde.HoldImageViewer.ImagePreview
+import com.photoglyde.justincornelius.photoglyde.Utilities.ScrollDownListener
 import com.photoglyde.justincornelius.photoglyde.Data.CoreUnSplash
-import com.photoglyde.justincornelius.photoglyde.Data.Data
 import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals
 import com.photoglyde.justincornelius.photoglyde.Fragments.listenerExplore
 import com.photoglyde.justincornelius.photoglyde.Networking.ImageDataSource
@@ -47,8 +40,6 @@ import im.ene.toro.ToroPlayer
 import im.ene.toro.widget.Container
 import kotlinx.android.synthetic.main.activity_test2.*
 import kotlinx.android.synthetic.main.adapter_row_similar.view.*
-import kotlinx.android.synthetic.main.fragment_explore.*
-import kotlinx.android.synthetic.main.full_view.*
 import kotlinx.android.synthetic.main.full_view.view.*
 import kotlinx.android.synthetic.main.test_include.*
 import kotlinx.android.synthetic.main.toolbar.view.*
@@ -63,8 +54,6 @@ import kotlin.math.roundToInt
 
 class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
 
-
-  private val adapter1 = ImageAdapter()
   private lateinit var staggeredLayoutManager: StaggeredGridLayoutManager
     private lateinit var inputManager: InputMethodManager
     var test:Int = 0
@@ -79,12 +68,9 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
 
 
   companion object {
-    val EXTRA_PARAM_ID = "place_id"
+    private val EXTRA_PARAM_ID = "place_id"
 
     fun newIntent(context: Context, position: Int): Intent {
-      println("=======thid id my position $position")
-
-   //   val new = GlobalVals.imageClassUser[position]
       val intent = Intent(context, ExapandDetailActivity::class.java)
       intent.putExtra(EXTRA_PARAM_ID, position)
       return intent
@@ -104,8 +90,9 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
 
             GlobalVals.currentCore = core
 
-            Data.sendIndexToDetail = position
-            ImagePreview().show(this@ExapandDetailActivity, view.placeImage, object : ImagePreview.ExpandActivity{
+            GlobalVals.sendIndexToDetail = position
+            ImagePreview()
+                .show(this@ExapandDetailActivity, view.placeImage, object : ImagePreview.ExpandActivity{
 
 
                 override fun onCallback(action:String) {
@@ -188,7 +175,7 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
             GlobalVals.awayFromFrag = true
             // 1
 
-            Data.sendIndexToDetail = position
+            GlobalVals.sendIndexToDetail = position
 
             println("======this is the position $position")
 
@@ -232,16 +219,11 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
         }
     }
 
-    var gDetector: GestureDetectorCompat? = null
   override fun onCreate(savedInstanceState: Bundle?){
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_test2)
     text_categ.bringToFront()
-    //  scrollview.setBackgroundResource(R.drawable.round_expanded)
       val toolbar = findViewById<Toolbar>(R.id.toolbar)
-
-
-     // scrollview.visibility = View.GONE
       setSupportActionBar(toolbar)
       supportActionBar?.setDisplayShowTitleEnabled(false)
       supportActionBar?.setDisplayHomeAsUpEnabled(true)
@@ -256,7 +238,6 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
       if (cameFrom == "HOME"){
           val imageTag:String? = intent.getStringExtra("image_tag")
           collapsingToolbarLayout.setBackgroundResource(R.color.dark_gray)
-          toolbar.searchBar.visibility = View.GONE
           toolbar.setBackgroundResource(R.color.dark_gray)
           text_categ.text = imageTag
           println("*******EXPAND: " + imageTag)
@@ -573,7 +554,8 @@ class ExapandDetailActivity : AppCompatActivity(), View.OnClickListener  {
 
         //listVertical2?.playerSelector = selector
 
-        ScrollDownListener().show(this@ExapandDetailActivity, listVertical2, object : ScrollDownListener.HideShow{
+        ScrollDownListener()
+            .show(this@ExapandDetailActivity, listVertical2, object : ScrollDownListener.HideShow{
             override fun onCallback(animate: String) {
                 println("=======we have item call back $animate and $listenerExplore")
                // listener?.onListFragmentInteraction(animate)

@@ -1,72 +1,18 @@
 <resources>
     <string name="app_name">Coffee Corner</string>
-    <string name="menu_title_settings">Settings</string>
-    <string name="menu_search_title">Search</string>
-    <string name="button_label_share">Share</string>
-    <string name="button_label_visit_store">Visit store</string>
-    <string name="label_icon">Icon</string>
-    <string name="screen_setting_title">Settings</string>
-    <string name="label_app_settings">App settings</string>
-    <string name="description_app_setting">Tapping on this menu will show you the app
-        settings
-    </string>
-    <string name="label_search">Search</string>
-    <string name="description_search">Tapping on this search icon will allow you to search through
-        the list of food
-    </string>
-    <string name="label_exit_app">Exit app!</string>
-    <string name="description_exit">You are about to exit the app. Tap OK to exit or tap NO to
-        stay
-    </string>
-    <string name="label_share_food">Share this food</string>
-    <string name="description_share_food">Tapping on this button will allow you to share this food with
-        friends/family
-    </string>
-    <string name="label_buy_food">Want to buy this food?</string>
-    <string name="description_buy_food">Tapping on this button will send to FreshDirect.com to make a
-        purchase and get it delivered to your door step
-    </string>
-    <string name="label_back_arrow">Back arrow</string>
-    <string name="description_back_arrow">Tapping on this back arrow will send you back to the screen
-        with list of food
-    </string>
-    <string name="msg_tutorial_complete">Congrats, you have completed the tutorial</string>
-    <string name="label_send_to">Send To…</string>
-    <string name="label_ok">OK</string>
-    <string name="label_no">No</string>
-    <string name="description_picture_of_food">Picture of food</string>
-    <string name="description_app_icon">App icon</string>
-    <string name="menu_title_search">Search</string>
     <string name="title_activity_sample_tab">SampleTab</string>
-    <string name="action_settings">Settings</string>
-    <string name="section_format">Hello World from section: %1$d</string>
-    <string name="tab_text_1">Tab 1</string>
-    <string name="tab_text_2">Tab 2</string>
-    <string name="tab_text_3">Tab 3</string>
-    <string name="title_activity_main2">Main2Activity</string>
-    <string name="next">Next</string>
-    <string name="skip">Skip</string>
-    <string name="start">Start</string>
 
     <string name="record">Record</string>
-    <string name="stopRecording">Stop Recording</string>
-    <string name="playRecord">Play Record</string>
-    <string name="stopPlayingRecord">Stop Playing Record</string>
     <string name="request_permission">This sample needs camera permission.</string>
-    <string name="picture">Picture</string>
-    <string name="description_info">Info</string>
     <string name="camera_error">This device does not support Camera2 API</string>
     <string name="stop">Stop</string>
-    <string name="dialog_box">Move only or Move and Copy?</string>
 
-
-    <string name="client_id">838378557304-d61s1sksd50ja54sbcdg2ss2u408o6u6.apps.googleusercontent.com</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_on_boarding">OnBoardingActivity</string>
-    <string name="title_activity_delevery_now">Map</string>
     <string name="title_activity_retro_fit">RetroFit</string>
     <string name="title_activity_video">VideoActivity</string>
     <string name="title_activity_maps">Map</string>
+    <string name="top_videos">Top Videos this Week</string>
+    <string name="watch_list">Watchlist</string>
 </resources>

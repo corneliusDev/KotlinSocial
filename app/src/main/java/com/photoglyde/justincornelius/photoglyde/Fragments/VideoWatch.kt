@@ -14,8 +14,7 @@ import android.view.ViewGroup
 import com.photoglyde.justincornelius.photoglyde.R
 import android.support.v7.widget.StaggeredGridLayoutManager
 import com.photoglyde.justincornelius.photoglyde.Adapters.FeedAdapter
-import com.photoglyde.justincornelius.photoglyde.Adapters.ProfileAdapter
-import com.photoglyde.justincornelius.photoglyde.Adapters.ScrollDownListener
+import com.photoglyde.justincornelius.photoglyde.Utilities.ScrollDownListener
 import com.photoglyde.justincornelius.photoglyde.Data.*
 import com.photoglyde.justincornelius.photoglyde.Networking.ImageDataSource
 import kotlinx.android.synthetic.main.fragment_blank_fragment2.*
@@ -42,7 +41,6 @@ class BlankFragment2 : Fragment() {
     private var param2: String? = null
     private var listener: OnFragmentInteractionListener? = null
     private lateinit var staggeredLayoutManager: StaggeredGridLayoutManager
-    private lateinit var adapterProfile:ProfileAdapter
     private lateinit var adapter : FeedAdapter
 
 
@@ -100,7 +98,6 @@ class BlankFragment2 : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        activity?.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)?.searchBar?.visibility = View.INVISIBLE
         GlobalVals.videoWatch = true
 
 
@@ -171,17 +168,6 @@ class BlankFragment2 : Fragment() {
         }
     }
 
-    fun setUpAdapter(){
-
-        staggeredLayoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL)
-        home_page_video_feed.layoutManager = staggeredLayoutManager
-        home_page_video_feed.isNestedScrollingEnabled = true
-        adapterProfile = ProfileAdapter(
-            this@BlankFragment2.requireContext(), GlobalVals.upSplash,
-            arrayListOf(6,6,6,6,6,6)
-        )
-        home_page_video_feed.adapter = adapterProfile
-    }
 
     private fun initializeList(current_ref1:String?, current_ref2: String?, nodeCount:Int?) {
 
@@ -224,7 +210,8 @@ class BlankFragment2 : Fragment() {
 
         })
 
-        ScrollDownListener().show(this@BlankFragment2.requireContext(), home_page_video_feed, object : ScrollDownListener.HideShow{
+        ScrollDownListener()
+            .show(this@BlankFragment2.requireContext(), home_page_video_feed, object : ScrollDownListener.HideShow{
             override fun onCallback(animate: String) {
                 println("=======we have call back $animate and $listenerExplore")
                 listenerExplore?.onFragmentInteractionExplore(this@BlankFragment2, animate)

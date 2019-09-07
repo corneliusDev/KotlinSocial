@@ -9,9 +9,6 @@ import android.support.v4.app.*
 import android.support.v4.util.Pair
 import android.support.v4.view.ViewCompat
 import android.support.v7.widget.StaggeredGridLayoutManager
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,27 +17,24 @@ import android.widget.ImageView
 import com.bartoszlipinski.viewpropertyobjectanimator.ViewPropertyObjectAnimator
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.maps.*
-import com.mancj.materialsearchbar.MaterialSearchBar
 import com.photoglyde.justincornelius.photoglyde.*
 import com.photoglyde.justincornelius.photoglyde.Adapters.*
 import com.photoglyde.justincornelius.photoglyde.Data.*
-import com.photoglyde.justincornelius.photoglyde.Networking.DataDump
+import com.photoglyde.justincornelius.photoglyde.HoldImageViewer.ImagePreview
 import com.photoglyde.justincornelius.photoglyde.Networking.ImageDataSource
-import com.photoglyde.justincornelius.photoglyde.Networking.NodeExist
-import com.photoglyde.justincornelius.photoglyde.Networking.UnSplashService
 import com.photoglyde.justincornelius.photoglyde.R
 import com.photoglyde.justincornelius.photoglyde.Utilities.PlayerSelectorOption
+import com.photoglyde.justincornelius.photoglyde.Utilities.ScrollDownListener
 
 
 import kotlinx.android.synthetic.main.adapter_row_similar.view.*
 import kotlinx.android.synthetic.main.fragment_item_list.*
 import kotlinx.android.synthetic.main.horizontal_rows.view.*
-import kotlinx.android.synthetic.main.toolbar.*
 import kotlinx.android.synthetic.main.toolbar.view.*
 import kotlinx.android.synthetic.main.view_holder_exoplayer_basic.view.*
 
 
-class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
+class WhatsNew : Fragment() {
 
     // TODO: Customize parameters
     private var columnCount = 1
@@ -53,24 +47,6 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
     lateinit var mapFragment: SupportMapFragment
     lateinit var googleMap: GoogleMap
     private var count = 1
-
-
-
-    override fun onButtonClicked(buttonCode: Int) {
-        println("==============text clicked")
-    }
-
-    override fun onSearchStateChanged(enabled: Boolean) {
-        Log.d("LOG_TAG",   " text changed ")
-    }
-
-    override fun onSearchConfirmed(text: CharSequence?) {
-        println("==============text confirmed $text")
-      //  sendSearch(text.toString().trim())
-
-        apiCall(text.toString())
-
-    }
 
     private val onItemClickListenerVertical = object : FeedAdapter.OnItemClickListener {
         override fun onItemClick(view: View, position: Int, data:CoreUnSplash) {
@@ -103,32 +79,11 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
                     transitionIntent.putExtra("width", data.width)
                     transitionIntent.putExtra("image_tag", data.categ_name)
 
-
-                    // profile_list_explore.smoothScrollToPosition(position)
-
-
-
-                    val placeImage = view.findViewById<ImageView>(R.id.placeImageH)
-
-
-                    val statusBar = view.findViewById<View>(R.id.navigation)
-
                     val imagePair = Pair.create(view.placeImageH as View, "x")
                     val textPair = Pair.create(view.placeNameH as View, "categ_text")
 
-                    //  val navPair = Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME)
-                    val statusPair = Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME)
-                    //  val toolbarPair = Pair.create(toolbar as View, "tActionBar")
-
                     val pairs = mutableListOf(imagePair, textPair)
-
-                    println("===========check values $view and ${ViewCompat.getTransitionName(view)}")
                     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@WhatsNew.requireActivity(), *pairs.toTypedArray())
-
-                    //  val new = ViewCompat.getTransitionName(view.placeImageH)
-
-
-                    //val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@ItemFragment.requireActivity(), view, ViewCompat.getTransitionName(view.placeImageH)!!)
 
                     ActivityCompat.startActivity(view.context, transitionIntent, options.toBundle())
 
@@ -142,28 +97,13 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
                     transitionIntent.putExtra("height", data.height)
                     transitionIntent.putExtra("width", data.width)
 
-                    val placeImage = view.findViewById<ImageView>(R.id.placeImageH)
-
-
-                    val statusBar = view.findViewById<View>(R.id.navigation)
-
                     val imagePair = Pair.create(view.placeImageH as View, "x")
                     val textPair = Pair.create(view.placeNameH as View, "categ_text")
-
-                    //  val navPair = Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME)
-                    val statusPair = Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME)
-                    //  val toolbarPair = Pair.create(toolbar as View, "tActionBar")
 
                     val pairs = mutableListOf(imagePair, textPair)
 
                     println("===========check values $view and ${ViewCompat.getTransitionName(view)}")
                     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@WhatsNew.requireActivity(), *pairs.toTypedArray())
-
-                    //  val new = ViewCompat.getTransitionName(view.placeImageH)
-
-
-                    //val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@ItemFragment.requireActivity(), view, ViewCompat.getTransitionName(view.placeImageH)!!)
-
                     ActivityCompat.startActivity(view.context, transitionIntent, options.toBundle())
 
                 }
@@ -176,27 +116,12 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
                     transitionIntent.putExtra("height", data.height)
                     transitionIntent.putExtra("width", data.width)
 
-                    val placeImage = view.findViewById<ImageView>(R.id.placeImageH)
-
-
-                    val statusBar = view.findViewById<View>(R.id.navigation)
-
                     val imagePair = Pair.create(view.placeImage as View, "x")
-                   // val textPair = Pair.create(view.placeNameH as View, "categ_text")
-
-                    //  val navPair = Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME)
-                    val statusPair = Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME)
-                    //  val toolbarPair = Pair.create(toolbar as View, "tActionBar")
 
                     val pairs = mutableListOf(imagePair)
 
                    // println("===========check values $view and ${ViewCompat.getTransitionName(view)}")
                     val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@WhatsNew.requireActivity(), *pairs.toTypedArray())
-
-                    //  val new = ViewCompat.getTransitionName(view.placeImageH)
-
-
-                    //val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this@ItemFragment.requireActivity(), view, ViewCompat.getTransitionName(view.placeImageH)!!)
 
                     ActivityCompat.startActivity(view.context, transitionIntent, options.toBundle())
 
@@ -258,7 +183,8 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
                 profile_list2?.adapter = adapterProfile
                 adapterProfile.SetOnLock(listener3)
 
-                ScrollDownListener().show(this@WhatsNew.requireContext(), profile_list2, object : ScrollDownListener.HideShow{
+                ScrollDownListener()
+                    .show(this@WhatsNew.requireContext(), profile_list2, object : ScrollDownListener.HideShow{
                     override fun onCallback(animate: String) {
                         println("=======we have item call back $animate and $listenerExplore")
                         listener?.onListFragmentInteraction(animate)
@@ -283,17 +209,17 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
     }
 
     private val listener3 = object : FeedAdapter.OnItemLockClickListener {
-        // , View.OnTouchListener {
 
         override fun onItemLongClick(view: View, position: Int, core:CoreUnSplash?) {
             println("========== long click $position")
             // view.setOnTouchListener(new)
-            Data.sendIndexToDetail = position
+            GlobalVals.sendIndexToDetail = position
 
             ViewPropertyObjectAnimator.animate(view.placeImage).scaleY(1.0f).scaleX(1.0f)
                 .setDuration(200).start()
             if (view.placeImage != null) {
-                ImagePreview().show(this@WhatsNew.requireContext(), view.placeImage, object : ImagePreview.ExpandActivity{
+                ImagePreview()
+                    .show(this@WhatsNew.requireContext(), view.placeImage, object : ImagePreview.ExpandActivity{
 
 
                     override fun onCallback(action:String) {
@@ -346,33 +272,6 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        val toolbarItemFrag = activity?.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)?.searchBar
-
-        toolbarItemFrag?.visibility = View.INVISIBLE
-
-
-
-       // setHorizontal()
-
-        toolbarItemFrag?.setOnSearchActionListener(this)
-
-        toolbarItemFrag?.addTextChangeListener(object : TextWatcher{
-
-            override fun afterTextChanged(p0: Editable?) {
-
-                println("==========after text changed $p0")
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                println("=========== before text changed $p0")
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                println("============on text changed $p0")
-            }
-        })
-
-
         GlobalVals.whatsNew = true
 
     }
@@ -407,37 +306,6 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
         }
     }
 
-
-    fun setHorizontal(){
-        staggeredLayoutManager = StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL)
-        profile_list.layoutManager = staggeredLayoutManager
-        adapterHorizotal = BindingHorizontal(this@WhatsNew.requireContext(), 6)
-        profile_list.isNestedScrollingEnabled = true
-        profile_list.adapter = adapterHorizotal
-    }
-
-
-    fun adapterSetUpVertical(Data:List<CoreUnSplash>) {
-
-
-
-
-
-
-
-        ScrollDownListener().show(this@WhatsNew.requireContext(), profile_list2, object : ScrollDownListener.HideShow{
-            override fun onCallback(animate: String) {
-                println("=======we have item call back $animate and $listenerExplore")
-                listener?.onListFragmentInteraction(animate)
-            }
-        })
-
-
-
-        val selector = PlayerSelectorOption
-        profile_list2?.playerSelector = selector
-
-    }
 
 
     private fun initializeList(ref1:String?, ref2:String?, count:Int) {
@@ -478,7 +346,8 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
 
         profile_list2?.playerSelector = selector
 
-        ScrollDownListener().show(this@WhatsNew.requireContext(), profile_list2, object : ScrollDownListener.HideShow{
+        ScrollDownListener()
+            .show(this@WhatsNew.requireContext(), profile_list2, object : ScrollDownListener.HideShow{
             override fun onCallback(animate: String) {
                 println("=======we have item call back $animate and $listenerExplore")
                 listener?.onListFragmentInteraction(animate)
@@ -499,43 +368,8 @@ class WhatsNew : Fragment(), MaterialSearchBar.OnSearchActionListener {
     }
 
 
-    fun sendSearch(node:String?){
-        NodeExist().ifNodeExist(node, object : NodeExist.SendResult{
-            override fun onCallback(bool: Boolean) {
-                println("======= result from search $bool")
 
 
-            }
-        })
-
-
-
-
-    }
-
-    fun apiCall(search:String?){
-
-                val api = UnSplashService.createService()
-
-                    api.getPosts("photos",search, count.toString(), "29").enqueue(object : retrofit2.Callback<UnSplashBegin> {
-                override fun onFailure(call: retrofit2.Call<UnSplashBegin>, t: Throwable) {
-                    println("=======this is unsplash error ${t.message} and ${t.localizedMessage} and ${t.localizedMessage} and ${t}")
-                }
-
-                override fun onResponse(
-                    call: retrofit2.Call<UnSplashBegin>,
-                    response: retrofit2.Response<UnSplashBegin>
-                ) {
-
-                    count++
-                    println("=======this is unsplash${response.body()} ${response.body()?.results}  ${response.code()} and ${response.raw()}\" ${response.message()}\"")
-
-                    val splashData = response.body()
-
-                   DataDump().dumpNow(search, splashData!!)
-                }
-            })
-    }
 
 
 

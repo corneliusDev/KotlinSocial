@@ -1,6 +1,5 @@
 package com.photoglyde.justincornelius.photoglyde.Fragments
 
-import android.animation.Animator
 import android.arch.lifecycle.Observer
 import android.arch.paging.DataSource
 import android.arch.paging.LivePagedListBuilder
@@ -9,7 +8,6 @@ import android.content.Context
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.os.VibrationEffect
 import android.os.Vibrator
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.ActivityOptionsCompat
@@ -17,22 +15,19 @@ import android.support.v4.app.Fragment
 import android.support.v4.util.Pair
 import android.support.v4.view.GestureDetectorCompat
 import android.support.v4.view.ViewCompat
-import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.StaggeredGridLayoutManager
 import android.view.*
 import android.widget.ImageView
 import com.photoglyde.justincornelius.photoglyde.Adapters.*
 import com.photoglyde.justincornelius.photoglyde.Data.*
 import com.photoglyde.justincornelius.photoglyde.ExapandDetailActivity
+import com.photoglyde.justincornelius.photoglyde.HoldImageViewer.ImagePreview
 import com.photoglyde.justincornelius.photoglyde.Networking.ImageDataSource
 import com.photoglyde.justincornelius.photoglyde.R
-import com.photoglyde.justincornelius.photoglyde.Utilities.FileHandler
-import kotlinx.android.synthetic.main.activity_test2.view.*
+import com.photoglyde.justincornelius.photoglyde.Utilities.ScrollDownListener
 import kotlinx.android.synthetic.main.fragment_explore.*
 import kotlinx.android.synthetic.main.full_view.view.*
-import kotlinx.android.synthetic.main.horizontal_rows.view.*
 import kotlinx.android.synthetic.main.toolbar.view.*
-import java.util.*
 
 
 // TODO: Rename parameter arguments, choose names that match
@@ -61,8 +56,9 @@ class ExploreActivity : Fragment(){
 
            GlobalVals.currentCore = core
 
-             Data.sendIndexToDetail = position
-             ImagePreview().show(this@ExploreActivity.requireContext(), view.placeImageHere, object : ImagePreview.ExpandActivity{
+           GlobalVals.sendIndexToDetail = position
+             ImagePreview()
+                 .show(this@ExploreActivity.requireContext(), view.placeImageHere, object : ImagePreview.ExpandActivity{
 
 
                 override fun onCallback(action:String) {
@@ -105,9 +101,6 @@ class ExploreActivity : Fragment(){
                         ActivityCompat.startActivity(this@ExploreActivity.requireActivity(), transitionIntent, options.toBundle())
                     }
 
-                    "Save" -> {
-                        FileHandler(this@ExploreActivity.requireContext(), UUID.randomUUID().toString() + ".jpg", core?.urls?.regular)
-                    }
 
                 }
 
@@ -206,7 +199,8 @@ class ExploreActivity : Fragment(){
 //
 //
 //
-                ScrollDownListener().show(this@ExploreActivity.requireContext(), profile_list_explore, object : ScrollDownListener.HideShow{
+                ScrollDownListener()
+                    .show(this@ExploreActivity.requireContext(), profile_list_explore, object : ScrollDownListener.HideShow{
                     override fun onCallback(animate: String) {
                         listenerExplore?.onFragmentInteractionExplore(this@ExploreActivity, animate)
                     }
@@ -251,7 +245,6 @@ class ExploreActivity : Fragment(){
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
-        activity?.findViewById<android.support.v7.widget.Toolbar>(R.id.toolbar)?.searchBar?.visibility = View.INVISIBLE
 
     }
 
@@ -353,7 +346,8 @@ class ExploreActivity : Fragment(){
 
             })
 
-        ScrollDownListener().show(this@ExploreActivity.requireContext(), profile_list_explore, object : ScrollDownListener.HideShow{
+        ScrollDownListener()
+            .show(this@ExploreActivity.requireContext(), profile_list_explore, object : ScrollDownListener.HideShow{
             override fun onCallback(animate: String) {
                 println("=======we have call back $animate and $listenerExplore")
                 listenerExplore?.onFragmentInteractionExplore(this@ExploreActivity, animate)

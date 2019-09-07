@@ -1,8 +1,9 @@
 package com.photoglyde.justincornelius.photoglyde.VideoPlayback
 
-import android.media.MediaPlayer
+
 
 interface VideoControllerContract {
+
     interface Presenter {
 
         fun deactivate()

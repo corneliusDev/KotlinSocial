@@ -9,7 +9,7 @@ import android.widget.TextView
 import com.photoglyde.justincornelius.photoglyde.R
 import kotlinx.android.synthetic.main.location_container.view.*
 
-class LocationAddAdapter(val userList: ArrayList<String?>, val clickListener: (ArrayList<String?>, Int) -> Unit) : RecyclerView.Adapter<LocationAddAdapter.ViewHolder>() {
+class LocationAddAdapter(private val userList: ArrayList<String?>, private val clickListener: (ArrayList<String?>, Int) -> Unit) : RecyclerView.Adapter<LocationAddAdapter.ViewHolder>() {
     //this method is returning the view for each item in the list
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.location_container, parent, false)

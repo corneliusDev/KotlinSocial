@@ -22,6 +22,11 @@ val HEADER = "header"
 val USER = "user"
 val HTTP = "http"
 val FILE_LOAD = "FILE_LOAD"
+val MAP_OPEN = "Map Open"
+val ANI_DURATION = 500L
+val CLOSE = "close"
+val CAMERA = "camera"
+val TRANSLATION_Y = "translationY"
 
 
 object NEWS {

@@ -14,6 +14,10 @@ import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals
 import com.photoglyde.justincornelius.photoglyde.Helper
 
 import kotlinx.android.synthetic.main.activity_video.*
+import android.support.v4.view.ViewCompat.setRotation
+
+
+
 
 class VideoActivity : AppCompatActivity(), VideoControllerContract.View {
 
@@ -56,6 +60,7 @@ class VideoActivity : AppCompatActivity(), VideoControllerContract.View {
         presenter.deactivate()
         presenter.setMediaSessionState(false)
     }
+
 
     private fun init(uri:String?, seekPos:Int) {
         presenter = VideoPresenter(this)
@@ -171,7 +176,7 @@ class VideoActivity : AppCompatActivity(), VideoControllerContract.View {
     companion object {
 
         const val VIDEO_URL_EXTRA = "video_url_extra"
-        val EXTRA_PARAM_ID = "place_id"
+        private val EXTRA_PARAM_ID = "place_id"
 
         fun newIntent(context: Context, position: Int): Intent {
             println("=======thid id my position $position")

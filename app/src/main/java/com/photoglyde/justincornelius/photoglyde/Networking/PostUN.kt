@@ -28,7 +28,7 @@ class PostUN {
     var UID = ""
 
 
-    fun postData(data: Any, categoriesList:ArrayList<String>, type:String) {
+    private fun postData(data: Any, categoriesList:ArrayList<String>, type:String) {
 
         var count = 0
         val postThis = data
@@ -63,30 +63,13 @@ class PostUN {
 
 
 
-//    fun postCategory(){
-//
-//        val ref = FirebaseDatabase.getInstance().getReference(GlobalVals.CATEGORY)
-//
-//        for (i in GlobalVals.listCateg){
-//
-//            val data = CoreUnSplash()
-//            data.categ_created = Helper.getDateTimeLong().toString()
-//            data.categ_image_uri = ""
-//            data.categ_name = i
-//
-//            ref.child(i).setValue(data)
-//
-//        }
-//
-//    }
-
-
 
     fun downloadCategs(finished:DownloadCategories){
 
         val ref = FirebaseDatabase.getInstance().getReference(GlobalVals.CATEGORY)
 
         ref.addListenerForSingleValueEvent(object : ValueEventListener{
+
             override fun onCancelled(p0: DatabaseError) {
                 finished.onCallBack(false)
             }

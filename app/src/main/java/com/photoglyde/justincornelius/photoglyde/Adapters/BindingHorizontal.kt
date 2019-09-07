@@ -1,29 +1,20 @@
 package com.photoglyde.justincornelius.photoglyde.Adapters
 
 import android.content.Context
-import android.graphics.BitmapFactory
 import android.graphics.Color
-import android.support.v7.graphics.Palette
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.photoglyde.justincornelius.photoglyde.Data.Data
-import com.photoglyde.justincornelius.photoglyde.Data.FoodNames
 import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals
-import com.photoglyde.justincornelius.photoglyde.Data.UserInfo
 import com.photoglyde.justincornelius.photoglyde.R
-import com.photoglyde.justincornelius.photoglyde.R.id.card
-import com.photoglyde.justincornelius.photoglyde.R.id.placeName
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.horizontal_rows.view.*
 import kotlinx.android.synthetic.main.horizontal_rows_circular.view.*
 import kotlinx.android.synthetic.main.horizontal_rows_explore_categs.view.*
 import kotlinx.android.synthetic.main.news_layout.view.*
-import kotlinx.android.synthetic.main.news_layout_copy.view.*
-import kotlinx.android.synthetic.main.vertical_rows.view.*
 
 
 class BindingHorizontal(private var context: Context, private var layoutViews:Int) : RecyclerView.Adapter<BindingHorizontal.ViewHolder>() {

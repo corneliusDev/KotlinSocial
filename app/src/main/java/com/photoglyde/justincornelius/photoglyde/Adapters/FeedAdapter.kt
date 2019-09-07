@@ -1,98 +1,54 @@
 package com.photoglyde.justincornelius.photoglyde.Adapters
 
-import android.arch.paging.PagedList
+
 import android.arch.paging.PagedListAdapter
-import android.content.Context
-import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
-import android.os.Build
-import android.os.VibrationEffect
-import android.os.Vibrator
-import android.service.autofill.UserData
 import android.support.constraint.ConstraintLayout
-import android.support.v4.content.ContextCompat
-import android.support.v4.view.GestureDetectorCompat
-import android.support.v7.graphics.Palette
-import android.support.v7.widget.CardView
-import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.StaggeredGridLayoutManager
-import android.view.*
-import android.widget.*
-import com.bartoszlipinski.viewpropertyobjectanimator.ViewPropertyObjectAnimator
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.FrameLayout
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout
 import com.google.android.exoplayer2.ui.PlayerView
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView
 import com.photoglyde.justincornelius.photoglyde.Data.*
-import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals.CATEGORY
-import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals.transitionRatioHeight
 import com.photoglyde.justincornelius.photoglyde.Networking.sameCheckDifficulti
 import com.photoglyde.justincornelius.photoglyde.R
-import com.photoglyde.justincornelius.photoglyde.R.id.*
-
-
 import com.squareup.picasso.Picasso
-import com.squareup.picasso.RequestCreator
 import im.ene.toro.ToroPlayer
 import im.ene.toro.ToroUtil
 import im.ene.toro.exoplayer.ExoPlayerViewHelper
-
 import im.ene.toro.media.PlaybackInfo
 import im.ene.toro.widget.Container
-import kotlinx.android.synthetic.main.activity_camera_api.view.*
-import kotlinx.android.synthetic.main.activity_news_web_view.view.*
-import kotlinx.android.synthetic.main.adapter_row.view.*
 import kotlinx.android.synthetic.main.adapter_row_similar.view.*
-import kotlinx.android.synthetic.main.adapter_row_video.view.*
-import kotlinx.android.synthetic.main.button_profile.view.*
 import kotlinx.android.synthetic.main.cell_header_profile.view.*
 import kotlinx.android.synthetic.main.full_view.view.*
 import kotlinx.android.synthetic.main.horizontal_rows.view.*
 import kotlinx.android.synthetic.main.layout_header.view.*
 import kotlinx.android.synthetic.main.nested_favorites.view.*
 import kotlinx.android.synthetic.main.nested_recycler.view.*
-import kotlinx.android.synthetic.main.news_layout.view.*
-import kotlinx.android.synthetic.main.news_layout_copy.view.*
-import kotlinx.android.synthetic.main.post_bottom_button.view.*
-import kotlinx.android.synthetic.main.profile_header.view.*
 import kotlinx.android.synthetic.main.profile_top.view.*
-import kotlinx.android.synthetic.main.vertical_rows.view.*
 import kotlinx.android.synthetic.main.view_holder_exoplayer_basic.view.*
-import kotlinx.android.synthetic.main.view_image_previewer.*
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.io.File
 
 
 class
-FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>(
-    sameCheckDifficulti()) {
+FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>(sameCheckDifficulti()) {
 
     private val viewPool = RecyclerView.RecycledViewPool()
 
   lateinit var itemClickListener: OnItemClickListener
 
-  lateinit var itemView:View
+  private lateinit var itemView:View
 
-
-    lateinit var onItemTouchListener: speakTouchListener
 
     lateinit var onItemLockClickListener: OnItemLockClickListener
 
 
-
-
-
-  //  private val mDetector: GestureDetector = GestureDetector(context, listenerAdapter)
-
-
-
-
   override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SimplePlayerViewHolder {
-
 
 
     when(viewType){
@@ -109,8 +65,6 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
         5 -> itemView = LayoutInflater.from(parent.context).inflate(R.layout.horizontal_rows, parent, false)
 
-       // 5 -> itemView = LayoutInflater.from(parent.context).inflate(R.layout.nested_recycler, parent, false)
-
         6 -> itemView = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_exoplayer_basic, parent, false)
 
         7 -> itemView = LayoutInflater.from(parent.context).inflate(R.layout.full_view, parent, false)
@@ -121,6 +75,8 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
         10 -> itemView = LayoutInflater.from(parent.context).inflate(R.layout.button_profile, parent, false)
 
         11 -> itemView = LayoutInflater.from(parent.context).inflate(R.layout.profile_top, parent, false)
+
+        12 -> itemView = LayoutInflater.from(parent.context).inflate(R.layout.nested_recycler, parent, false)
 
 
 
@@ -215,7 +171,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
             //header.setMargins(40, 20, 40, 40)
             val headerText = holder.itemView.header
-            headerText.text = "created by me"
+
 
         //    val headerTextMargin = holder.itemView.header as LinearLayout.LayoutParams
             //headerTextMargin.setMargins(40,40,40,40)
@@ -302,7 +258,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
             header.setMargins(40, 0, 40, 0)
             val headerText = holder.itemView.header
-            headerText.text = "created by me"
+            //headerText.text = "created by me"
 
                 //  val headerTextMargin = holder.itemView.header as LinearLayout.LayoutParams
             //headerTextMargin.setMargins(40,40,40,40)
@@ -388,65 +344,6 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
 
 
-    }else if (holder.itemViewType == 3){
-
-        val item = GlobalVals.savedNews[position]
-        val resources = holder.itemView.context.resources
-
-        val image = item.urlToImage
-        //val width = item?.mediaa?.first()?.media_metadata?.last()?.width?.toDouble()
-        //val height = item?.mediaa?.first()?.media_metadata?.last()?.height?.toDouble()
-
-        val title = item.title
-        val target = holder.itemView.stock_image
-        val imageTarget = holder.itemView.imageHere
-        val abstract = holder.itemView.abstracts
-
-        val windowWidth = GlobalVals.widthWindow.toDouble().div(1.05)
-        val windowHeight = GlobalVals.widthWindow.toDouble().div(1.2)
-
-        val ratio = windowHeight.div(windowWidth)
-
-        val finalWidth = windowWidth.toInt()/1.3
-        val finalHeight = windowHeight.times(ratio).toInt() - 30
-
-        val resize = target.layoutParams as LinearLayout.LayoutParams
-
-
-        resize.width = finalWidth.toInt()
-        resize.height = finalHeight
-
-       // val news_target = holder.itemView.news_target as LinearLayout.LayoutParams
-       // news_target.setMargins(0,0,0,0)
-
-        resize.setMargins(0,0,0,0)
-
-
-        //abstract.layoutParams.width = finalWidth
-
-
-       // abstract.text = item?.description
-
-
-
-        println(
-            "=========api dimensions ${finalWidth} and ${finalHeight} and ${finalHeight.div(finalWidth)} and ${GlobalVals.widthWindow} and ${GlobalVals.widthWindow.times(
-                finalHeight.div(finalWidth)
-            )} and ${GlobalVals.widthWindow.times(finalHeight.div(finalWidth)).toInt()}"
-        )
-
-
-        //resize.height = GlobalVals.widthWindow.toDouble().times(ratio)
-
-        println(
-            "we are im the news apadper ${title} widthWindow ${GlobalVals.widthWindow} ratio $ratio width ${GlobalVals.widthWindow / 2} height ${GlobalVals.widthWindow.times(
-                ratio.toInt()
-            )}"
-        )
-
-        Picasso.get().load(image).fit().into(imageTarget)
-
-
     }else if(holder.itemViewType == 4){
 
         val target = holder.itemView.header_news
@@ -454,7 +351,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 //        val targetMargins = holder.itemView.layoutHeader as LinearLayout
 //        targetMargins.setMargins(40,0,40,40)
 
-        target.text = "Top Videos this Week"
+        target.text = holder.itemView.context.getText(R.string.top_videos)
 
        // println("======profile adapter check ${layoutViews.size} and ${layoutViews}")
 
@@ -467,7 +364,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
 
         val categoryText = holder.itemView.placeNameH
-        categoryText.text = "Womans Style"
+
 
         Picasso.get().load(getItem(position)?.categ_image_uri)
             .fit()
@@ -495,67 +392,64 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
         val exoImageMargins = holder.itemView.exo_image.layoutParams as RelativeLayout.LayoutParams
         val resize = holder.itemView.exo_image.layoutParams
         val playerWrapper = holder.itemView.card_linear.layoutParams as StaggeredGridLayoutManager.LayoutParams
-        val URI = "https://thedailyhustleonline.com/wp-content/uploads/2017/10/circular-profile-image.png"
-       // autoHeightChild.width = GlobalVals.widthWindow/2
         val anim = holder.itemView.load_video.layoutParams
         holder.itemView.card.elevation = 0f
-
-
         var width = GlobalVals.widthWindow
-        if (GlobalVals.whatsNew) {
-            width = GlobalVals.widthWindow/2
-            cardLinear.height = width
-            holder.itemView.card.radius = 30f
-            holder.itemView.botton_buttons.visibility = View.GONE
-            val changeMargins = holder.itemView.card.layoutParams as ConstraintLayout.LayoutParams
-            holder.itemView.video_back.setBackgroundResource(R.color.gray)
-            exoImageMargins.setMargins(0,0,0,0)
-            playerMargins.setMargins(0,0,0,0)
-            changeMargins.setMargins(30,20,30,20)
-            playerWrapper.setMargins(40,40,40,40)
+
+        when {
+            GlobalVals.whatsNew -> {
+                width = GlobalVals.widthWindow/2
+                cardLinear.height = width
+                holder.itemView.card.radius = 30f
+                holder.itemView.botton_buttons.visibility = View.GONE
+                val changeMargins = holder.itemView.card.layoutParams as ConstraintLayout.LayoutParams
+                holder.itemView.video_back.setBackgroundResource(R.color.gray)
+                exoImageMargins.setMargins(0,0,0,0)
+                playerMargins.setMargins(0,0,0,0)
+               // changeMargins.setMargins(10,20,10,20)
+                playerWrapper.setMargins(30,30,30,30)
 
 
 
-            holder.itemView.player.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
-            holder.itemView.load_video.visibility = View.GONE
+                holder.itemView.player.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+                holder.itemView.load_video.visibility = View.GONE
 
-        }else if (GlobalVals.videoWatch){
-            holder.itemView.cell_header_bottom.visibility = View.GONE
-            width = GlobalVals.widthWindow
-            playerMargins.height = width
-            holder.itemView.card.radius = 0f
+            }
+            GlobalVals.videoWatch -> {
+                holder.itemView.cell_header_bottom.visibility = View.GONE
+                width = GlobalVals.widthWindow
+                playerMargins.height = width
+                holder.itemView.card.radius = 0f
 
-            holder.itemView.botton_buttons.visibility = View.GONE
-            holder.itemView.cell_header.visibility = View.VISIBLE
-            holder.itemView.video_back.setBackgroundResource(R.color.gray)
-            holder.itemView.player.showController()
-            val changeMargins = holder.itemView.card.layoutParams as ConstraintLayout.LayoutParams
-            holder.itemView.player.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
-            holder.itemView.player.showController()
-            changeMargins.setMargins(0,100,0,100)
-            playerMargins.setMargins(0,0,0,0)
-            exoImageMargins.setMargins(0,0,0,0)
-            playerWrapper.setMargins(0,0,0,10)
-            Picasso.get().load(item?.video_image).into(holder.itemView.profile_image)
+                holder.itemView.botton_buttons.visibility = View.GONE
+                holder.itemView.cell_header.visibility = View.VISIBLE
+                holder.itemView.video_back.setBackgroundResource(R.color.gray)
+                holder.itemView.player.showController()
+                val changeMargins = holder.itemView.card.layoutParams as ConstraintLayout.LayoutParams
+                holder.itemView.player.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+                holder.itemView.player.showController()
+                changeMargins.setMargins(0,100,0,100)
+                playerMargins.setMargins(0,0,0,0)
+                exoImageMargins.setMargins(0,0,0,0)
+                playerWrapper.setMargins(0,0,0,10)
+                Picasso.get().load(item?.video_image).into(holder.itemView.profile_image)
+            }
+            else -> {
 
+                holder.itemView.cell_header_bottom.visibility = View.GONE
+                width = GlobalVals.widthWindow
+                holder.itemView.card.radius = 0f
+                holder.itemView.botton_buttons.visibility = View.GONE
+                holder.itemView.cell_header.visibility = View.GONE
+                val changeMargins = holder.itemView.exo_margin.layoutParams as FrameLayout.LayoutParams
+                holder.itemView.player.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
+                changeMargins.setMargins(0,40,0,40)
+                holder.itemView.load_video.visibility = View.GONE
+                playerMargins.setMargins(0,0,0,0)
+                exoImageMargins.setMargins(0,0,0,0)
+                holder.itemView.text_underlay_video.visibility = View.GONE
 
-
-
-        }else{
-
-            holder.itemView.cell_header_bottom.visibility = View.GONE
-            width = GlobalVals.widthWindow
-            holder.itemView.card.radius = 0f
-            holder.itemView.botton_buttons.visibility = View.GONE
-            holder.itemView.cell_header.visibility = View.GONE
-            val changeMargins = holder.itemView.exo_margin.layoutParams as FrameLayout.LayoutParams
-            holder.itemView.player.resizeMode = AspectRatioFrameLayout.RESIZE_MODE_FILL
-            changeMargins.setMargins(0,40,0,40)
-            holder.itemView.load_video.visibility = View.GONE
-            playerMargins.setMargins(0,0,0,0)
-            exoImageMargins.setMargins(0,0,0,0)
-            holder.itemView.text_underlay_video.visibility = View.GONE
-
+            }
         }
         val ratio = item?.height?.div(item.width!!)
         val height = width.times(ratio!!)
@@ -624,7 +518,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
       //  "/data/user/0/com.photoglyde.justincornelius.photoglyde/files/food.jpg"
 
-        Picasso.get().load(item?.urls?.regular).into(holder.itemView.placeImageHere)
+        Picasso.get().load(item.urls?.regular).into(holder.itemView.placeImageHere)
         holder.itemView.placeImageHere.bringToFront()
 
         holder.itemView.text_underlay.bringToFront()
@@ -646,7 +540,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
             val childLayoutManager = StaggeredGridLayoutManager(1, LinearLayout.HORIZONTAL)
 
             val header = holder.itemView.horizontal_name
-            header.text = "WatchList"
+            header.text = holder.itemView.context.getText(R.string.watch_list)
             holder.itemView.rv_child.apply {
 
                 this.layoutManager = childLayoutManager
@@ -659,6 +553,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
 
     }else if (holder.itemViewType == 9) {
+
         val item = getItem(position)
 
         val resources = holder.itemView.context.resources
@@ -696,7 +591,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
         //header.setMargins(40, 20, 40, 40)
         val headerText = holder.itemView.header
-        headerText.text = "created by me"
+
 
         //    val headerTextMargin = holder.itemView.header as LinearLayout.LayoutParams
         //headerTextMargin.setMargins(40,40,40,40)
@@ -776,7 +671,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
         fun onItemClick(view: View, position: Int, data:CoreUnSplash)
     }
 
-    fun setOnItemClickListener(itemClickListener: FeedAdapter.OnItemClickListener) {
+    fun setOnItemClickListener(itemClickListener: OnItemClickListener) {
         this.itemClickListener = itemClickListener
     }
 
@@ -806,16 +701,14 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
 
     inner class SimplePlayerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), ToroPlayer,
-        View.OnClickListener,
-
-        View.OnLongClickListener {
+        View.OnClickListener, View.OnLongClickListener {
 
 
-        lateinit var playerView: PlayerView
+        private lateinit var playerView: PlayerView
         private var helper: ExoPlayerViewHelper? = null
-        var mediaUri:Uri? = null
+        private var mediaUri:Uri? = null
        // lateinit var itemClickListener: FeedAdapter.OnItemClickListener
-        var listenerTorro: ToroPlayer.EventListener? = null
+       private var listenerTorro: ToroPlayer.EventListener? = null
 
 
 
@@ -852,18 +745,6 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
 
         }
-
-
-//    override fun onClick(p0: View?) {
-//        println("======== video clciked")
-//        var resizePlayer = playerView.layoutParams
-//        resizePlayer?.width = GlobalVals.widthWindow
-//        //resizePlayer.setMargins(0,0,0,0)
-//
-//    }
-
-        var donw = true
-
 
         override fun onLongClick(p0: View?): Boolean {
 
@@ -1044,17 +925,9 @@ println("=====lock click")
         this.onItemLockClickListener = onItemLockClickListener
     }
 
-    interface speakTouchListener {
 
-        fun onTouch(p0: View?, p1: MotionEvent?)
 
-    }
 
-    fun setTouchListener(onItemTouchListener: speakTouchListener){
-
-        this.onItemTouchListener = onItemTouchListener
-
-    }
 
 
 

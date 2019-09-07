@@ -39,7 +39,6 @@ import com.google.firebase.database.ValueEventListener
 import com.photoglyde.justincornelius.photoglyde.Data.CoreUnSplash
 import com.photoglyde.justincornelius.photoglyde.Data.FEED
 import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals
-import com.photoglyde.justincornelius.photoglyde.Data.GrabImageData
 import com.photoglyde.justincornelius.photoglyde.Helper
 
 
@@ -50,94 +49,56 @@ class ImageDataSource (child1:String?, child2:String?, nodeCount:Int?) : PageKey
 
 
 
-init {
+    init {
 
-    when(nodeCount){
+        when(nodeCount){
 
-        1 -> mDataBaseReference = FirebaseDatabase.getInstance().getReference(child1.toString())
+            1 -> mDataBaseReference = FirebaseDatabase.getInstance().getReference(child1.toString())
 
-        2 -> mDataBaseReference = FirebaseDatabase.getInstance().getReference(child1.toString()).child(child2.toString())
+            2 -> mDataBaseReference = FirebaseDatabase.getInstance().getReference(child1.toString()).child(child2.toString())
+
+        }
+
 
     }
 
-
-}
-
-
-
-
-
-
-
-
-    override fun loadInitial(
-
-            params: LoadInitialParams<String>,
-            callback: LoadInitialCallback<String, CoreUnSplash>) {
+    override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<String, CoreUnSplash>) {
 
 
         mDataBaseReference.orderByKey().limitToFirst(10).addListenerForSingleValueEvent(
     object : ValueEventListener {
         override fun onCancelled(p0: DatabaseError) {
-           println("========operation is cancelled")
+
         }
 
         override fun onDataChange(p0: DataSnapshot) {
+
             if (p0.exists()) {
 
-
-
                 val listing = p0
-
-                println()
-
-
-
 
                 var redditPosts = listing.children.map {
                     it.getValue(CoreUnSplash::class.java)
 
                 }
 
-
-
-                                                    println("here is my list check1 ${redditPosts.size}")
-
-
-
-                                    if (GlobalVals.whatsNew && !GlobalVals.cameFromExa){
-                                        redditPosts = Helper.main(redditPosts)
-                                    }else if (GlobalVals.videoWatch){
-                                        redditPosts = Helper.main(redditPosts)
-                                    }else if (!GlobalVals.cameFromExa){
-                                        redditPosts = Helper.main(redditPosts)
-                                    }
-
-
-                                    println("here is my list check2 ${redditPosts.size}")
-//
-//                                    redditPosts.forEach {
-//
-//                                        GlobalVals.imageClassUser.add(it)
-//
-//                                    }
-
-
-
+                if (GlobalVals.whatsNew && !GlobalVals.cameFromExa){
+                    redditPosts = Helper.main(redditPosts)
+                }else if (GlobalVals.videoWatch){
+                    redditPosts = Helper.main(redditPosts)
+                }else if (!GlobalVals.cameFromExa){
+                    redditPosts = Helper.main(redditPosts)
+                }
 
                 callback.onResult(redditPosts, listing.children.first().key, listing.children.last().key)
 
-println("================check data  ${p0.children.first().key} and last ${p0.children.last().key}")
-                println("======list initial ${p0.childrenCount}")
             }
         }
     })
 }
     
-    override fun loadAfter(
-            params: LoadParams<String>,
-            callback: LoadCallback<String, CoreUnSplash>) {
-        println("=====on load after ${params.key}")
+    override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<String, CoreUnSplash>) {
+
         mDataBaseReference.startAt(params.key).orderByKey().limitToFirst(10)
                 .addListenerForSingleValueEvent(
                         object : ValueEventListener {
@@ -148,17 +109,8 @@ println("================check data  ${p0.children.first().key} and last ${p0.ch
                             override fun onDataChange(p0: DataSnapshot) {
                                 if (p0.exists()) {
 
-
-                                    println("======list2after ${p0.childrenCount}")
-
-//
                                     val listing = p0
 
-
-
-
-
-                                   // print("here is my list ${GlobalVals.imageClassUser.size}")
                                     var redditPosts = listing.children.map {
                                         it.getValue(CoreUnSplash::class.java)
                                     }
@@ -171,25 +123,6 @@ println("================check data  ${p0.children.first().key} and last ${p0.ch
                                     }else if (!GlobalVals.cameFromExa){
                                       //  redditPosts = Helper.main(redditPosts)
                                     }
-
-//                                    print("here is my list check1 ${redditPosts.size}")
-//
-//
-//                                    redditPosts = Helper.main(redditPosts)
-//
-//                                    print("here is my list check2 ${redditPosts.size}")
-
-//                                    redditPosts.forEach {
-//
-//                                        GlobalVals.imageClassUser.add(it)
-//
-//                                    }
-
-                                  //  println("================grabbing list ${GlobalVals.imageClassUser.size} and ${GlobalVals.imageClassUser.first()}")
-
-                                    println("=====values first and last ${listing.children.first().key} and ${listing.children.last().key} and ${p0.key}")
-
-
 
                                         if (params.key == listing.children.last().key){
                                             callback.onResult(null ?: listOf(), listing.children.last().key)
@@ -209,37 +142,22 @@ println("================check data  ${p0.children.first().key} and last ${p0.ch
     override fun loadBefore(
             params: LoadParams<String>,
             callback: LoadCallback<String, CoreUnSplash>) {
-        println("=====on load before ${params.key}")
         mDataBaseReference.startAt(params.key)
                 .addListenerForSingleValueEvent(
                         object : ValueEventListener {
+
                             override fun onCancelled(p0: DatabaseError) {
                                 TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
                             }
 
                             override fun onDataChange(p0: DataSnapshot) {
                                 if (p0.exists()) {
-
-                                    println("===========testing values1 ---- ${p0.childrenCount}")
-
-                                    println("===========testing values2 ---- ${p0.children.forEach {
-                                        //println("==============inside 4 ${it.key} and ${it.value}")
-                                    }}")
-
-                                    println("===========testing values3 ---- ${p0.key}")
-
-
-                                    println("======list2 ${p0.value}")
-
 //
                                     val listing = p0
-                                    val new = listing.children.map { println("=======check setter ${it.value}") }
 
-                                    print("here is my list ${new.size}")
                                     val redditPosts = listing.children.map { it.getValue(CoreUnSplash::class.java) }
 
-                                    println("=====values first and last ${listing.children.first().key} and ${listing.children.last().key}")
-                                        callback.onResult(redditPosts, listing.children.first().key)
+                                    callback.onResult(redditPosts, listing.children.first().key)
 
 
 

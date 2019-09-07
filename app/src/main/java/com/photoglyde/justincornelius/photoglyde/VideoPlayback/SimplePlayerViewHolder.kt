@@ -1,43 +1,5 @@
 package com.photoglyde.justincornelius.photoglyde.VideoPlayback
 
-import android.drm.DrmStore
-import android.net.Uri
-
-import im.ene.toro.ToroUtil
-
-import com.google.android.exoplayer2.ui.SimpleExoPlayerView
-import im.ene.toro.ToroPlayer
-import android.support.v7.widget.RecyclerView
-import android.view.View
-import android.widget.LinearLayout
-import com.bumptech.glide.Glide.init
-import com.google.android.exoplayer2.DefaultLoadControl
-import com.google.android.exoplayer2.DefaultRenderersFactory
-import com.google.android.exoplayer2.ExoPlayerFactory
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.trackselection.DefaultTrackSelector
-import com.google.android.exoplayer2.ui.PlayerView
-import com.photoglyde.justincornelius.photoglyde.Adapters.FeedAdapter
-import com.photoglyde.justincornelius.photoglyde.Adapters.ImageAdapter
-import com.photoglyde.justincornelius.photoglyde.Adapters.ProfileAdapter
-import com.photoglyde.justincornelius.photoglyde.Data.Configuration
-import com.photoglyde.justincornelius.photoglyde.Data.CoreUnSplash
-
-import com.photoglyde.justincornelius.photoglyde.Data.GlobalVals
-
-import com.photoglyde.justincornelius.photoglyde.R
-
-import im.ene.toro.exoplayer.ExoCreator
-import im.ene.toro.exoplayer.ExoPlayerViewHelper
-import im.ene.toro.exoplayer.Playable
-import im.ene.toro.media.PlaybackInfo
-import im.ene.toro.widget.Container
-import kotlinx.android.synthetic.main.activity_main.view.*
-import kotlinx.android.synthetic.main.adapter_row_similar.view.*
-import kotlinx.android.synthetic.main.full_view.view.*
-import kotlinx.android.synthetic.main.view_holder_exoplayer_basic.view.*
-import java.util.*
-
 
 //class SimplePlayerViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), ToroPlayer,
 //    View.OnClickListener,

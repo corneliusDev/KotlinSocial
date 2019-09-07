@@ -13,15 +13,14 @@
               android:orientation="horizontal"
 >
 
-    <de.hdodenhof.circleimageview.CircleImageView
+    <ImageView
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profile_image"
             android:layout_width="50dp"
 
             android:layout_height="50dp"
             android:src="@drawable/coffee_cup"
-
-            app:civ_border_color="#FF000000"/>
+/>
 
     <LinearLayout android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
