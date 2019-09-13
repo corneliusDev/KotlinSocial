@@ -55,7 +55,7 @@
         <activity android:name=".Camera.PhotoEditor">
         </activity>
         <activity
-                android:name=".MainActivity"
+                android:name=".UI.MainActivity"
                 android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -64,7 +64,7 @@
             </intent-filter>
         </activity>
         <activity
-                android:name=".ExapandDetailActivity"
+                android:name=".UI.activity.ExapandDetailActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity> <!-- <activity -->
         <!-- android:name=".Sam" -->

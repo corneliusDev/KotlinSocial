@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-                                            xmlns:app="http://schemas.android.com/apk/res-auto"
-                                            android:id="@+id/scrollview"
-                                            xmlns:tools="http://schemas.android.com/tools"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:background="@color/white"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+                                       xmlns:app="http://schemas.android.com/apk/res-auto"
+                                       android:id="@+id/scrollview"
+                                       xmlns:tools="http://schemas.android.com/tools"
+                                       android:layout_width="match_parent"
+                                       android:layout_height="wrap_content"
+                                       android:background="@color/theme"
 
 
 
 
 
-                                            app:layout_behavior="@string/appbar_scrolling_view_behavior"
+                                       app:layout_behavior="@string/appbar_scrolling_view_behavior"
 
-                                            tools:showIn="@layout/activity_detail">
+                                       tools:showIn="@layout/activity_detail">
 
 
 
@@ -39,8 +39,8 @@
                     <!--android:id="@+id/linearLay2" android:textSize="20sp"-->
             <!--/>-->
 
-            <android.support.v7.widget.RecyclerView
-                    android:id="@+id/listVertical2"
+            <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/expanded_staggered_list"
                     android:layout_width="match_parent"
                     android:layout_height="1000dp"
                     android:orientation="vertical"
@@ -60,4 +60,4 @@
 
 
 
-</android.support.v4.widget.NestedScrollView>
+</androidx.core.widget.NestedScrollView>

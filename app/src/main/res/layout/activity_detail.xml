@@ -71,7 +71,7 @@
 
 
 
-    <android.support.design.widget.FloatingActionButton
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
       android:id="@+id/addButton"
       android:layout_width="@dimen/floating_button_size"
       android:layout_height="@dimen/floating_button_size"

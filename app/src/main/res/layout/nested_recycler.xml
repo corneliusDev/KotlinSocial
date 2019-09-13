@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-                                    xmlns:card_view="http://schemas.android.com/apk/res-auto"
-                                    xmlns:tools="http://schemas.android.com/tools"
-                                    android:id="@+id/card_view"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginBottom="1dp"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                   xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                                   xmlns:tools="http://schemas.android.com/tools"
+                                   android:id="@+id/card_view"
+                                   android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_marginBottom="1dp"
 
-                                    card_view:cardBackgroundColor="@color/theme"
+                                   card_view:cardBackgroundColor="@color/theme"
 
 
-                                    card_view:cardElevation="0dp"
+                                   card_view:cardElevation="0dp"
                                     >
 
     <LinearLayout
@@ -32,7 +32,7 @@
                 android:textColor="@color/dark_gray"
                 android:textStyle="bold" android:fontFamily="@font/noto_sans_bold" android:textSize="20sp"/>
 
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rv_child"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -43,4 +43,4 @@
 
     </LinearLayout>
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>

@@ -38,7 +38,6 @@ class Configuration : Application() {
 
         exoCreator = ToroExo.with(this).getCreator(config1)
 
-        println("====demo on create $config1 and $exoCreator")
     }
 
     override fun onTrimMemory(level: Int) {

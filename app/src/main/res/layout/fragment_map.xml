@@ -6,7 +6,7 @@
               android:orientation="vertical"
               android:gravity="center_horizontal"
 
-              tools:context=".Web.MapFragment">
+              tools:context=".UI.map.MapFragment">
 
     <ImageView android:layout_width="wrap_content"
                android:layout_height="30dp"
@@ -15,10 +15,10 @@
                android:src="@drawable/angle_arrow_down"
     />
 
-<android.support.v7.widget.CardView android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:layout_margin="10dp"
-                                    app:cardCornerRadius="20dp"
+<androidx.cardview.widget.CardView android:layout_width="match_parent"
+                                   android:layout_height="wrap_content"
+                                   android:layout_margin="10dp"
+                                   app:cardCornerRadius="20dp"
 >
 
 
@@ -28,11 +28,11 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:id="@+id/map"
-            tools:context=".Web.MapFragment"
+            tools:context=".UI.map.MapFragment"
             android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
 
 
-</android.support.v7.widget.CardView>
+</androidx.cardview.widget.CardView>
 
 </LinearLayout>
