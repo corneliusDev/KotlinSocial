@@ -28,32 +28,14 @@
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
+             Note that the API key is linked to the encryption key used to fingerLeftOrRight the APK.
              You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
+             fingerLeftOrRight the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/.
         -->
         <meta-data
                 android:name="com.google.android.geo.API_KEY"
                 android:value="@string/google_maps_key"/>
-
-        <activity
-                android:name=".MapsActivity"
-                android:label="@string/title_activity_maps">
-        </activity>
-        <activity
-                android:name=".Networking.NoConnection"
-                android:theme="@style/AppTheme">
-        </activity>
-        <activity
-                android:name=".Register"
-                android:theme="@style/Theme.AppCompat.Light.NoActionBar"
-                android:windowSoftInputMode="adjustPan">
-        </activity>
-        <activity android:name=".Camera.FinalPost">
-        </activity>
-        <activity android:name=".Camera.PhotoEditor">
-        </activity>
         <activity
                 android:name=".UI.MainActivity"
                 android:theme="@style/AppTheme">
@@ -66,71 +48,12 @@
         <activity
                 android:name=".UI.activity.ExapandDetailActivity"
                 android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        </activity> <!-- <activity -->
-        <!-- android:name=".Sam" -->
-        <!-- android:label="@string/title_activity_sample_tab" -->
-        <!-- android:theme="@style/AppTheme"> -->
-        <!-- </activity> -->
-        <activity
-                android:name=".Camera.CamerOpenActivity"
-                android:label="@string/title_activity_sample_tab"
-                android:theme="@style/AppTheme">
-        </activity> <!-- <activity -->
-        <!-- android:name=".Main" -->
-        <!-- android:label="@string/title_activity_main2" -->
-        <!-- android:theme="@style/AppTheme"> -->
-        <!-- </activity> -->
-        <activity
-                android:name=".OnBoardingActivity"
-                android:label="@string/title_activity_on_boarding"
-                android:theme="@style/AppTheme"
-                android:windowSoftInputMode="adjustResize">
         </activity>
-        <activity
-                android:name=".RegisterPage"
-                android:windowSoftInputMode="adjustPan">
-        </activity>
-        <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
-             (See the file res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
-             sign the APK for publishing.
-             You can define the keys for the debug and release targets in src/debug/ and src/release/.
-        -->
-        <!-- <meta-data -->
-        <!-- android:name="com.google.android.maps.v2.API_KEY" -->
-        <!-- android:value="@string/google_maps_key"/> -->
+
         <meta-data
                 android:name="preloaded_fonts"
                 android:resource="@array/preloaded_fonts"/>
 
-        <activity
-                android:name=".DeleveryNow"
-                android:label="DeleveryNow"
-                android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        </activity>
-        <activity
-                android:name=".Adapters.RetroFit"
-                android:label="@string/title_activity_retro_fit"
-                android:theme="@style/AppTheme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
-        </activity>
-        <activity android:name=".Web.NewsWebView">
-        </activity>
-        <activity
-                android:name=".Camera.EditPhoto"
-                android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        </activity>
-        <activity
-                android:name=".VideoPlayback.VideoActivity"
-                android:label="@string/title_activity_video"
-                android:theme="@style/AppTheme">
-        </activity>
     </application>
 
 </manifest>

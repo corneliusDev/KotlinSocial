@@ -15,6 +15,7 @@ import com.photoglyde.justincornelius.photoglyde.Data.ImageDataSource
 import com.photoglyde.justincornelius.photoglyde.R
 import com.photoglyde.justincornelius.photoglyde.UI.adapter.BindingHorizontal
 import com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter
+import com.photoglyde.justincornelius.photoglyde.UI.adapter.SimplePlayerViewHolder
 import com.photoglyde.justincornelius.photoglyde.utilities.FeedAdapterListener
 import com.photoglyde.justincornelius.photoglyde.utilities.Helper
 import com.photoglyde.justincornelius.photoglyde.utilities.PlayerSelectorOption
@@ -36,14 +37,16 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
 
     private val onItemClickListenerVertical = object : FeedAdapter.OnItemClickListener {
-        override fun onItemClick(view: View, position: Int, data:CoreUnSplash) {
+
+
+        override fun onItemClick(view: View, position: Int, data:CoreData) {
 
             var ref1:String? = ""
             var ref2:String? = ""
 
 
 
-            when(data.type){
+            when(data?.type){
 
                 GlobalValues.CATEGORY -> {
                     ref1 = PHOTOS
@@ -204,7 +207,7 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
         val liveData = initializedPagedListBuilder(config, ref1, ref2, count)
             .build()
 
-        liveData.observe(this, Observer<PagedList<CoreUnSplash>> { pagedList ->
+        liveData.observe(this, Observer<PagedList<CoreData>> { pagedList ->
             adapterProfile.submitList(pagedList)
         })
 
@@ -239,14 +242,14 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
     }
 
     private fun initializedPagedListBuilder(config: PagedList.Config, ref1:String?, ref2:String?, count:Int):
-            LivePagedListBuilder<String, CoreUnSplash> {
+            LivePagedListBuilder<String, CoreData> {
 
-        val dataSourceFactory = object : DataSource.Factory<String, CoreUnSplash>() {
-            override fun create(): DataSource<String, CoreUnSplash> {
+        val dataSourceFactory = object : DataSource.Factory<String, CoreData>() {
+            override fun create(): DataSource<String, CoreData> {
                 return ImageDataSource(ref1, ref2, count)
             }
         }
-        return LivePagedListBuilder<String, CoreUnSplash>(dataSourceFactory, config)
+        return LivePagedListBuilder<String, CoreData>(dataSourceFactory, config)
     }
 
 

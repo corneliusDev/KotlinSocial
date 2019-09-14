@@ -49,7 +49,7 @@ class BlankFragment2 : androidx.fragment.app.Fragment() {
     }
 
     private val onItemClickListenerVertical = object : FeedAdapter.OnItemClickListener {
-        override fun onItemClick(view: View, position: Int, data:CoreUnSplash) {
+        override fun onItemClick(view: View, position: Int, data:CoreData?) {
 
 
         }
@@ -135,7 +135,7 @@ class BlankFragment2 : androidx.fragment.app.Fragment() {
         val liveData = initializedPagedListBuilder(config, current_ref1, current_ref2, nodeCount).build()
 
 
-        liveData.observe(this, Observer<PagedList<CoreUnSplash>> { pagedList ->
+        liveData.observe(this, Observer<PagedList<CoreData>> { pagedList ->
 
 
             adapter.submitList(pagedList)
@@ -166,10 +166,10 @@ class BlankFragment2 : androidx.fragment.app.Fragment() {
     }
 
     private fun initializedPagedListBuilder(config: PagedList.Config, current_ref1:String?, current_ref2:String?, nodeCount: Int?):
-            LivePagedListBuilder<String, CoreUnSplash> {
+            LivePagedListBuilder<String, CoreData> {
 
-        val dataSourceFactory = object : DataSource.Factory<String, CoreUnSplash>() {
-            override fun create(): DataSource<String, CoreUnSplash> {
+        val dataSourceFactory = object : DataSource.Factory<String, CoreData>() {
+            override fun create(): DataSource<String, CoreData> {
 
                 return ImageDataSource(
                     current_ref1,
@@ -178,6 +178,6 @@ class BlankFragment2 : androidx.fragment.app.Fragment() {
                 )
             }
         }
-        return LivePagedListBuilder<String, CoreUnSplash>(dataSourceFactory, config)
+        return LivePagedListBuilder<String, CoreData>(dataSourceFactory, config)
     }
 }

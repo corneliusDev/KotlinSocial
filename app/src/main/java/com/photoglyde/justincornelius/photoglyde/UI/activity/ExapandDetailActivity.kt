@@ -29,7 +29,6 @@ import kotlin.math.roundToInt
 
 class ExapandDetailActivity : AppCompatActivity()  {
 
-    private lateinit var staggeredLayoutManager: androidx.recyclerview.widget.StaggeredGridLayoutManager
     private lateinit var toolbar: Toolbar
     var type:String? = ""
     private lateinit var adapterProfile: FeedAdapter
@@ -37,8 +36,7 @@ class ExapandDetailActivity : AppCompatActivity()  {
 
       companion object {
             fun newIntent(context: Context): Intent {
-              val intent = Intent(context, ExapandDetailActivity::class.java)
-              return intent
+                return Intent(context, ExapandDetailActivity::class.java)
             }
       }
 
@@ -49,14 +47,14 @@ class ExapandDetailActivity : AppCompatActivity()  {
 
     private val longClickListener = object : FeedAdapter.OnItemLockClickListener {
 
-        override fun onItemLongClick(view: View, position: Int, core:CoreUnSplash?) {
+        override fun onItemLongClick(view: View, position: Int, core:CoreData?) {
 
             GlobalValues.currentCore = core
 
             GlobalValues.sendIndexToDetail = position
 
             ImagePreview()
-                .show(this@ExapandDetailActivity, view.placeImage, object : ImagePreview.ExpandActivity{
+                .show(this@ExapandDetailActivity, view.placeImage, core, object : ImagePreview.ExpandActivity{
 
                 override fun onCallback(action:String) {
 
@@ -102,7 +100,7 @@ class ExapandDetailActivity : AppCompatActivity()  {
     }
 
     private val onItemClickListenerVertical = object : FeedAdapter.OnItemClickListener {
-        override fun onItemClick(view: View, position: Int, data:CoreUnSplash) {
+        override fun onItemClick(view: View, position: Int, data:CoreData?) {
 
             GlobalValues.isExpanded = true
             GlobalValues.awayFromFrag = true
@@ -228,7 +226,7 @@ class ExapandDetailActivity : AppCompatActivity()  {
         GlobalValues.test = GlobalValues.test + 1
 
         val liveData = initializedPagedListBuilder(config, ref1, ref2, count).build()
-        liveData.observe(this, androidx.lifecycle.Observer<PagedList<CoreUnSplash>> { pagedList ->
+        liveData.observe(this, androidx.lifecycle.Observer<PagedList<CoreData>> { pagedList ->
                 adapterProfile.submitList(pagedList)
         })
 
@@ -245,13 +243,13 @@ class ExapandDetailActivity : AppCompatActivity()  {
 
 
     private fun initializedPagedListBuilder(config: PagedList.Config, ref1:String?, ref2:String?, count:Int):
-            LivePagedListBuilder<String, CoreUnSplash> {
-        val dataSourceFactory = object : DataSource.Factory<String, CoreUnSplash>() {
-            override fun create(): DataSource<String, CoreUnSplash> {
+            LivePagedListBuilder<String, CoreData> {
+        val dataSourceFactory = object : DataSource.Factory<String, CoreData>() {
+            override fun create(): DataSource<String, CoreData> {
                 return ImageDataSource(ref1, ref2, count)
             }
         }
-        return LivePagedListBuilder<String, CoreUnSplash>(dataSourceFactory, config)
+        return LivePagedListBuilder<String, CoreData>(dataSourceFactory, config)
     }
 
     private fun setUpToolBar() {

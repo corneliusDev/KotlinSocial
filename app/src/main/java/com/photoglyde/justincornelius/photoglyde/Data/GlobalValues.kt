@@ -18,7 +18,7 @@ object GlobalValues {
     var cameFromMain = false
     var videoWatch = false
     val CATEGORY = "category"
-    var listCateg = ArrayList<CoreUnSplash?>()
-    var currentCore:CoreUnSplash? = null
+    var listCateg = ArrayList<CoreData?>()
+    var currentCore:CoreData? = null
     var cameFromExa = false
 }

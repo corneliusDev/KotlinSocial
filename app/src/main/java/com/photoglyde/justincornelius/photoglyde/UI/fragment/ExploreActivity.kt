@@ -5,16 +5,10 @@ import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
 import androidx.paging.PagedList
 import android.content.Context
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.os.Vibrator
 import androidx.core.app.ActivityCompat
-import androidx.core.app.ActivityOptionsCompat
-import androidx.core.util.Pair
 import android.view.*
 import com.photoglyde.justincornelius.photoglyde.Data.*
-import com.photoglyde.justincornelius.photoglyde.UI.activity.ExapandDetailActivity
 import com.photoglyde.justincornelius.photoglyde.UI.custom.ImagePreview
 import com.photoglyde.justincornelius.photoglyde.Data.ImageDataSource
 import com.photoglyde.justincornelius.photoglyde.R
@@ -35,13 +29,13 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
     private lateinit var adapterFeed: com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter
     private val listener3 = object : FeedAdapter1.OnItemLockClickListener {
        // , View.OnTouchListener {
-        override fun onItemLongClick(view: View, position: Int, core:CoreUnSplash?) {
+        override fun onItemLongClick(view: View, position: Int, core:CoreData?) {
 
            GlobalValues.currentCore = core
 
            GlobalValues.sendIndexToDetail = position
            
-           ImagePreview().show(this@ExploreActivity.requireContext(), view.placeImageHere, object : ImagePreview.ExpandActivity{
+           ImagePreview().show(this@ExploreActivity.requireContext(), view.placeImageHere, core, object : ImagePreview.ExpandActivity{
 
                 override fun onCallback(action:String) {
 
@@ -74,7 +68,7 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
 
     private val onItemClickListenerVertical = object : FeedAdapter1.OnItemClickListener {
 
-        override fun onItemClick(view: View, position: Int, data:CoreUnSplash) {
+        override fun onItemClick(view: View, position: Int, data:CoreData?) {
             ActivityCompat.startActivity(view.context, Helper.deliverIntent(data, this@ExploreActivity.requireContext(), null, null, 0),
                 Helper.deliverOptions(
                     view,
@@ -181,7 +175,7 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
             GlobalValues.test = GlobalValues.test + 1
 
             val liveData = initializedPagedListBuilder(config, FEED).build()
-            liveData.observe(this, Observer<PagedList<CoreUnSplash>> { pagedList ->
+            liveData.observe(this, Observer<PagedList<CoreData>> { pagedList ->
                 adapterFeed.submitList(pagedList)
             })
 
@@ -200,15 +194,15 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
 
 
     private fun initializedPagedListBuilder(config: PagedList.Config, ref:String):
-            LivePagedListBuilder<String, CoreUnSplash> {
+            LivePagedListBuilder<String, CoreData> {
 
-        val dataSourceFactory = object : DataSource.Factory<String, CoreUnSplash>() {
-            override fun create(): DataSource<String, CoreUnSplash> {
+        val dataSourceFactory = object : DataSource.Factory<String, CoreData>() {
+            override fun create(): DataSource<String, CoreData> {
 
                 return ImageDataSource(ref, "Explore", 2)
             }
         }
-        return LivePagedListBuilder<String, CoreUnSplash>(dataSourceFactory, config)
+        return LivePagedListBuilder<String, CoreData>(dataSourceFactory, config)
     }
 
 

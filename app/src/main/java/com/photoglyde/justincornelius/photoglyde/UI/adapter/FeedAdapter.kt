@@ -34,7 +34,7 @@ import kotlinx.android.synthetic.main.view_holder_exoplayer_basic.view.*
 
 
 class
-FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>( ItemsComparison()) {
+FeedAdapter : PagedListAdapter<CoreData, FeedAdapter.SimplePlayerViewHolder>( ItemsComparison()) {
 
     private val viewPool = androidx.recyclerview.widget.RecyclerView.RecycledViewPool()
 
@@ -162,17 +162,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
             val mBottom1 = holder.itemView.bottom1.layoutParams as LinearLayout.LayoutParams
             val mBottom2 = holder.itemView.bottom2.layoutParams as LinearLayout.LayoutParams
-            val header = holder.itemView.header.layoutParams as LinearLayout.LayoutParams
 
-            val buttonSeeAll = holder.itemView.button_see_all.layoutParams as LinearLayout.LayoutParams
-
-
-            //header.setMargins(40, 20, 40, 40)
-            val headerText = holder.itemView.header
-
-
-        //    val headerTextMargin = holder.itemView.header as LinearLayout.LayoutParams
-            //headerTextMargin.setMargins(40,40,40,40)
 
             mContainerTop.height = GlobalValues.heightWindow / 8
             mContainerBottom.height = GlobalValues.heightWindow / 8
@@ -200,17 +190,6 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
             Picasso.get().load(image1).into(holder.itemView.top1Image)
             Picasso.get().load(image2).into(holder.itemView.top2Image)
 
-           // buttonSeeAll.setMargins(40, 80, 40, 40)
-//
-//            holder.itemView.top1Image.setBackgroundResource(R.drawable.usej)
-//
-//            holder.itemView.top2Image.setBackgroundResource(R.drawable.usej)
-
-//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.top1Image)
-//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.top2Image)
-
-            println("======check width ${GlobalValues.widthWindow.toDouble().times(0.57).toInt()}")
-
             val bottomContainerWidthFirst = GlobalValues.widthWindow / 4 - shave
             val bottomContainerWidthFirstEnd = GlobalValues.widthWindow / 4 - shave
 
@@ -230,12 +209,6 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
             Picasso.get().load(image3).into(holder.itemView.bottom1Image)
             Picasso.get().load(image4).into(holder.itemView.bottom2Image)
 
-//
-//            holder.itemView.bottom1Image.setBackgroundResource(R.drawable.usej)
-//            holder.itemView.bottom2Image.setBackgroundResource(R.drawable.usej)
-
-//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.bottom1Image)
-//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.bottom2Image)
 
             holder.itemView.button_see_all.visibility = View.GONE
             holder.itemView.header.visibility = View.GONE
@@ -255,11 +228,6 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
 
             header.setMargins(40, 0, 40, 0)
-            val headerText = holder.itemView.header
-            //headerText.text = "created by me"
-
-                //  val headerTextMargin = holder.itemView.header as LinearLayout.LayoutParams
-            //headerTextMargin.setMargins(40,40,40,40)
 
             mContainerTop.height = GlobalValues.heightWindow / 5
             mContainerBottom.height = GlobalValues.heightWindow / 5
@@ -282,12 +250,6 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
             holder.itemView.setBackgroundColor(Color.WHITE)
 
-
-
-            //buttonSeeAll.setMargins(40, 80, 40, 40)
-
-//            holder.itemView.top1.setBackgroundResource(R.drawable.usej)
-//            holder.itemView.top2.setBackgroundResource(R.drawable.usej)
 
             var image1 = "https://images.unsplash.com/photo-1556227703-ab57dbc6f839?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1231&q=80"
             var image2 = "https://images.unsplash.com/photo-1558556859-f575da01d52f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=700&q=60"
@@ -326,44 +288,10 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
 
 
-    }else if (holder.itemViewType == 2){
-
-
-      holder.itemView.list_favorites.isNestedScrollingEnabled = true
-
-
-     // val bottomLine = holder.itemView.bottom_line as ViewGroup.MarginLayoutParams
-//      val headerContainer = holder.itemView.lower_header
-//      headerContainer.setMargins(40,0,40,0)
-
-
-
-
-
-
-
-    }else if(holder.itemViewType == 4){
-
-        val target = holder.itemView.header_news
-//
-//        val targetMargins = holder.itemView.layoutHeader as LinearLayout
-//        targetMargins.setMargins(40,0,40,40)
-
-        target.text = holder.itemView.context.getText(R.string.top_videos)
-
-       // println("======profile adapter check ${layoutViews.size} and ${layoutViews}")
-
-
     }else if (holder.itemViewType == 5) {
 
         val item = getItem(position)
-
         val textCateg = holder.itemView.placeNameH
-
-
-        val categoryText = holder.itemView.placeNameH
-
-
         Picasso.get().load(getItem(position)?.categ_image_uri)
             .fit()
             .into(holder.itemView.placeImageH)
@@ -376,10 +304,6 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
         textCateg.text = item?.categ_name
         textCateg.bringToFront()
 
-        println("======inside feed apdapter")
-
-
-    //video
     }else if(holder.itemViewType == 6){
 
         println("=======video is parsed")
@@ -452,20 +376,11 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
         val ratio = item?.height?.div(item.width!!)
         val height = width.times(ratio!!)
 
-       // holder.itemView.ani_holder.bringToFront()
-
-
         autoHeightChild.height = width
         autoHeightChild.width = width
 
         resize.height = width
         resize.width = width
-
-
-
-
-
-        println("The Video URL: " + item.video_uri)
 
         Picasso.get().load(item.video_image).fit().into(holder.itemView.exo_image)
 
@@ -475,24 +390,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
         holder.bind(Uri.parse(item.video_uri))
 
-       // holder.itemView.load_video.bringToFront()
-
-
-
-
-
-
-
-
-
         if (GlobalValues.whatsNew) holder.itemView.cell_header.visibility = View.GONE
-
-
-
-       // holder.itemView.load_video.progress = 0.1f
-
-//        anim.height = width/3
-//        anim.width = width/3
 
     }else if(holder.itemViewType == 0){
 
@@ -509,12 +407,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
         val cellHead = holder.itemView.cell_header_layout.layoutParams
         cellHead.width = GlobalValues.widthWindow
 
-
         GlobalValues.transitionRatioHeight.add(calculatedHeight)
-
-
-
-      //  "/data/user/0/com.photoglyde.justincornelius.photoglyde/files/food.jpg"
 
         Picasso.get().load(item.urls?.regular).into(holder.itemView.placeImageHere)
         holder.itemView.placeImageHere.bringToFront()
@@ -530,8 +423,6 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
     }else if (holder.itemViewType == 8){
 
-
-        println("===== inside horizontal")
         GlobalValues.picassoUnit.add("")
         GlobalValues.transitionRatioHeight.add(GlobalValues.heightWindow/2)
 
@@ -540,12 +431,8 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
             val header = holder.itemView.horizontal_name
             header.text = holder.itemView.context.getText(R.string.watch_list)
             holder.itemView.rv_child.apply {
-
                 this.layoutManager = childLayoutManager
-
-
-                this.adapter =
-                    BindingHorizontal(holder.itemView.context, 0)
+                this.adapter = BindingHorizontal(holder.itemView.context, 0)
                 setRecycledViewPool(viewPool)
             }
 
@@ -554,8 +441,6 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
     }else if (holder.itemViewType == 9) {
 
         val item = getItem(position)
-
-        val resources = holder.itemView.context.resources
 
         val new = Uri.parse(item?.urls?.small)
 
@@ -591,10 +476,6 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
         //header.setMargins(40, 20, 40, 40)
         val headerText = holder.itemView.header
 
-
-        //    val headerTextMargin = holder.itemView.header as LinearLayout.LayoutParams
-        //headerTextMargin.setMargins(40,40,40,40)
-
         mContainerTop.height = GlobalValues.heightWindow / 8
         mContainerBottom.height = GlobalValues.heightWindow / 8
 
@@ -620,17 +501,6 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
         Picasso.get().load(image1).into(holder.itemView.top1Image)
         Picasso.get().load(image2).into(holder.itemView.top2Image)
-
-        // buttonSeeAll.setMargins(40, 80, 40, 40)
-//
-//            holder.itemView.top1Image.setBackgroundResource(R.drawable.usej)
-//
-//            holder.itemView.top2Image.setBackgroundResource(R.drawable.usej)
-
-//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.top1Image)
-//            Picasso.get().load(item?.urls?.small).fit().into(holder.itemView.top2Image)
-
-        println("======check width ${GlobalValues.widthWindow.toDouble().times(0.57).toInt()}")
 
         val bottomContainerWidthFirst = GlobalValues.widthWindow / 4 - shave
         val bottomContainerWidthFirstEnd = GlobalValues.widthWindow / 4 - shave
@@ -667,7 +537,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
     }
 
     interface OnItemClickListener {
-        fun onItemClick(view: View, position: Int, data:CoreUnSplash)
+        fun onItemClick(view: View, position: Int, data:CoreData)
     }
 
     fun setOnItemClickListener(itemClickListener: OnItemClickListener) {
@@ -676,7 +546,7 @@ FeedAdapter : PagedListAdapter<CoreUnSplash, FeedAdapter.SimplePlayerViewHolder>
 
     interface OnItemLockClickListener{
 
-        fun onItemLongClick(view: View, position: Int, core:CoreUnSplash?)
+        fun onItemLongClick(view: View, position: Int, core:CoreData?)
 
     }
 

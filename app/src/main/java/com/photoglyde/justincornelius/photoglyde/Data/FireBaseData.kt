@@ -2,7 +2,7 @@ package com.photoglyde.justincornelius.photoglyde.Data
 
 
 
-data class CoreUnSplash(
+data class CoreData(
     var id: String? = "",
     var created: String? = "",
     var updated: String? = "",

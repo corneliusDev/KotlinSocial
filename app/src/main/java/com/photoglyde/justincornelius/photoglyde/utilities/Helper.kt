@@ -21,12 +21,12 @@ import kotlin.collections.ArrayList
 
 object Helper {
     // Normally this would be done serverside, but for the purpose of this app, this function randomly inserts categories by popping them off the category stack.
-    fun main(args : List<CoreUnSplash?>) : List<CoreUnSplash> {
+    fun main(args : List<CoreData?>) : List<CoreData> {
 
-            var arg: ArrayList<CoreUnSplash>? = null
+            var arg: ArrayList<CoreData>? = null
 
             if(GlobalValues.whatsNew && !GlobalValues.cameFromExa) {
-                arg = args as ArrayList<CoreUnSplash>
+                arg = args as ArrayList<CoreData>
                 val from = 0
                 // randomly inserts categories inside list
                 val to = args.size.div(2)
@@ -36,7 +36,7 @@ object Helper {
                 if (categories.size > 0 && to > 0) {
 
                     val amplititudes = IntArray(categories.size.div(3)) { random.nextInt(to - from) + from }.asList()
-                    val data1 = CoreUnSplash()
+                    val data1 = CoreData()
                     data1.type = "GRID"
 
                     for (i in 0..amplititudes.size.minus(1)) {
@@ -46,7 +46,7 @@ object Helper {
                 }
             }
 
-        return arg?: args as List<CoreUnSplash>
+        return arg?: args as List<CoreData>
 
     }
 
@@ -55,7 +55,7 @@ object Helper {
 
 
     @SuppressLint("ClickableViewAccessibility", "InflateParams")
-    fun show(context: Context, source: PlayerView, core:CoreUnSplash?) {
+    fun show(context: Context, source: PlayerView, core:CoreData?) {
         val background = ImagePreviewerUtils()
             .getBlurredScreenDrawable(context, source.rootView)
 
@@ -87,7 +87,7 @@ object Helper {
 
     }
 
-    fun deliverIntent(core: CoreUnSplash?, context: Context, ref1:String?, ref2:String?, increment:Int?) : Intent {
+    fun deliverIntent(core: CoreData?, context: Context, ref1:String?, ref2:String?, increment:Int?) : Intent {
         val transitionIntent = ExapandDetailActivity.newIntent(context)
         transitionIntent.putExtra(TYPE, core?.type)
         transitionIntent.putExtra(IMAGE_URI, core?.urls?.regular?: core?.categ_image_uri)

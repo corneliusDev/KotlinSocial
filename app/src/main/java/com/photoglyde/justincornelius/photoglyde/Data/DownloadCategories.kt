@@ -26,11 +26,11 @@ class DownloadCategories {
 
                if (p0.exists()){
 
-                   val categories  = ArrayList<CoreUnSplash?>()
+                   val categories  = ArrayList<CoreData?>()
                    val list = p0.children
 
                    list.forEach {
-                       val categItem = it.getValue(CoreUnSplash::class.java)
+                       val categItem = it.getValue(CoreData::class.java)
                        if (categItem?.categ_image_uri != null) if (categItem.categ_image_uri.toString().isNotEmpty()) categories.add(categItem)
                    }
 

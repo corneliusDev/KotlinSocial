@@ -1,15 +1,20 @@
 package com.photoglyde.justincornelius.photoglyde.UI.custom
 
+import android.animation.Animator
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Context
+import android.view.LayoutInflater
+import android.view.MotionEvent
+import android.view.View
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.RelativeLayout
+import com.bartoszlipinski.viewpropertyobjectanimator.ViewPropertyObjectAnimator
+import com.photoglyde.justincornelius.photoglyde.Data.*
 import com.photoglyde.justincornelius.photoglyde.R
 import kotlinx.android.synthetic.main.view_image_previewer.*
-import android.util.TypedValue
-import android.view.*
-import android.widget.*
-import com.photoglyde.justincornelius.photoglyde.Data.*
-import kotlin.math.roundToInt
+import kotlin.math.abs
 
 
 @Suppress("RECEIVER_NULLABILITY_MISMATCH_BASED_ON_JAVA_ANNOTATIONS")
@@ -19,33 +24,31 @@ class ImagePreview {
     var changeRightBool = false
     var changeLeftBool = false
     var changeBottomBool = false
-
+    var previousOffset = 0
+    var fingerPositionStartY = 0
+    var fingerPositionStartX = 0
+    var inFeedPositonX = 0
+    var inFeedPositonY = 0
+    var fingerLeftOrRight = 0
+    var SIDE_MARGIN = 20
+    var ANI_DURATION_1 = 200L
 
 
     interface ExpandActivity {
-        fun onCallback(action:String)
+        fun onCallback(action: String)
     }
 
 
     @SuppressLint("ClickableViewAccessibility")
-    fun show(context: Context, source: ImageView, listener: ExpandActivity) {
+    fun show(context: Context, source: ImageView, data: CoreData?, listener: ExpandActivity) {
+
         val background = ImagePreviewerUtils()
             .getBlurredScreenDrawable(context, source.rootView)
-
-
-
         val dialogView = LayoutInflater.from(context).inflate(R.layout.view_image_previewer, null)
         val imageView = dialogView.findViewById(R.id.previewer_image) as ImageView
-
-
-
-
         val copy = source.drawable.constantState.newDrawable()
         imageView.setImageDrawable(copy)
-
-
         val dialog = Dialog(context, R.style.ImagePreviewerTheme)
-
         dialog.window.setBackgroundDrawable(background)
         dialog.setContentView(dialogView)
         val param = dialog.card.layoutParams as LinearLayout.LayoutParams
@@ -53,16 +56,11 @@ class ImagePreview {
         val paramSideText = dialog.side_text.layoutParams as LinearLayout.LayoutParams
         val paramBottomText = dialog.bottom_text.layoutParams as LinearLayout.LayoutParams
         val iconLabelParm = dialog.icon_label.layoutParams as RelativeLayout.LayoutParams
-
-
         dialog.show()
-        var new = 0
-        var numbers: IntArray = intArrayOf(2, 1)
-        var numbers2: IntArray = intArrayOf(2, 1)
         var ogViewPosition: IntArray = intArrayOf(2, 1)
         source.getLocationInWindow(ogViewPosition)
-        val xOg = ogViewPosition[0]
-        val yOg = ogViewPosition[1]
+        inFeedPositonX = ogViewPosition[0]
+        inFeedPositonY = ogViewPosition[1]
         val changePreviewr = imageView.layoutParams as LinearLayout.LayoutParams
         imageView.visibility = View.GONE
         dialog.icon_label.visibility = View.INVISIBLE
@@ -71,60 +69,14 @@ class ImagePreview {
         dialog.set_pin.visibility = View.INVISIBLE
         val sizeX = source.width
         val sizeY = source.height
-        val ratio = sizeY.toDouble().div(sizeX.toDouble()).roundToInt()
-        println("Ratio Preview: " + ratio)
-        val toilbarAdjust =
-            TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 56F, context.resources.displayMetrics)
-                .toInt()
-
-        val top_text_left = 20
-        val top_text_top = yOg
-        val side_text_1X = xOg + sizeX + 15
-        val side_text_1Y = top_text_top
-        val shift = yOg - 50
-
-
-
-
-
-
-
+        val shift = inFeedPositonY.minus(100)
 
         source.setOnTouchListener(object : View.OnTouchListener {
 
-            val lastChild = dialog.root.getChildAt(dialog.root.childCount - 1)
-            val bottom = lastChild.bottom + dialog.root.paddingBottom
-            val sy = dialog.root.scrollY
-            val sh = dialog.root.height
-
-            val delta = bottom - (sy + sh)
             var count = 0
             var home_count = 0
-            var count1 = 0
-            var count2 = 0
-            var count3 = 0
-            var OG = 0
-            var OGX = 0
-            val param = dialog.card.layoutParams as LinearLayout.LayoutParams
-            val param1 = dialog.card.layoutParams as LinearLayout.LayoutParams
-            var dismiss = false
-            var mLastTouchX = 0f
-            var mLastTouchY = 0f
-            var mActivePointerId = 0
-            var mPosX = 0f
-            var mPosY = 0f
             var dir = 1
-
-
             var action_touch = ""
-
-
-
-
-
-
-            var layoutParams = imageView.layoutParams
-
 
             override fun onTouch(v: View, event: MotionEvent): Boolean {
                 dialog.card.layoutParams.height = sizeY
@@ -134,50 +86,42 @@ class ImagePreview {
 
                 if (count == 0) {
 
-                    OG = event.rawY.toInt()
-                    OGX = event.rawX.toInt()
+                    fingerPositionStartY = event.rawY.toInt()
+                    fingerPositionStartX = event.rawX.toInt()
                     count++
 
                 }
 
-                val startY = OG
-                val startX = OGX
-
-
+                val startYMove = fingerPositionStartY
+                val startXMove = fingerPositionStartX
 
                 val movementY = event.rawY.toInt()
                 val movementX = event.rawX.toInt()
 
                 val movementYAdjust = movementY
-                val movementYAdjustBottom = movementY
                 var staticX = 600
-                val movementXAdjust = movementX + staticX
-
                 var leftShift = 300
 
+                fingerLeftOrRight = -1
 
+                println("start: " + startXMove + "and half window: " + GlobalValues.widthWindow.div(2))
 
-
-                var sign = -1
-
-                println("start: " + startX + "and half window: " + GlobalValues.widthWindow.div(2))
-
-                if (startX < GlobalValues.widthWindow.div(2)){
-                    sign = 1
+                if (startXMove < GlobalValues.widthWindow.div(2)) {
+                    fingerLeftOrRight = 1
                     staticX = 100
                     leftShift = 0
                 }
 
 
                 if (!GlobalValues.whatsNew) {
-                    param.setMargins(20, shift, 20, 0)
+                    param.setMargins(SIDE_MARGIN, shift, SIDE_MARGIN, 0)
 
-                }else{
+                } else {
 
-                    if (sign<0){
-                        param.setMargins(GlobalValues.widthWindow.div(2), shift, 20, 0)
-                    }else{
-                        param.setMargins(20, shift, 20, 0)
+                    if (fingerLeftOrRight < 0) {
+                        param.setMargins(GlobalValues.widthWindow.div(2), shift, SIDE_MARGIN, 0)
+                    } else {
+                        param.setMargins(SIDE_MARGIN, shift, SIDE_MARGIN, 0)
                     }
 
                 }
@@ -195,24 +139,29 @@ class ImagePreview {
                     if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
                         println("Action Pointer Up Top")
 
-                        when(action_touch){
+                        when (action_touch) {
 
                             MAP_OPEN -> {
-                             //   dialog.top_text.setTextColor(Color.BLACK)
+                                //   dialog.top_text.setTextColor(Color.BLACK)
                                 dialog.dismiss()
                                 listener.onCallback(MAP_OPEN)
                             }
 
                             EXPANDED_IMAGE -> {
 
-                                new = 1
                                 v.parent.requestDisallowInterceptTouchEvent(false)
-                             //   listener.onCallback("expand_image")
-                                dialog.dismiss()
+                                //   listener.onCallback("expand_image")
+                                println("****************************")
+                                expandStaggered(dialog, data)
+                                dialog.root.setOnClickListener {
+                                    collapseStaggered(dialog, data)
+                                    // dialog.dismiss()
+                                }
+                                //  dialog.dismiss()
                             }
 
                             else -> {
-                                new = 1
+
                                 v.parent.requestDisallowInterceptTouchEvent(false)
                                 listener.onCallback(SAVE)
                                 dialog.dismiss()
@@ -225,145 +174,197 @@ class ImagePreview {
                 if (home_count == 0) {
 
 
-                    println("Top: " + OGX.minus(leftShift))
-                    println("Side: " + OGX.minus(leftShift))
-                    println("Bottom: " + OGX.plus(staticX).plus(200))
-                    println("OG X: " + OGX)
-                    println("OG Y: " + OG)
+                    println("Top: " + fingerPositionStartX.minus(leftShift))
+                    println("Side: " + fingerPositionStartX.minus(leftShift))
+                    println("Bottom: " + fingerPositionStartX.plus(staticX).plus(200))
+                    println("fingerPositionStartY X: " + fingerPositionStartX)
+                    println("fingerPositionStartY Y: " + fingerPositionStartY)
                     println("Findger X: " + movementX)
                     println("Findger Y: " + movementY)
                     println("Total: " + GlobalValues.widthWindow)
 
+                    if (fingerLeftOrRight < 0) {
+                        println("ON NEGATIVE")
+                        paramTopText.setMargins(
+                            fingerPositionStartX.minus(leftShift),
+                            movementY - GlobalValues.heightWindow.div(5),
+                            SIDE_MARGIN,
+                            0
+                        )
+
+                        paramBottomText.setMargins(fingerPositionStartX.minus(leftShift), movementY, SIDE_MARGIN, 0)
+
+                        paramSideText.setMargins(
+                            fingerPositionStartX.minus(staticX).plus(200),
+                            fingerPositionStartY - GlobalValues.heightWindow.div(8),
+                            SIDE_MARGIN,
+                            0
+                        )
+
+                        iconLabelParm.setMargins(0, movementY.minus(GlobalValues.heightWindow.div(3)), 0, 0)
 
 
+                    } else {
 
-                if (sign<0){
-                    println("ON NEGATIVE")
-                    paramTopText.setMargins(OGX.minus(leftShift), movementY - GlobalValues.heightWindow.div(5), 20, 0)
+                        paramTopText.setMargins(
+                            fingerPositionStartX.minus(leftShift),
+                            movementY - GlobalValues.heightWindow.div(5),
+                            SIDE_MARGIN,
+                            0
+                        )
 
-                    paramBottomText.setMargins(OGX.minus(leftShift), movementY, 20, 0)
+                        paramBottomText.setMargins(fingerPositionStartX.minus(leftShift), movementY, SIDE_MARGIN, 0)
 
-                    paramSideText.setMargins(OGX.minus(staticX).plus(200), OG - GlobalValues.heightWindow.div(8), 20, 0)
-
-                    iconLabelParm.setMargins(0,movementY.minus(GlobalValues.heightWindow.div(3)),0,0)
-
-
-
-                }else{
-
-                    paramTopText.setMargins(OGX.minus(leftShift), movementY - GlobalValues.heightWindow.div(5), 20, 0)
-
-                    paramBottomText.setMargins(OGX.minus(leftShift), movementY, 20, 0)
-
-                    paramSideText.setMargins(OGX.plus(staticX).plus(200), OG - GlobalValues.heightWindow.div(8), 20, 0)
+                        paramSideText.setMargins(
+                            fingerPositionStartX.plus(staticX).plus(200),
+                            fingerPositionStartY - GlobalValues.heightWindow.div(8),
+                            SIDE_MARGIN,
+                            0
+                        )
 
 
-                    iconLabelParm.setMargins(OGX.plus(staticX).plus(300), movementY.minus(GlobalValues.heightWindow.div(3)),20,0)
+                        iconLabelParm.setMargins(
+                            fingerPositionStartX.plus(staticX).plus(300),
+                            movementY.minus(GlobalValues.heightWindow.div(3)),
+                            SIDE_MARGIN,
+                            0
+                        )
 
-                }
+                    }
 //
                     dialog.icon_label.layoutParams = iconLabelParm
 //
-                   home_count++
+                    home_count++
 //
                 }
 
 
 //
-                    println("width: " + GlobalValues.widthWindow + " and height: " + GlobalValues.heightWindow)
+                println("width: " + GlobalValues.widthWindow + " and height: " + GlobalValues.heightWindow)
 
-                    println("Start X: " + startX + " and movementAdjust: " + movementX + " and " + (movementY > startY.plus(GlobalValues.widthWindow.div(10))))
+                println(
+                    "Start X: " + startXMove + " and movementAdjust: " + movementX + " and " + (movementY > startYMove.plus(
+                        GlobalValues.widthWindow.div(10)
+                    ))
+                )
 
-                    println("Current Point: " + startX.plus(staticX.times(sign)) + " and Half: " + movementX + " and " + staticX.times(sign) + " and " + movementX.plus(staticX.times(sign)))
+                println(
+                    "Start Y: " + startYMove + " and movementAdjust: " + movementY + " and " + (movementY > startYMove.plus(
+                        GlobalValues.widthWindow.div(10)
+                    ))
+                )
+
+                println(
+                    "Current Point: " + startXMove.plus(staticX.times(fingerLeftOrRight)) + " and Half: " + movementX + " and " + staticX.times(
+                        fingerLeftOrRight
+                    ) + " and " + movementX.plus(staticX.times(fingerLeftOrRight))
+                )
 
 
+                //    Move object top
+                if (startYMove > movementYAdjust && movementY > startYMove.minus(GlobalValues.widthWindow.div(10))) {
+                    paramTopText.setMargins(
+                        fingerPositionStartX.plus(
+                            startYMove.minus(movementY).times(
+                                fingerLeftOrRight
+                            )
+                        ).minus(leftShift), movementY - GlobalValues.heightWindow.div(5), SIDE_MARGIN, 0
+                    )
 
-                 //    Move object top
-                    if (startY > movementYAdjust && movementY > startY.minus(GlobalValues.widthWindow.div(10))){
-                        paramTopText.setMargins(OGX.plus(startY.minus(movementY).times(sign)).minus(leftShift), movementY - GlobalValues.heightWindow.div(5), 20, 0)
-
-                        if (changeTopBool){
-                            dialog.set_pin.setBackgroundResource(R.drawable.ic_pin)
-                            dialog.icon_text.text = ""
-                            changeTopBool = false
-                            println("TURN ME BLACK")
-                        }
-
-
-                    }else if (startY > movementYAdjust && noneAreBlue()){
-                        dialog.set_pin.setBackgroundResource(R.drawable.ic_pin_blue)
-                        dialog.icon_text.text = "Map"
-
-                        changeTopBool = true
-                        println("TURN ME BLUE")
+                    if (changeTopBool) {
+                        dialog.set_pin.setBackgroundResource(R.drawable.ic_pin)
+                        dialog.icon_text.text = ""
+                        changeTopBool = false
+                        println("TURN ME BLACK")
                     }
 
 
+                } else if (startYMove > movementYAdjust && noneAreBlue()) {
+                    dialog.set_pin.setBackgroundResource(R.drawable.ic_pin_blue)
+                    dialog.icon_text.text = "Map"
 
+                    changeTopBool = true
+                    println("TURN ME BLUE")
+                }
 
+                // Move object bottom
+                if (startYMove < movementYAdjust && movementY < startYMove.plus(GlobalValues.widthWindow.div(10))) {
 
-                    // Move object bottom
-                    if (startY < movementYAdjust && movementY < startY.plus(GlobalValues.widthWindow.div(10))){
+                    dir = -1
 
-                        dir = -1
+                    paramBottomText.setMargins(
+                        fingerPositionStartX.minus(
+                            startYMove.minus(movementY).times(
+                                fingerLeftOrRight
+                            )
+                        ).minus(leftShift), movementY, SIDE_MARGIN, 0
+                    )
 
-                        paramBottomText.setMargins(OGX.minus(startY.minus(movementY).times(sign)).minus(leftShift), movementY, 20, 0)
-
-                        if (changeBottomBool){
-                            dialog.bottom_text.setBackgroundResource(R.drawable.ic_icon_save)
-                            dialog.icon_text.text = ""
-                            changeBottomBool = false
-                            println("TURN ME BLACK")
-                        }
-
-                    }else if (startY < movementYAdjust && noneAreBlue()){
-                        dialog.bottom_text.setBackgroundResource(R.drawable.ic_icon_save_blue)
-                        dialog.icon_text.text = "Save"
-                        changeBottomBool = true
+                    if (changeBottomBool) {
+                        dialog.bottom_text.setBackgroundResource(R.drawable.ic_icon_save)
+                        dialog.icon_text.text = ""
+                        changeBottomBool = false
+                        println("TURN ME BLACK")
                     }
 
+                } else if (startYMove < movementYAdjust && noneAreBlue()) {
+                    dialog.bottom_text.setBackgroundResource(R.drawable.ic_icon_save_blue)
+                    dialog.icon_text.text = "Save"
+                    changeBottomBool = true
+                }
 
+                // Move object right side of finger
+                if (startXMove < movementX && movementX < startXMove.plus(staticX.times(fingerLeftOrRight))) {
+                    paramSideText.setMargins(
+                        movementX.plus(staticX.times(fingerLeftOrRight)).plus(200),
+                        fingerPositionStartY - GlobalValues.heightWindow.div(8),
+                        SIDE_MARGIN,
+                        0
+                    )
 
-
-                    // Move object right side of finger
-                    if (startX < movementX && movementX < startX.plus(staticX.times(sign))){
-                        paramSideText.setMargins(movementX.plus(staticX.times(sign)).plus(200), OG - GlobalValues.heightWindow.div(8), 20, 0)
-
-                        if (changeRightBool){
-                            dialog.side_text.setBackgroundResource(R.drawable.ic_expand)
-                            dialog.icon_text.text = ""
-                            changeRightBool = false
-                            println("MOVE RIGHT BLACK")
-                        }
-
-                    }else if (startX < movementX && sign > 0 && noneAreBlue()){
-                        dialog.side_text.setBackgroundResource(R.drawable.ic_expand_blue)
-                        dialog.icon_text.text = "Expand"
-                        changeRightBool = true
-                        println("MOVE RIGHT BLUE")
+                    if (changeRightBool) {
+                        dialog.side_text.setBackgroundResource(R.drawable.ic_expand)
+                        dialog.icon_text.text = ""
+                        changeRightBool = false
+                        println("MOVE RIGHT BLACK")
                     }
 
+                } else if (startXMove < movementX && fingerLeftOrRight > 0 && noneAreBlue()) {
+                    dialog.side_text.setBackgroundResource(R.drawable.ic_expand_blue)
+                    dialog.icon_text.text = "Expand"
+                    changeRightBool = true
+                    action_touch = EXPANDED_IMAGE
+                    println("MOVE RIGHT BLUE")
+                }
 
 
-                    // Move object left side of finger
-                    if (sign < 0) if (startX > movementX && startX.minus(GlobalValues.widthWindow.div(10)) < movementX){
-                        paramSideText.setMargins(movementX.minus(staticX).plus(200).minus(movementY.minus(startY)), OG - GlobalValues.heightWindow.div(8), 20, 0)
-
-                       // paramSideText1.setMargins(OGX.minus(staticX).plus(200), OG - GlobalValues.heightWindow.div(8), 20, 0)
-
-                        if (changeLeftBool){
-                            dialog.side_text.setBackgroundResource(R.drawable.ic_expand)
-                            dialog.icon_text.text = ""
-                            changeLeftBool = false
-                            println("MOVE LEFT BLACK")
-                        }
-
-                    }else if (startX > movementX && noneAreBlue()){
-                        dialog.side_text.setBackgroundResource(R.drawable.ic_expand_blue)
-                        dialog.icon_text.text = "Expand"
-                        changeLeftBool = true
-                        println("MOVE LEFT BLUE")
+                // Move object left side of finger
+                if (fingerLeftOrRight < 0) if (startXMove > movementX && startXMove.minus(
+                        GlobalValues.widthWindow.div(
+                            10
+                        )
+                    ) < movementX
+                ) {
+                    paramSideText.setMargins(
+                        movementX.minus(staticX).plus(200).minus(movementY.minus(startYMove)),
+                        fingerPositionStartY - GlobalValues.heightWindow.div(8),
+                        SIDE_MARGIN,
+                        0
+                    )
+                    if (changeLeftBool) {
+                        dialog.side_text.setBackgroundResource(R.drawable.ic_expand)
+                        dialog.icon_text.text = ""
+                        changeLeftBool = false
+                        println("MOVE LEFT BLACK")
                     }
+
+                } else if (startXMove > movementX && noneAreBlue()) {
+                    dialog.side_text.setBackgroundResource(R.drawable.ic_expand_blue)
+                    dialog.icon_text.text = "Expand"
+                    changeLeftBool = true
+                    action_touch = EXPANDED_IMAGE
+                    println("MOVE LEFT BLUE")
+                }
 
 
                 dialog.side_text.visibility = View.VISIBLE
@@ -377,7 +378,100 @@ class ImagePreview {
 
     }
 
-    fun noneAreBlue() : Boolean{
+    fun expandStaggered(dialog: Dialog, data: CoreData?) {
+
+        val expandWidth = data?.width
+        val expandHeight = data?.height
+        dialog.top_text.visibility = View.GONE
+        dialog.side_text.visibility = View.GONE
+        dialog.bottom_text.visibility = View.GONE
+        dialog.icon_text.visibility = View.GONE
+
+        if (expandWidth != null && expandHeight != null) {
+
+            val ratio = expandHeight.toDouble().div(expandWidth)
+            val width = GlobalValues.widthWindow.minus(SIDE_MARGIN)
+            val widthCalc = width.toDouble().times(ratio)
+            val height = widthCalc.toInt()
+            ViewPropertyObjectAnimator.animate(dialog.card).width(width).height(height).setDuration(ANI_DURATION_1)
+                .start()
+
+            ViewPropertyObjectAnimator.animate(dialog.card).leftMargin(10).setDuration(ANI_DURATION_1).start()
+            ViewPropertyObjectAnimator.animate(dialog.previewer_image).width(width).height(height)
+                .setDuration(ANI_DURATION_1).start()
+
+            val checkOffset = inFeedPositonY + height
+            previousOffset = checkOffset
+
+            if (checkOffset > GlobalValues.heightWindow) {
+                val offSet = checkOffset - GlobalValues.heightWindow
+                ViewPropertyObjectAnimator.animate(dialog.root).verticalMargin(-offSet.toInt()).setDuration(300).start()
+
+            }
+        }
+
+    }
+
+    fun collapseStaggered(dialog: Dialog, data: CoreData?) {
+
+
+        val expandWidth = data?.width
+        val expandHeight = data?.height
+        dialog.top_text.visibility = View.GONE
+        dialog.side_text.visibility = View.GONE
+        dialog.bottom_text.visibility = View.GONE
+        dialog.icon_text.visibility = View.GONE
+        var rootPos: IntArray = intArrayOf(2, 1)
+        dialog.previewer_image.getLocationInWindow(rootPos)
+        val rootX = rootPos[0]
+        val rootY = rootPos[1]
+
+        if (expandWidth != null && expandHeight != null) {
+            val ratio = expandHeight.toDouble().div(expandWidth)
+
+            val width = GlobalValues.widthWindow.div(2)
+            val widthCalc = width.toDouble().times(ratio)
+            val height = widthCalc.toInt()
+//
+            ViewPropertyObjectAnimator.animate(dialog.card).height(height).setDuration(400).start()
+            ViewPropertyObjectAnimator.animate(dialog.previewer_image).width(width).height(height)
+                .setDuration(ANI_DURATION_1).start()
+            ViewPropertyObjectAnimator.animate(dialog.card).width(width).height(height).setDuration(ANI_DURATION_1)
+                .start()
+
+
+            val offSet = abs(inFeedPositonY).minus(abs(rootY))
+            ViewPropertyObjectAnimator.animate(dialog.root).topPadding(offSet)
+                .setDuration(ANI_DURATION_1).addListener(object : Animator.AnimatorListener {
+                    override fun onAnimationRepeat(animation: Animator?) {
+
+                    }
+
+                    override fun onAnimationEnd(animation: Animator?) {
+                        dialog.dismiss()
+                    }
+
+                    override fun onAnimationCancel(animation: Animator?) {
+
+                    }
+
+                    override fun onAnimationStart(animation: Animator?) {
+
+                    }
+
+                }).start()
+
+            if (fingerLeftOrRight < 0) {
+
+                ViewPropertyObjectAnimator.animate(dialog.root).leftPadding(width).setDuration(ANI_DURATION_1).start()
+            }
+
+
+        }
+
+    }
+
+    fun noneAreBlue(): Boolean {
         return !changeTopBool && !changeRightBool && !changeLeftBool && !changeBottomBool
     }
 
