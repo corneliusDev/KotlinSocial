@@ -4,8 +4,8 @@
               xmlns:card_view="http://schemas.android.com/tools"
               android:id="@+id/containerMain"
               android:orientation="vertical"
-              android:layout_margin="8dp"
-              android:background="@color/dark_gray"
+              android:layout_margin="5dp"
+              android:background="@color/basically_black"
               android:layout_width="match_parent"
               android:layout_height="wrap_content">
 

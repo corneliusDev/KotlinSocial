@@ -1,10 +1,7 @@
-package com.photoglyde.justincornelius.photoglyde.Data
+package com.photoglyde.justincornelius.photoglyde.data
 
 
 import android.app.Application
-import android.graphics.Bitmap
-import android.media.audiofx.DynamicsProcessing
-import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.upstream.cache.LeastRecentlyUsedCacheEvictor
 import com.google.android.exoplayer2.upstream.cache.SimpleCache
 import im.ene.toro.exoplayer.Config
@@ -20,7 +17,7 @@ class Configuration : Application() {
 
     companion object {
         var cacheFile = 2 * 1024 * 1024.toLong() // size of each cache file.
-        var configuration: com.photoglyde.justincornelius.photoglyde.Data.Configuration? = null
+        var configuration: com.photoglyde.justincornelius.photoglyde.data.Configuration? = null
         var config1: Config? = null
         var exoCreator: ExoCreator? = null
     }

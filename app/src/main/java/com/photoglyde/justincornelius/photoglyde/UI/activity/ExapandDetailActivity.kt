@@ -11,12 +11,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.*
 import com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter
-import com.photoglyde.justincornelius.photoglyde.Data.*
+import com.photoglyde.justincornelius.photoglyde.data.*
 import com.photoglyde.justincornelius.photoglyde.utilities.Helper
 import com.photoglyde.justincornelius.photoglyde.UI.custom.ImagePreview
 import com.photoglyde.justincornelius.photoglyde.utilities.ScrollDownListener
-import com.photoglyde.justincornelius.photoglyde.Data.ImageDataSource
+import com.photoglyde.justincornelius.photoglyde.data.ImageDataSource
 import com.photoglyde.justincornelius.photoglyde.R
+import com.photoglyde.justincornelius.photoglyde.UI.adapter.OnItemClickListener
+import com.photoglyde.justincornelius.photoglyde.UI.adapter.OnItemLockClickListener
 import com.squareup.picasso.Callback
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_test2.*
@@ -45,7 +47,7 @@ class ExapandDetailActivity : AppCompatActivity()  {
         GlobalValues.whatsNew = true
     }
 
-    private val longClickListener = object : FeedAdapter.OnItemLockClickListener {
+    private val longClickListener = object : OnItemLockClickListener {
 
         override fun onItemLongClick(view: View, position: Int, core:CoreData?) {
 
@@ -53,8 +55,7 @@ class ExapandDetailActivity : AppCompatActivity()  {
 
             GlobalValues.sendIndexToDetail = position
 
-            ImagePreview()
-                .show(this@ExapandDetailActivity, view.placeImage, core, object : ImagePreview.ExpandActivity{
+            ImagePreview().show(this@ExapandDetailActivity, view.placeImage, core, object : ImagePreview.ExpandActivity{
 
                 override fun onCallback(action:String) {
 
@@ -71,7 +72,8 @@ class ExapandDetailActivity : AppCompatActivity()  {
                                 ), Helper.deliverOptions(
                                     view,
                                     this@ExapandDetailActivity
-                                ).toBundle())
+                                )?.toBundle()
+                            )
                         }
 
                     }
@@ -99,8 +101,8 @@ class ExapandDetailActivity : AppCompatActivity()  {
 
     }
 
-    private val onItemClickListenerVertical = object : FeedAdapter.OnItemClickListener {
-        override fun onItemClick(view: View, position: Int, data:CoreData?) {
+    private val onItemClickListenerVertical = object : OnItemClickListener {
+        override fun onItemClick(view: View, position: Int, data:CoreData) {
 
             GlobalValues.isExpanded = true
             GlobalValues.awayFromFrag = true
@@ -111,7 +113,8 @@ class ExapandDetailActivity : AppCompatActivity()  {
                     null,
                     null,
                     null
-                ), Helper.deliverOptions(view, this@ExapandDetailActivity).toBundle())
+                ), Helper.deliverOptions(view, this@ExapandDetailActivity)?.toBundle()
+            )
             finishAfterTransition()
 
         }

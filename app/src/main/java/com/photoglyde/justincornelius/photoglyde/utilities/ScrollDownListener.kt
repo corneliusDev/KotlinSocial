@@ -2,8 +2,8 @@ package com.photoglyde.justincornelius.photoglyde.utilities
 
 import android.annotation.SuppressLint
 import android.content.Context
-import com.photoglyde.justincornelius.photoglyde.Data.DOWN
-import com.photoglyde.justincornelius.photoglyde.Data.UP
+import com.photoglyde.justincornelius.photoglyde.data.DOWN
+import com.photoglyde.justincornelius.photoglyde.data.UP
 
 class ScrollDownListener {
 

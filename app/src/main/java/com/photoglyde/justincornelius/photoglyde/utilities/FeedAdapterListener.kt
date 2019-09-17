@@ -2,20 +2,21 @@ package com.photoglyde.justincornelius.photoglyde.utilities
 
 import android.view.View
 import com.bartoszlipinski.viewpropertyobjectanimator.ViewPropertyObjectAnimator
-import com.photoglyde.justincornelius.photoglyde.Data.BOTTOM_NAV_ANITIME
+import com.photoglyde.justincornelius.photoglyde.data.BOTTOM_NAV_ANITIME
 import com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter
-import com.photoglyde.justincornelius.photoglyde.Data.CoreData
-import com.photoglyde.justincornelius.photoglyde.Data.GlobalValues
-import com.photoglyde.justincornelius.photoglyde.UI.adapter.SimplePlayerViewHolder
+import com.photoglyde.justincornelius.photoglyde.UI.adapter.OnItemLockClickListener
+import com.photoglyde.justincornelius.photoglyde.data.CoreData
+import com.photoglyde.justincornelius.photoglyde.data.GlobalValues
 import com.photoglyde.justincornelius.photoglyde.UI.custom.ImagePreview
 import kotlinx.android.synthetic.main.adapter_row_similar.view.*
-import kotlinx.android.synthetic.main.view_holder_exoplayer_basic.view.*
 
-object FeedAdapterListener : FeedAdapter.OnItemLockClickListener {
+object FeedAdapterListener : OnItemLockClickListener {
 
     override fun onItemLongClick(view: View, position: Int, core: CoreData?) {
 
         GlobalValues.sendIndexToDetail = position
+
+        println("Inside Feed Adapter +++++++++++++++++")
 
         ViewPropertyObjectAnimator.animate(view.placeImage).scaleY(1.0f).scaleX(1.0f).setDuration(BOTTOM_NAV_ANITIME).start()
 
@@ -30,7 +31,7 @@ object FeedAdapterListener : FeedAdapter.OnItemLockClickListener {
             })
 
         }else{
-            Helper.show(view.context, view.player, core)
+         //   Helper.show(view.context, view.player, core)
         }
 
     }

@@ -7,7 +7,7 @@
                 android:background="@color/gray"
                 android:id="@+id/main_back"
                 android:orientation="vertical"
-                tools:context=".UI.MainActivity">
+                tools:context=".UI.activity.MainActivity">
 
     <FrameLayout
             android:id="@+id/containerMap"

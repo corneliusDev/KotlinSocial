@@ -1,4 +1,8 @@
 package com.photoglyde.justincornelius.photoglyde.UI.fragment
+import android.R.attr.*
+import android.animation.Animator
+import android.annotation.SuppressLint
+import android.app.Dialog
 import androidx.lifecycle.Observer
 import androidx.paging.DataSource
 import androidx.paging.LivePagedListBuilder
@@ -7,23 +11,28 @@ import android.content.Context
 import android.os.Bundle
 import androidx.core.app.*
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import com.photoglyde.justincornelius.photoglyde.Data.*
-import com.photoglyde.justincornelius.photoglyde.Data.ImageDataSource
+import com.photoglyde.justincornelius.photoglyde.data.*
+import com.photoglyde.justincornelius.photoglyde.data.ImageDataSource
 import com.photoglyde.justincornelius.photoglyde.R
 import com.photoglyde.justincornelius.photoglyde.UI.adapter.BindingHorizontal
 import com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter
-import com.photoglyde.justincornelius.photoglyde.UI.adapter.SimplePlayerViewHolder
-import com.photoglyde.justincornelius.photoglyde.utilities.FeedAdapterListener
-import com.photoglyde.justincornelius.photoglyde.utilities.Helper
-import com.photoglyde.justincornelius.photoglyde.utilities.PlayerSelectorOption
-import com.photoglyde.justincornelius.photoglyde.utilities.ScrollDownListener
+import com.photoglyde.justincornelius.photoglyde.UI.adapter.OnItemClickListener
 
 
 import kotlinx.android.synthetic.main.staggered_feed_fragment.*
 import kotlinx.android.synthetic.main.view_holder_exoplayer_basic.view.*
+import android.hardware.SensorManager
+import com.google.android.exoplayer2.ui.PlayerView
+import com.photoglyde.justincornelius.photoglyde.UI.custom.ImagePreviewerUtils
+import com.photoglyde.justincornelius.photoglyde.utilities.*
+import android.content.pm.ActivityInfo
+import android.view.*
+import android.view.animation.AlphaAnimation
+import android.view.animation.Animation
+import android.widget.ImageView.ScaleType
+import kotlinx.android.synthetic.main.view_holder_exoplayer_basic.*
+
+import kotlinx.android.synthetic.main.view_player.*
 
 
 class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
@@ -34,17 +43,23 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
     private lateinit var adapterHorizotal: BindingHorizontal
     private  var staggeredLayoutManager: StaggeredGridLayoutManager? = null
     private var listener: StaggeredFeedFragmentListener? = null
+    private var mOrientationEventListener:OrientationEventListener? = null
+    private var current_orient = PORTRAIT
+    private val LEFT_ANGLE = 90f
+    private val RIGHT_ANGLE = 270f
+    private val PORTRAIT_ANGLE = 360f
+    private var CURRENT_ANGLE = 0F
 
 
-    private val onItemClickListenerVertical = object : FeedAdapter.OnItemClickListener {
+    private val onItemClickListenerVertical = object : OnItemClickListener {
 
 
         override fun onItemClick(view: View, position: Int, data:CoreData) {
 
+            println("====================== CLICKED")
+
             var ref1:String? = ""
             var ref2:String? = ""
-
-
 
             when(data?.type){
 
@@ -57,39 +72,47 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
                         Helper.deliverOptions(
                             view,
                             this@StaggeredFeedFragment.requireActivity()
-                        ).toBundle())
-
+                        )?.toBundle()
+                    )
                 }
-
 
                 TYPE_PHOTO ->{
 
-                    ActivityCompat.startActivity(view.context, Helper.deliverIntent(data, this@StaggeredFeedFragment.requireContext(), ref1, ref2, Load_NONE), Helper.deliverOptions(
-                        view,
-                        this@StaggeredFeedFragment.requireActivity()
-                    ).toBundle())
+                    ActivityCompat.startActivity(view.context, Helper.deliverIntent(data, this@StaggeredFeedFragment.requireContext(), ref1, ref2, Load_NONE),
+                        Helper.deliverOptions(
+                            view,
+                            this@StaggeredFeedFragment.requireActivity()
+                        )?.toBundle()
+                    )
 
                 }
 
                 "" ->{
 
-                    ActivityCompat.startActivity(view.context, Helper.deliverIntent(data, this@StaggeredFeedFragment.requireContext(), ref1, ref2, Load_NONE), Helper.deliverOptions(
-                        view,
-                        this@StaggeredFeedFragment.requireActivity()
-                    ).toBundle())
+                    ActivityCompat.startActivity(view.context, Helper.deliverIntent(data, this@StaggeredFeedFragment.requireContext(), ref1, ref2, Load_NONE),
+                        Helper.deliverOptions(
+                            view,
+                            this@StaggeredFeedFragment.requireActivity()
+                        )?.toBundle()
+                    )
 
                 }
 
+                COLLECTION ->{
+
+                    ActivityCompat.startActivity(view.context, Helper.deliverIntent(data, this@StaggeredFeedFragment.requireContext(), null, null, Load_NONE),
+                        Helper.deliverOptions(
+                            view,
+                            this@StaggeredFeedFragment.requireActivity()
+                        )?.toBundle()
+                    )
+
+                }
 
                 TYPE_VIDEO ->{
-                    Helper.show(this@StaggeredFeedFragment.requireContext(), view.player, data)
+                    show(this@StaggeredFeedFragment.requireContext(), view.player, data)
                 }
-
-
-
             }
-
-
         }
     }
 
@@ -99,6 +122,9 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
         GlobalValues.whatsNew = false
 
         GlobalValues.recyclerStateNews = staggered_list.layoutManager?.onSaveInstanceState()
+
+        mOrientationEventListener?.disable()
+
 
         super.onPause()
 
@@ -113,7 +139,7 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
         )
 
         if (GlobalValues.recyclerStateNews != null) restoreInstance() else initializeList(FEED, RANDOM,2)
-
+        GlobalValues.whatsNew = true
         super.onResume()
 
     }
@@ -122,7 +148,7 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
     override fun onStart() {
         super.onStart()
-        GlobalValues.whatsNew = true
+
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -155,6 +181,7 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
         super.onActivityCreated(savedInstanceState)
 
         GlobalValues.whatsNew = true
+
 
     }
 
@@ -251,6 +278,108 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
         }
         return LivePagedListBuilder<String, CoreData>(dataSourceFactory, config)
     }
+
+    @SuppressLint("ClickableViewAccessibility", "InflateParams")
+    fun show(context: Context, source: PlayerView, core:CoreData?) {
+        val background = ImagePreviewerUtils().getBlurredScreenDrawable(context, source.rootView)
+
+
+        val dialogView = LayoutInflater.from(context).inflate(R.layout.view_player, null)
+        val imageView = dialogView.findViewById(R.id.previewer_player) as PlayerView
+        val playerLayout = imageView.layoutParams as ViewGroup.LayoutParams
+
+
+        imageView.player = source.player
+
+        var resize = imageView.layoutParams
+        val width = GlobalValues.widthWindow
+        resize.width = width
+        //add null check
+        val ratio = core?.height?.div(core.width!!)
+        val finalHeight = width.times(ratio!!)
+
+        resize.height = finalHeight.toInt()
+
+        val dialog = Dialog(context, R.style.ImagePreviewerTheme)
+        dialog.window?.setBackgroundDrawable(background)
+        dialog.setContentView(dialogView)
+        dialog.show()
+
+
+        dialogView.setOnClickListener {
+            dialog.dismiss()
+
+           // source.player.release()
+
+            if (mOrientationEventListener != null) mOrientationEventListener!!.disable()
+
+
+        }
+        var count = 0
+        dialog.cancel_video.setOnClickListener {
+           // dialog.dismiss()
+
+
+            if(count == 0){
+                imageView.rotation = 90.0f
+                count++
+
+            }else if (count == 1){
+                imageView.rotation = 270.0f
+            }
+
+            println("cancel count: " + count)
+
+
+
+
+         //   dialog.expand_text.rotation = 90.0f
+        }
+
+        mOrientationEventListener = object : OrientationEventListener(
+            this.requireContext(), SensorManager.SENSOR_DELAY_NORMAL
+        ) {
+
+            override fun onOrientationChanged(orientation: Int) {
+
+                println("@@@@@@@@@@@@@@@@@@@@@ CHANGING ORIENTASTION: " + isPortrait(orientation) + " and value: " + orientation)
+
+                rotateVideo(isPortrait(orientation), imageView)
+
+            }
+        }
+
+        mOrientationEventListener!!.enable()
+    }
+
+
+    private fun isPortrait(orientation: Int): String {
+        return when {
+
+            orientation >= 60 && orientation <= 120 ->  RIGHT_TILT
+
+            orientation >= 200 && orientation <= 300 -> LEFT_TILT
+
+            else -> PORTRAIT
+        }
+    }
+
+    private fun rotateVideo(rotation:String, playerView: PlayerView){
+
+        if (rotation == RIGHT_TILT && current_orient != rotation){
+                println("ROTATE: " + RIGHT_TILT)
+                playerView.rotation = RIGHT_ANGLE
+        }else if (rotation == LEFT_TILT && current_orient != rotation){
+                println("ROTATE: " + LEFT_TILT)
+                playerView.rotation = LEFT_ANGLE
+        }else {
+                println("ROTATE: " + PORTRAIT)
+                playerView.rotation = PORTRAIT_ANGLE
+        }
+
+    }
+
+
 
 
 

@@ -13,7 +13,7 @@ import androidx.core.util.Pair
 import com.google.android.exoplayer2.ui.PlayerView
 
 import com.photoglyde.justincornelius.photoglyde.UI.custom.ImagePreviewerUtils
-import com.photoglyde.justincornelius.photoglyde.Data.*
+import com.photoglyde.justincornelius.photoglyde.data.*
 import com.photoglyde.justincornelius.photoglyde.R
 import com.photoglyde.justincornelius.photoglyde.UI.activity.ExapandDetailActivity
 import java.util.*
@@ -54,38 +54,39 @@ object Helper {
 
 
 
-    @SuppressLint("ClickableViewAccessibility", "InflateParams")
-    fun show(context: Context, source: PlayerView, core:CoreData?) {
-        val background = ImagePreviewerUtils()
-            .getBlurredScreenDrawable(context, source.rootView)
-
-
-        val dialogView = LayoutInflater.from(context).inflate(R.layout.view_player, null)
-        val imageView = dialogView.findViewById(R.id.previewer_player) as PlayerView
-
-        imageView.player = source.player
-
-        var resize = imageView.layoutParams
-        val width = GlobalValues.widthWindow
-        resize.width = width
-        //add null check
-        val ratio = core?.height?.div(core.width!!)
-        val finalHeight = width.times(ratio!!)
-
-        resize.height = finalHeight.toInt()
-
-        val dialog = Dialog(context, R.style.ImagePreviewerTheme)
-        dialog.window?.setBackgroundDrawable(background)
-        dialog.setContentView(dialogView)
-        dialog.show()
-
-        dialogView.setOnClickListener {
-            dialog.dismiss()
-            source.player.release()
-
-        }
-
-    }
+//    @SuppressLint("ClickableViewAccessibility", "InflateParams")
+//    fun show(context: Context, source: PlayerView, core:CoreData?) {
+//        val background = ImagePreviewerUtils()
+//            .getBlurredScreenDrawable(context, source.rootView)
+//
+//
+//        val dialogView = LayoutInflater.from(context).inflate(R.layout.view_player, null)
+//        val imageView = dialogView.findViewById(R.id.previewer_player) as PlayerView
+//
+//        imageView.player = source.player
+//
+//        var resize = imageView.layoutParams
+//        val width = GlobalValues.widthWindow
+//        resize.width = width
+//        //add null check
+//        val ratio = core?.height?.div(core.width!!)
+//        val finalHeight = width.times(ratio!!)
+//
+//        resize.height = finalHeight.toInt()
+//
+//        val dialog = Dialog(context, R.style.ImagePreviewerTheme)
+//        dialog.window?.setBackgroundDrawable(background)
+//        dialog.setContentView(dialogView)
+//        dialog.show()
+//
+//        dialogView.setOnClickListener {
+//            dialog.dismiss()
+//
+//            source.player.release()
+//
+//        }
+//
+//    }
 
     fun deliverIntent(core: CoreData?, context: Context, ref1:String?, ref2:String?, increment:Int?) : Intent {
         val transitionIntent = ExapandDetailActivity.newIntent(context)
@@ -102,21 +103,29 @@ object Helper {
         return transitionIntent
     }
 
-    fun deliverOptions(view: View, activity: Activity) : ActivityOptionsCompat {
+    fun deliverOptions(view: View, activity: Activity) : ActivityOptionsCompat? {
 
 
-        return if (view.findViewById<ImageView>(R.id.placeImage) != null){
-            val imagePair = Pair.create(view.findViewById(R.id.placeImage) as View, "x")
-            val pairs = mutableListOf(imagePair)
-            ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *pairs.toTypedArray())
-        }else if (view.findViewById<ImageView>(R.id.placeImageH) != null){
-            val imagePair = Pair.create(view.findViewById(R.id.placeImageH) as View, "x")
-            val pairs = mutableListOf(imagePair)
-            ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *pairs.toTypedArray())
-        }else{
-            val imagePair = Pair.create(view.findViewById(R.id.placeImageHere) as View, "x")
-            val pairs = mutableListOf(imagePair)
-            ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *pairs.toTypedArray())
+        return when {
+            view.findViewById<ImageView>(R.id.placeImage) != null -> {
+                val imagePair = Pair.create(view.findViewById(R.id.placeImage) as View, "x")
+                val pairs = mutableListOf(imagePair)
+                ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *pairs.toTypedArray())
+            }
+            view.findViewById<ImageView>(R.id.placeImageH) != null -> {
+                val imagePair = Pair.create(view.findViewById(R.id.placeImageH) as View, "x")
+                val pairs = mutableListOf(imagePair)
+                ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *pairs.toTypedArray())
+            }
+            view.findViewById<ImageView>(R.id.placeImageHere) != null -> {
+                val imagePair = Pair.create(view.findViewById(R.id.placeImageHere) as View, "x")
+                val pairs = mutableListOf(imagePair)
+                ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *pairs.toTypedArray())
+            }
+
+            else ->{
+                null
+            }
         }
 
 

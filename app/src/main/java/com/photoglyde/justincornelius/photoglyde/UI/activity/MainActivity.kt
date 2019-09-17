@@ -1,4 +1,4 @@
-package com.photoglyde.justincornelius.photoglyde.UI
+package com.photoglyde.justincornelius.photoglyde.UI.activity
 
 import android.animation.ObjectAnimator
 import android.os.Bundle
@@ -10,11 +10,12 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import com.photoglyde.justincornelius.photoglyde.UI.BottomNavigation.*
-import com.photoglyde.justincornelius.photoglyde.Data.*
+import com.photoglyde.justincornelius.photoglyde.data.*
 import com.photoglyde.justincornelius.photoglyde.UI.fragment.ExploreActivity
 import com.photoglyde.justincornelius.photoglyde.UI.fragment.StaggeredFeedFragment
-import com.photoglyde.justincornelius.photoglyde.Data.DownloadCategories
+import com.photoglyde.justincornelius.photoglyde.data.DownloadCategories
 import com.photoglyde.justincornelius.photoglyde.R
+import com.photoglyde.justincornelius.photoglyde.UI.adapter.OnItemLockClickListener
 import com.photoglyde.justincornelius.photoglyde.utilities.AnimateWindow
 import com.photoglyde.justincornelius.photoglyde.UI.map.MapFragment
 import kotlinx.android.synthetic.main.activity_main.*
@@ -92,7 +93,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 containerMap.visibility = View.VISIBLE
                 containerMap.bringToFront()
                 containerOptionsDim.isEnabled = false
-
                 AnimateWindow().animateUp(this, containerOptionsDim, object : AnimateWindow.AnimationEnd {
 
                     override fun animationOver() {
@@ -183,7 +183,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 R.anim.slide_up,
                 R.anim.slide_up
             )
-            .replace(R.id.containerOptions, fragment)
+            .replace(R.id.containerMap, fragment)
 
     }
 

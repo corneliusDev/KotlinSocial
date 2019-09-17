@@ -8,15 +8,19 @@ import android.content.Context
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import android.view.*
-import com.photoglyde.justincornelius.photoglyde.Data.*
+import androidx.lifecycle.MutableLiveData
+import com.photoglyde.justincornelius.photoglyde.data.*
 import com.photoglyde.justincornelius.photoglyde.UI.custom.ImagePreview
-import com.photoglyde.justincornelius.photoglyde.Data.ImageDataSource
+import com.photoglyde.justincornelius.photoglyde.data.ImageDataSource
 import com.photoglyde.justincornelius.photoglyde.R
+import com.photoglyde.justincornelius.photoglyde.UI.adapter.OnItemClickListener
+import com.photoglyde.justincornelius.photoglyde.UI.adapter.OnItemLockClickListener
 import com.photoglyde.justincornelius.photoglyde.utilities.Helper
 import com.photoglyde.justincornelius.photoglyde.utilities.PlayerSelectorOption
 import com.photoglyde.justincornelius.photoglyde.utilities.ScrollDownListener
 import kotlinx.android.synthetic.main.fragment_explore.*
 import kotlinx.android.synthetic.main.full_view.view.*
+import java.util.*
 import com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter as FeedAdapter1
 
 
@@ -27,8 +31,8 @@ import com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter as FeedA
 class ExploreActivity : androidx.fragment.app.Fragment(){
 
     private lateinit var adapterFeed: com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter
-    private val listener3 = object : FeedAdapter1.OnItemLockClickListener {
-       // , View.OnTouchListener {
+    private var longListener = object : OnItemLockClickListener {
+
         override fun onItemLongClick(view: View, position: Int, core:CoreData?) {
 
            GlobalValues.currentCore = core
@@ -41,18 +45,13 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
 
                 when(action){
 
-                    "map_open" ->{
+                    MAP_OPEN ->{
                         listenerExplore?.onFragmentInteractionExplore(this@ExploreActivity, "Map Open")
                     }
 
-                    "expand_image" ->{
-                        ActivityCompat.startActivity(view.context,
-                            Helper.deliverIntent(core, this@ExploreActivity.requireContext(), null, null, Load_NONE
-                                ),
-                            Helper.deliverOptions(
-                                view,
-                                this@ExploreActivity.requireActivity()
-                            ).toBundle())
+                    EXPANDED_IMAGE ->{
+                        ActivityCompat.startActivity(view.context, Helper.deliverIntent(core, this@ExploreActivity.requireContext(), null, null, Load_NONE),
+                            Helper.deliverOptions(view, this@ExploreActivity.requireActivity())?.toBundle())
                     }
                 }
             }
@@ -65,15 +64,16 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
     }
     private lateinit var staggeredLayoutManager: androidx.recyclerview.widget.StaggeredGridLayoutManager
     var listenerExplore: ExploreActivity.OnFragmentInteractionListenerExplore? = null
+    private val onItemClickListenerVertical = object : OnItemClickListener {
 
-    private val onItemClickListenerVertical = object : FeedAdapter1.OnItemClickListener {
+        override fun onItemClick(view: View, position: Int, data:CoreData) {
 
-        override fun onItemClick(view: View, position: Int, data:CoreData?) {
-            ActivityCompat.startActivity(view.context, Helper.deliverIntent(data, this@ExploreActivity.requireContext(), null, null, 0),
+            if (data.type != TYPE_VIDEO) ActivityCompat.startActivity(view.context, Helper.deliverIntent(data, this@ExploreActivity.requireContext(), null, null, 0),
                 Helper.deliverOptions(
                     view,
                     this@ExploreActivity.requireActivity()
-                ).toBundle())
+                )?.toBundle())
+
         }
     }
 
@@ -81,7 +81,6 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
         super.onPause()
 
         GlobalValues.cameFromMain = true
-
         if (profile_list_explore != null) GlobalValues.recyclerState2 = profile_list_explore.layoutManager?.onSaveInstanceState()
 
     }
@@ -97,13 +96,10 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
 
     }
 
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_explore, container, false)
     }
-
-
 
     override fun onDetach() {
         super.onDetach()
@@ -139,8 +135,8 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
             adapter = adapterFeed
         }
 
-        adapterFeed.setOnItemClickListener(onItemClickListenerVertical)
-        adapterFeed.SetOnLock(listener3)
+//        adapterFeed.setOnItemClickListener(onItemClickListenerVertical)
+//        adapterFeed.SetOnLock(longListener)
 
         ScrollDownListener()
             .show(this@ExploreActivity.requireContext(), profile_list_explore, object : ScrollDownListener.HideShow{
@@ -161,29 +157,22 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
             1,
             androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
         )
-        profile_list_explore?.layoutManager =
-            staggeredLayoutManager
+        profile_list_explore?.layoutManager = staggeredLayoutManager
         profile_list_explore.adapter = adapterFeed
         adapterFeed.setOnItemClickListener(onItemClickListenerVertical)
-        adapterFeed.SetOnLock(listener3)
+        adapterFeed.SetOnLock(longListener)
 
         //blanked out for no wifi work session
-            val config = PagedList.Config.Builder()
-                .setPageSize(30)
-                .setEnablePlaceholders(false)
-                .build()
-            GlobalValues.test = GlobalValues.test + 1
+        val config = PagedList.Config.Builder().setPageSize(30).setEnablePlaceholders(false).build()
+        GlobalValues.test = GlobalValues.test + 1
 
-            val liveData = initializedPagedListBuilder(config, FEED).build()
-            liveData.observe(this, Observer<PagedList<CoreData>> { pagedList ->
-                adapterFeed.submitList(pagedList)
-            })
+        val liveData = initializedPagedListBuilder(config, FEED).build()
+        liveData.observe(this, Observer<PagedList<CoreData>> { pagedList ->
+            adapterFeed.submitList(pagedList)
+        })
 
-
-        ScrollDownListener()
-            .show(this@ExploreActivity.requireContext(), profile_list_explore, object : ScrollDownListener.HideShow{
+        ScrollDownListener().show(this@ExploreActivity.requireContext(), profile_list_explore, object : ScrollDownListener.HideShow{
             override fun onCallback(animate: String) {
-                println("=======we have call back $animate and $listenerExplore")
                 listenerExplore?.onFragmentInteractionExplore(this@ExploreActivity, animate)
             }
         })

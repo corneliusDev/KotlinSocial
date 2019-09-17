@@ -1,6 +1,6 @@
 
 
-package com.photoglyde.justincornelius.photoglyde.Data
+package com.photoglyde.justincornelius.photoglyde.data
 
 import androidx.paging.PageKeyedDataSource
 import com.google.firebase.database.DataSnapshot

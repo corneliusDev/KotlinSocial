@@ -6,7 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.LinearLayout
-import com.photoglyde.justincornelius.photoglyde.Data.GlobalValues
+import com.photoglyde.justincornelius.photoglyde.data.GlobalValues
 import com.photoglyde.justincornelius.photoglyde.R
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.horizontal_rows.view.*

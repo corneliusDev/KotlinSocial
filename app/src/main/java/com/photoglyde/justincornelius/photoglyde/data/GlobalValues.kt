@@ -1,4 +1,4 @@
-package com.photoglyde.justincornelius.photoglyde.Data
+package com.photoglyde.justincornelius.photoglyde.data
 
 import android.os.Parcelable
 

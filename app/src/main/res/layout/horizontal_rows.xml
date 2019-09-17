@@ -5,7 +5,7 @@
         android:id="@+id/placeCard1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="8dp"
+        android:layout_margin="5dp"
         card_view:cardElevation="0dp"
         android:shadowColor="#000000"
         android:shadowDx="0"
@@ -44,12 +44,10 @@
             android:id="@+id/placeImageH"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             android:layout_gravity="center"
             android:scaleType="fitXY"
             android:transitionName="x"/>
 
-    <!-- Used for the ripple effect on touch -->
     <LinearLayout
             android:id="@+id/placeHolder"
             android:layout_width="wrap_content"
@@ -64,9 +62,9 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:orientation="horizontal"
-
             android:transitionName="tNameHolder"
-    android:visibility="invisible">
+            android:visibility="invisible"
+    >
 
 
 

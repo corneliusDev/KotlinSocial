@@ -1,4 +1,4 @@
-package com.photoglyde.justincornelius.photoglyde.Data
+package com.photoglyde.justincornelius.photoglyde.data
 
 
 val DOWN = "down"
@@ -28,4 +28,10 @@ val REF_2 = "ref2"
 val INCREMENT = "increment"
 val BOTTOM_NAV_ANITIME = 200L
 val Load_NONE = 0
+val LEFT_TILT = "left_tilt"
+val RIGHT_TILT = "right_tilt"
+val PORTRAIT = "portrait"
+val COLLECTION = "collection"
+val CATEGORY = "category"
+
 

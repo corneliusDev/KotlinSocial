@@ -1,7 +1,7 @@
 package com.photoglyde.justincornelius.photoglyde.utilities
 
 import androidx.recyclerview.widget.DiffUtil
-import com.photoglyde.justincornelius.photoglyde.Data.CoreData
+import com.photoglyde.justincornelius.photoglyde.data.CoreData
 // finish this please
 
 class ItemsComparison : DiffUtil.ItemCallback<CoreData>() {

@@ -12,9 +12,10 @@ import android.view.ViewGroup
 
 import com.photoglyde.justincornelius.photoglyde.R
 import com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter
+import com.photoglyde.justincornelius.photoglyde.UI.adapter.OnItemClickListener
 import com.photoglyde.justincornelius.photoglyde.utilities.ScrollDownListener
-import com.photoglyde.justincornelius.photoglyde.Data.*
-import com.photoglyde.justincornelius.photoglyde.Data.ImageDataSource
+import com.photoglyde.justincornelius.photoglyde.data.*
+import com.photoglyde.justincornelius.photoglyde.data.ImageDataSource
 import kotlinx.android.synthetic.main.fragment_blank_fragment2.*
 
 class BlankFragment2 : androidx.fragment.app.Fragment() {
@@ -48,8 +49,8 @@ class BlankFragment2 : androidx.fragment.app.Fragment() {
         super.onPause()
     }
 
-    private val onItemClickListenerVertical = object : FeedAdapter.OnItemClickListener {
-        override fun onItemClick(view: View, position: Int, data:CoreData?) {
+    private val onItemClickListenerVertical = object : OnItemClickListener {
+        override fun onItemClick(view: View, position: Int, data:CoreData) {
 
 
         }

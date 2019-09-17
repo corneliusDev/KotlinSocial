@@ -5,7 +5,7 @@ import android.content.Context
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
-import com.photoglyde.justincornelius.photoglyde.Data.ANI_DURATION
+import com.photoglyde.justincornelius.photoglyde.data.ANI_DURATION
 
 class AnimateWindow {
 

@@ -6,32 +6,32 @@ import im.ene.toro.widget.Container
 import java.util.*
 
 
-    object PlayerSelectorOption : PlayerSelector {
+object PlayerSelectorOption : PlayerSelector {
 
-        override fun reverse(): PlayerSelector {
+    override fun reverse(): PlayerSelector {
 
-            return reverse()
+        return reverse()
 
-        }
+    }
 
-        override fun select(container: Container, items: MutableList<ToroPlayer>): List<ToroPlayer> {
+    override fun select(container: Container, items: MutableList<ToroPlayer>): List<ToroPlayer> {
 
-            val size = items.size
+        val size = items.size
 
-            val toSelect: List<ToroPlayer>
+        val toSelect: List<ToroPlayer>
 
-            if (size < 1) toSelect = Collections.emptyList() else {
+        if (size < 1) toSelect = Collections.emptyList() else {
 
-                toSelect = ArrayList()
+            toSelect = ArrayList()
 
-                for (i in 0 until size) {
+            for (i in 0 until size) {
 
-                    if (i < items.size) toSelect.add(items[i])
-
-                }
+                if (i < items.size) toSelect.add(items[i])
 
             }
 
-            return toSelect
         }
+
+        return toSelect
     }
+}

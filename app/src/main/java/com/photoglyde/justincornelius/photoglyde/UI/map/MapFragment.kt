@@ -20,7 +20,7 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.photoglyde.justincornelius.photoglyde.Data.GlobalValues
+import com.photoglyde.justincornelius.photoglyde.data.GlobalValues
 
 import com.photoglyde.justincornelius.photoglyde.R
 import com.squareup.picasso.Picasso
@@ -128,14 +128,14 @@ class MapFragment : androidx.fragment.app.Fragment(), OnMapReadyCallback {
     // TODO: Rename method, update argument and hook method into UI event
 
 
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        if (context is OnFragmentInteractionListener) {
-            listener = context
-        } else {
-            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
-        }
-    }
+//    override fun onAttach(context: Context) {
+//        super.onAttach(context)
+//        if (context is OnFragmentInteractionListener) {
+//            listener = context
+//        } else {
+//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+//        }
+//    }
 
     override fun onDetach() {
         super.onDetach()
@@ -164,7 +164,10 @@ class MapFragment : androidx.fragment.app.Fragment(), OnMapReadyCallback {
 
         view?.findViewById<ImageView>(R.id.close_map)?.setOnClickListener {
 
-            listener?.onFragmentInteraction("Map Close", this)
+           // listener?.onFragmentInteraction("Map Close", this)
+
+            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.setCustomAnimations(R.anim.slide_down,
+                R.anim.slide_down)?.commit()
         }
 
 
