@@ -138,11 +138,6 @@ class ImagePreview {
                     if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
                         when (action_touch) {
 
-                            MAP_OPEN -> {
-                                dialog.dismiss()
-                                listener.onCallback(MAP_OPEN)
-                            }
-
                             EXPANDED_IMAGE -> {
 
                                 v.parent.requestDisallowInterceptTouchEvent(false)

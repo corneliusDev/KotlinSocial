@@ -31,6 +31,7 @@ class VideoWatch : androidx.fragment.app.Fragment() {
         super.onResume()
 
         GlobalValues.videoWatch = true
+        GlobalValues.whatsNew = false
         if (GlobalValues.videoWatchState != null) {
             restoreInstance()
         }else{

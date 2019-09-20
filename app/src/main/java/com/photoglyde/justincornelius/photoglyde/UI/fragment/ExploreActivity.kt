@@ -48,10 +48,6 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
 
                 when(action){
 
-                    MAP_OPEN ->{
-                        listenerExplore?.onFragmentInteractionExplore(this@ExploreActivity, MAP_OPEN)
-                    }
-
                     EXPANDED_IMAGE ->{
                         ActivityCompat.startActivity(view.context, Helper.deliverIntent(core, this@ExploreActivity.requireContext(), null, null, Load_NONE),
                             Helper.deliverOptions(view, this@ExploreActivity.requireActivity())?.toBundle())

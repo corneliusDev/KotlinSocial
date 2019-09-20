@@ -53,8 +53,6 @@ class FeedAdapter : PagedListAdapter<CoreData, FeedAdapter.SimplePlayerViewHolde
 
         6 -> itemView = LayoutInflater.from(parent.context).inflate(R.layout.view_holder_exoplayer_basic, parent, false)
 
-        8 -> itemView = LayoutInflater.from(parent.context).inflate(R.layout.nested_recycler, parent, false)
-
         9 -> itemView = LayoutInflater.from(parent.context).inflate(R.layout.adapter_row_similar, parent, false)
 
         10 -> itemView = LayoutInflater.from(parent.context).inflate(R.layout.button_profile, parent, false)
@@ -93,9 +91,7 @@ class FeedAdapter : PagedListAdapter<CoreData, FeedAdapter.SimplePlayerViewHolde
 
             }
 
-            BANNER ->{
-                returnPos = 8
-            }
+
 
             HEADER -> {
                 returnPos = 4
@@ -225,23 +221,6 @@ class FeedAdapter : PagedListAdapter<CoreData, FeedAdapter.SimplePlayerViewHolde
 
 
 
-
-
-
-    }else if (holder.itemViewType == 8){
-
-        GlobalValues.picassoUnit.add("")
-        GlobalValues.transitionRatioHeight.add(GlobalValues.heightWindow/2)
-
-            val childLayoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(1, LinearLayout.HORIZONTAL)
-
-            val header = holder.itemView.horizontal_name
-            header.text = holder.itemView.context.getText(R.string.watch_list)
-            holder.itemView.rv_child.apply {
-                this.layoutManager = childLayoutManager
-                this.adapter = BindingHorizontal(holder.itemView.context, 0)
-                setRecycledViewPool(viewPool)
-            }
 
 
 

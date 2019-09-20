@@ -1,6 +1,4 @@
 package com.photoglyde.justincornelius.photoglyde.UI.fragment
-import android.R.attr.*
-import android.animation.Animator
 import android.annotation.SuppressLint
 import android.app.Dialog
 import androidx.lifecycle.Observer
@@ -14,7 +12,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.photoglyde.justincornelius.photoglyde.data.*
 import com.photoglyde.justincornelius.photoglyde.data.ImageDataSource
 import com.photoglyde.justincornelius.photoglyde.R
-import com.photoglyde.justincornelius.photoglyde.UI.adapter.BindingHorizontal
 import com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter
 import com.photoglyde.justincornelius.photoglyde.UI.adapter.OnItemClickListener
 
@@ -25,16 +22,9 @@ import android.hardware.SensorManager
 import com.google.android.exoplayer2.ui.PlayerView
 import com.photoglyde.justincornelius.photoglyde.UI.custom.ImagePreviewerUtils
 import com.photoglyde.justincornelius.photoglyde.utilities.*
-import android.content.pm.ActivityInfo
 import android.view.*
-import android.view.animation.AlphaAnimation
-import android.view.animation.Animation
-import android.widget.ImageView.ScaleType
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
-import kotlinx.android.synthetic.main.view_holder_exoplayer_basic.*
-
-import kotlinx.android.synthetic.main.view_player.*
 
 
 class StaggeredFeedFragment : androidx.fragment.app.Fragment() {

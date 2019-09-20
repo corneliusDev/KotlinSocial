@@ -18,7 +18,6 @@ import com.photoglyde.justincornelius.photoglyde.R
 import com.photoglyde.justincornelius.photoglyde.UI.adapter.AnimationEnd
 import com.photoglyde.justincornelius.photoglyde.UI.fragment.VideoWatch
 import com.photoglyde.justincornelius.photoglyde.utilities.AnimateWindow
-import com.photoglyde.justincornelius.photoglyde.UI.map.MapFragment
 import kotlinx.android.synthetic.main.activity_main.*
 import okhttp3.Call
 import okhttp3.Callback
@@ -36,7 +35,6 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     private var navPosition: BottomNavigationPosition = BottomNavigationPosition.HOME
     private val MOVE_UP = 240f
     private val MOVE_ORIGIN = 0f
-    private var mapFragment = MapFragment.newInstance()
     private lateinit var bottomNavigation: BottomNavigationView
 
 
@@ -113,22 +111,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 }
             }
 
-            MAP_OPEN -> {
 
-                containerOptionsDim.visibility = View.VISIBLE
-                containerOptionsDim.bringToFront()
-                containerMap.visibility = View.VISIBLE
-                containerMap.bringToFront()
-                containerOptionsDim.isEnabled = false
-                AnimateWindow().animateUp(this, containerOptionsDim, object : AnimationEnd {
-
-                    override fun animationOver() {
-                        fragmentReturn(mapFragment).commit()
-                    }
-
-                })
-
-            }
 
 
         }
