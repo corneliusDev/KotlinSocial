@@ -139,11 +139,14 @@ class ImagePreview {
                         when (action_touch) {
 
                             EXPANDED_IMAGE -> {
-
-                                v.parent.requestDisallowInterceptTouchEvent(false)
-                                expandStaggered(dialog, data)
-                                dialog.root.setOnClickListener {
-                                    collapseStaggered(dialog, data)
+                                if (GlobalValues.whatsNew) {
+                                    v.parent.requestDisallowInterceptTouchEvent(false)
+                                    expandStaggered(dialog, data)
+                                    dialog.root.setOnClickListener {
+                                        collapseStaggered(dialog, data)
+                                    }
+                                }else{
+                                    dialog.dismiss()
                                 }
                             }
 
@@ -223,6 +226,7 @@ class ImagePreview {
                         dialog.side_text.setBackgroundResource(R.drawable.ic_expand)
                         dialog.icon_text.text = ""
                         changeRightBool = false
+                        action_touch = ""
                     }
 
                 } else if (startXMove < movementX && fingerLeftOrRight > 0 && noneAreBlue()) {
@@ -235,7 +239,7 @@ class ImagePreview {
                 // Move object left side of finger
                 if (fingerLeftOrRight < 0) if (startXMove > movementX && startXMove.minus(GlobalValues.widthWindow.div(10)) < movementX) {
                     paramSideText.setMargins(
-                        movementX.minus(staticX).plus(200).minus(movementY.minus(startYMove)),
+                        movementX.minus(staticX).plus(200),
                         fingerPositionStartY - GlobalValues.heightWindow.div(8),
                         SIDE_MARGIN,
                         0

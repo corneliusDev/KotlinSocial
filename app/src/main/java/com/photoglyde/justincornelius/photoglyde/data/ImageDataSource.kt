@@ -31,11 +31,11 @@ class ImageDataSource (reference: DatabaseReference) : PageKeyedDataSource<Strin
 
                     }
 
-                    if (GlobalValues.whatsNew && !GlobalValues.cameFromExa){
+                    if (GlobalValues.whatsNew && !GlobalValues.cameFromCateg){
                         redditPosts = Helper.main(redditPosts)
                     }else if (GlobalValues.videoWatch){
                         redditPosts = Helper.main(redditPosts)
-                    }else if (!GlobalValues.cameFromExa){
+                    }else if (!GlobalValues.cameFromCateg){
                         redditPosts = Helper.main(redditPosts)
                     }
 
@@ -64,11 +64,11 @@ class ImageDataSource (reference: DatabaseReference) : PageKeyedDataSource<Strin
                     }
 
 
-                    if (GlobalValues.whatsNew && !GlobalValues.cameFromExa){
+                    if (GlobalValues.whatsNew && !GlobalValues.cameFromCateg){
                         redditPosts = Helper.main(redditPosts)
                     }else if (GlobalValues.videoWatch){
                         redditPosts = Helper.main(redditPosts)
-                    }else if (!GlobalValues.cameFromExa){
+                    }else if (!GlobalValues.cameFromCateg){
                         //  redditPosts = Helper.main(redditPosts)
                     }
 

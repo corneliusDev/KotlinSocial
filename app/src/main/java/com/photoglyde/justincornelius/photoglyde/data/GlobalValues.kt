@@ -17,5 +17,5 @@ object GlobalValues {
     val CATEGORY = "category"
     var listCateg = ArrayList<CoreData?>()
     var currentCore:CoreData? = null
-    var cameFromExa = false
+    var cameFromCateg = false
 }

@@ -123,8 +123,8 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
 
         GlobalValues.whatsNew = true
-        GlobalValues.cameFromExa = false
-        GlobalValues.cameFromExa = false
+        GlobalValues.cameFromCateg = false
+        GlobalValues.cameFromCateg = false
 
         staggeredLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         if (GlobalValues.recyclerStateNews != null) restoreInstance() else initializeList()

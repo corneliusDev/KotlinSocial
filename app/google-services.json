@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "838378557304",
+    "firebase_url": "https://photoglyde.firebaseio.com",
+    "project_id": "photoglyde",
+    "storage_bucket": "photoglyde.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:838378557304:android:4a3aae36a6467002",
+        "android_client_info": {
+          "package_name": "com.photoglyde.justincornelius.photoglyde"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "838378557304-mr1j35178sn07u16fm628e0754cm82fn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.photoglyde.justincornelius.photoglyde",
+            "certificate_hash": "f28578d85d82525682c2072a33ccfcf315ee3533"
+          }
+        },
+        {
+          "client_id": "838378557304-d61s1sksd50ja54sbcdg2ss2u408o6u6.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBT8dRLzitFib3F9FOxVAI9efQOdvZvWaM"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "838378557304-d61s1sksd50ja54sbcdg2ss2u408o6u6.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

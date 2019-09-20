@@ -8,7 +8,6 @@ import android.content.Context
 import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import android.view.*
-import androidx.lifecycle.MutableLiveData
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.photoglyde.justincornelius.photoglyde.data.*
@@ -22,7 +21,6 @@ import com.photoglyde.justincornelius.photoglyde.utilities.PlayerSelectorOption
 import com.photoglyde.justincornelius.photoglyde.utilities.ScrollDownListener
 import kotlinx.android.synthetic.main.fragment_explore.*
 import kotlinx.android.synthetic.main.full_view.view.*
-import java.util.*
 import com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter as FeedAdapter1
 
 
@@ -74,7 +72,7 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
     override fun onPause() {
         super.onPause()
 
-        GlobalValues.cameFromExa = false
+        GlobalValues.cameFromCateg = false
         if (profile_list_explore != null) GlobalValues.recyclerState2 = profile_list_explore.layoutManager?.onSaveInstanceState()
 
     }
@@ -82,8 +80,8 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
     override fun onResume() {
         super.onResume()
         GlobalValues.whatsNew = false
-        GlobalValues.cameFromExa = true
-        GlobalValues.cameFromExa = false
+        GlobalValues.cameFromCateg = true
+        GlobalValues.cameFromCateg = false
         //staggeredLayoutManager?: androidx.recyclerview.widget.StaggeredGridLayoutManager(1, androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL)
 
 

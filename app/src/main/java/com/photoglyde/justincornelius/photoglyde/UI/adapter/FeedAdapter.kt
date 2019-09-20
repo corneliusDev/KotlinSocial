@@ -26,10 +26,8 @@ import kotlinx.android.synthetic.main.adapter_row_similar.view.*
 import kotlinx.android.synthetic.main.cell_header_profile.view.*
 import kotlinx.android.synthetic.main.full_view.view.*
 import kotlinx.android.synthetic.main.horizontal_rows.view.*
-import kotlinx.android.synthetic.main.nested_recycler.view.*
 import kotlinx.android.synthetic.main.profile_top.view.*
 import kotlinx.android.synthetic.main.view_holder_exoplayer_basic.view.*
-import kotlin.coroutines.coroutineContext
 
 
 class FeedAdapter : PagedListAdapter<CoreData, FeedAdapter.SimplePlayerViewHolder>(ItemsComparison()) {
@@ -235,7 +233,7 @@ class FeedAdapter : PagedListAdapter<CoreData, FeedAdapter.SimplePlayerViewHolde
         autoHeightChild.height = (GlobalValues.widthWindow/2).times(item?.height!!.div(item.width!!)).toInt()
         holder.itemView.placeImage.elevation = 0F
 
-        if (GlobalValues.cameFromExa) holder.itemView.transitionName = "expanded_tag"
+        if (GlobalValues.cameFromCateg) holder.itemView.transitionName = "expanded_tag"
 
         Picasso.get().load(new).into(holder.itemView.placeImage)
         holder.itemView.lower_description.text = item.user?.location

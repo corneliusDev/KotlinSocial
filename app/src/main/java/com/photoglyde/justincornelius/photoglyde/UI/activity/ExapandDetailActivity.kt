@@ -117,6 +117,7 @@ class ExapandDetailActivity : AppCompatActivity()  {
       val cameFrom:String? = intent.getStringExtra(CAME_FROM)
       type = intent.getStringExtra(TYPE).toString()
       val image_categ = intent.getStringExtra(IMAGE_URI).toString()
+      if (GlobalValues.cameFromCateg)   text_underlay_expand.visibility = View.INVISIBLE
 
 
       if (cameFrom == HOME){
@@ -154,7 +155,7 @@ class ExapandDetailActivity : AppCompatActivity()  {
 
           if (type == GlobalValues.CATEGORY) {
               runOnUiThread {
-                  GlobalValues.cameFromExa = true
+                  GlobalValues.cameFromCateg = true
                   val ref1 = intent.getStringExtra(REF_1).toString()
                   val ref2 = intent.getStringExtra(REF_2).toString()
                   val increment = intent.getIntExtra(INCREMENT, 0)
@@ -191,7 +192,7 @@ class ExapandDetailActivity : AppCompatActivity()  {
      // finish()
 
       println("=============================: " + GlobalValues.whatsNew)
-      if (GlobalValues.whatsNew && !GlobalValues.cameFromExa){
+      if (GlobalValues.whatsNew && !GlobalValues.cameFromCateg){
           finishAfterTransition()
       }else{
             finish()

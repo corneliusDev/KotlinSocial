@@ -1,19 +1,13 @@
 package com.photoglyde.justincornelius.photoglyde.utilities
 
-import android.annotation.SuppressLint
 import android.app.Activity
-import android.app.Dialog
 import android.content.Context
 import android.content.Intent
-import android.provider.Settings
-import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
 import androidx.core.app.ActivityOptionsCompat
 import androidx.core.util.Pair
-import com.google.android.exoplayer2.ui.PlayerView
 
-import com.photoglyde.justincornelius.photoglyde.UI.custom.ImagePreviewerUtils
 import com.photoglyde.justincornelius.photoglyde.data.*
 import com.photoglyde.justincornelius.photoglyde.R
 import com.photoglyde.justincornelius.photoglyde.UI.activity.ExapandDetailActivity
@@ -27,7 +21,7 @@ object Helper {
 
             var arg: ArrayList<CoreData>? = null
 
-            if(GlobalValues.whatsNew && !GlobalValues.cameFromExa) {
+            if(GlobalValues.whatsNew && !GlobalValues.cameFromCateg) {
 
                 arg = args as ArrayList<CoreData>
                 val from = 0
@@ -53,43 +47,6 @@ object Helper {
 
     }
 
-
-
-
-
-//    @SuppressLint("ClickableViewAccessibility", "InflateParams")
-//    fun show(context: Context, source: PlayerView, core:CoreData?) {
-//        val background = ImagePreviewerUtils()
-//            .getBlurredScreenDrawable(context, source.rootView)
-//
-//
-//        val dialogView = LayoutInflater.from(context).inflate(R.layout.view_player, null)
-//        val imageView = dialogView.findViewById(R.id.previewer_player) as PlayerView
-//
-//        imageView.player = source.player
-//
-//        var resize = imageView.layoutParams
-//        val width = GlobalValues.widthWindow
-//        resize.width = width
-//        //add null check
-//        val ratio = core?.height?.div(core.width!!)
-//        val finalHeight = width.times(ratio!!)
-//
-//        resize.height = finalHeight.toInt()
-//
-//        val dialog = Dialog(context, R.style.ImagePreviewerTheme)
-//        dialog.window?.setBackgroundDrawable(background)
-//        dialog.setContentView(dialogView)
-//        dialog.show()
-//
-//        dialogView.setOnClickListener {
-//            dialog.dismiss()
-//
-//            source.player.release()
-//
-//        }
-//
-//    }
 
     fun deliverIntent(core: CoreData?, context: Context, ref1:String?, ref2:String?, increment:Int?) : Intent {
         val transitionIntent = ExapandDetailActivity.newIntent(context)
@@ -122,7 +79,7 @@ object Helper {
             }
             view.findViewById<ImageView>(R.id.placeImageHere) != null -> {
                 val pairs = mutableListOf<Pair<View, String>>()
-                if (!GlobalValues.cameFromExa) {
+                if (!GlobalValues.cameFromCateg) {
                     val imagePair = Pair.create(view.findViewById(R.id.placeImageHere) as View, "x")
                     val textPair = Pair.create(view.findViewById(R.id.textFullView) as View, "categ_text")
                     val underPair = Pair.create(view.findViewById(R.id.text_underlay) as View, "under_lay")
