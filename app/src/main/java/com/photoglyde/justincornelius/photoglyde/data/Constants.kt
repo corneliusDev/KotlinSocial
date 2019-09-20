@@ -33,5 +33,6 @@ val RIGHT_TILT = "right_tilt"
 val PORTRAIT = "portrait"
 val COLLECTION = "collection"
 val CATEGORY = "category"
+val EXPLORE = "Explore"
 
 

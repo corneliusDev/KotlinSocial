@@ -1,6 +1,6 @@
 package com.photoglyde.justincornelius.photoglyde.UI.BottomNavigation
 
-import com.photoglyde.justincornelius.photoglyde.UI.fragment.BlankFragment2
+import com.photoglyde.justincornelius.photoglyde.UI.fragment.VideoWatch
 import com.photoglyde.justincornelius.photoglyde.UI.fragment.ExploreActivity
 import com.photoglyde.justincornelius.photoglyde.UI.fragment.StaggeredFeedFragment
 import com.photoglyde.justincornelius.photoglyde.R
@@ -22,12 +22,12 @@ fun findNavigationPositionById(id: Int): BottomNavigationPosition = when (id) {
 fun BottomNavigationPosition.createFragment(): androidx.fragment.app.Fragment = when (this) {
     BottomNavigationPosition.HOME -> ExploreActivity.newInstance()
     BottomNavigationPosition.DASHBOARD -> StaggeredFeedFragment.newInstance()
-    BottomNavigationPosition.NOTIFICATIONS -> BlankFragment2.newInstance()
+    BottomNavigationPosition.NOTIFICATIONS -> VideoWatch.newInstance()
 }
 
 fun BottomNavigationPosition.getTag(): String = when (this) {
     BottomNavigationPosition.HOME -> ExploreActivity.TAG
     BottomNavigationPosition.DASHBOARD -> StaggeredFeedFragment.TAG
-    BottomNavigationPosition.NOTIFICATIONS -> BlankFragment2.TAG
+    BottomNavigationPosition.NOTIFICATIONS -> VideoWatch.TAG
 }
 

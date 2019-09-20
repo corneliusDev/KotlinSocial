@@ -7,9 +7,12 @@
         android:layout_width="wrap_content"
         android:layout_margin="5dp"
         android:layout_height="wrap_content"
+        android:background="@color/basically_black"
         android:layout_gravity="bottom"
         android:orientation="vertical"
 >
+
+
 
     <androidx.cardview.widget.CardView
             android:id="@+id/constrain2"
@@ -36,7 +39,7 @@
                 android:id="@+id/placeImage"
                 android:scaleType="fitXY"
                 android:transitionName="x"
-                android:background="@color/white"
+                android:background="@color/basically_black"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
         />
@@ -52,6 +55,7 @@
               android:textSize="12sp"
               android:layout_marginStart="5dp"
               android:layout_gravity="bottom"
+              android:transitionName="categ_text"
               android:fontFamily="@font/noto_sans_bold"
               android:textStyle="bold"
             />

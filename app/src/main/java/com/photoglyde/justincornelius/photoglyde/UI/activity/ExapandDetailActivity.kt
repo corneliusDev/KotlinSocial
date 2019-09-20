@@ -10,6 +10,8 @@ import androidx.core.app.ActivityCompat
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter
 import com.photoglyde.justincornelius.photoglyde.data.*
 import com.photoglyde.justincornelius.photoglyde.utilities.Helper
@@ -24,6 +26,9 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_test2.*
 import kotlinx.android.synthetic.main.adapter_row_similar.view.*
 import kotlinx.android.synthetic.main.test_include.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.lang.Exception
 import kotlin.math.roundToInt
 
@@ -34,6 +39,7 @@ class ExapandDetailActivity : AppCompatActivity()  {
     private lateinit var toolbar: Toolbar
     var type:String? = ""
     private lateinit var adapterProfile: FeedAdapter
+    private lateinit var api: DatabaseReference
 
 
       companion object {
@@ -44,7 +50,8 @@ class ExapandDetailActivity : AppCompatActivity()  {
 
     override fun onResume() {
         super.onResume()
-        GlobalValues.whatsNew = true
+
+
     }
 
     private val longClickListener = object : OnItemLockClickListener {
@@ -52,8 +59,6 @@ class ExapandDetailActivity : AppCompatActivity()  {
         override fun onItemLongClick(view: View, position: Int, core:CoreData?) {
 
             GlobalValues.currentCore = core
-
-            GlobalValues.sendIndexToDetail = position
 
             ImagePreview().show(this@ExapandDetailActivity, view.placeImage, core, object : ImagePreview.ExpandActivity{
 
@@ -63,16 +68,7 @@ class ExapandDetailActivity : AppCompatActivity()  {
 
                         EXPANDED_IMAGE ->{
                             ActivityCompat.startActivity(this@ExapandDetailActivity,
-                                Helper.deliverIntent(
-                                    core,
-                                    this@ExapandDetailActivity,
-                                    null,
-                                    null,
-                                    null
-                                ), Helper.deliverOptions(
-                                    view,
-                                    this@ExapandDetailActivity
-                                )?.toBundle()
+                                Helper.deliverIntent(core, this@ExapandDetailActivity, null, null, null), Helper.deliverOptions(view, this@ExapandDetailActivity)?.toBundle()
                             )
                         }
 
@@ -104,17 +100,9 @@ class ExapandDetailActivity : AppCompatActivity()  {
     private val onItemClickListenerVertical = object : OnItemClickListener {
         override fun onItemClick(view: View, position: Int, data:CoreData) {
 
-            GlobalValues.isExpanded = true
             GlobalValues.awayFromFrag = true
-            ActivityCompat.startActivity(view.context,
-                Helper.deliverIntent(
-                    data,
-                    this@ExapandDetailActivity,
-                    null,
-                    null,
-                    null
-                ), Helper.deliverOptions(view, this@ExapandDetailActivity)?.toBundle()
-            )
+            ActivityCompat.startActivity(view.context, Helper.deliverIntent(data, this@ExapandDetailActivity, null, null, null),
+                Helper.deliverOptions(view, this@ExapandDetailActivity)?.toBundle())
             finishAfterTransition()
 
         }
@@ -124,7 +112,6 @@ class ExapandDetailActivity : AppCompatActivity()  {
       super.onCreate(savedInstanceState)
       setContentView(R.layout.activity_test2)
 
-      text_categ.bringToFront()
       setUpToolBar()
 
       val cameFrom:String? = intent.getStringExtra(CAME_FROM)
@@ -136,7 +123,7 @@ class ExapandDetailActivity : AppCompatActivity()  {
           val imageTag:String? = intent.getStringExtra(IMAGE_TAG)
           collapsingToolbarLayout.setBackgroundResource(R.color.dark_gray)
           toolbar.setBackgroundResource(R.color.dark_gray)
-          text_categ.text = imageTag
+          if (!GlobalValues.whatsNew) text_categ.text = imageTag
       }
 
       val dimensions = placeImage2.layoutParams
@@ -158,32 +145,42 @@ class ExapandDetailActivity : AppCompatActivity()  {
          }
      }
 
+
       loadPlace(image_categ)
+
+      GlobalScope.launch {
+
+          delay(1000L)
+
+          if (type == GlobalValues.CATEGORY) {
+              runOnUiThread {
+                  GlobalValues.cameFromExa = true
+                  val ref1 = intent.getStringExtra(REF_1).toString()
+                  val ref2 = intent.getStringExtra(REF_2).toString()
+                  val increment = intent.getIntExtra(INCREMENT, 0)
+                  api = FirebaseDatabase.getInstance().getReference(ref1).child(ref2)
+                  if (increment > 0) initializeList()
+              }
+          }
+      }
 
   }
 
   private fun loadPlace(uri:String?) {
+
       supportPostponeEnterTransition()
-          Picasso.get()
-              .load(Uri.parse(uri))
-              .fit()
-              .noFade()
-              .centerCrop()
-              .into(placeImage2, object : Callback {
+
+      Picasso.get().load(Uri.parse(uri)).fit().noFade().centerCrop().into(placeImage2, object : Callback {
+
                   override fun onSuccess() {
 
                       supportStartPostponedEnterTransition()
 
-                      if (type == GlobalValues.CATEGORY) {
-                          val ref1 = intent.getStringExtra(REF_1).toString()
-                          val ref2 = intent.getStringExtra(REF_2).toString()
-                          val increment = intent.getIntExtra(INCREMENT, 0)
-                          if (increment > 0) initializeList(ref1, ref2, increment)
-                      }
-
                   }
                   override fun onError(e: Exception?) {
+
                       supportStartPostponedEnterTransition()
+
                   }
               })
 
@@ -191,30 +188,28 @@ class ExapandDetailActivity : AppCompatActivity()  {
 
   override fun onBackPressed() {
 
-      GlobalValues.isExpanded = false
+     // finish()
 
-      if (GlobalValues.awayFromFrag) {
-          GlobalValues.awayFromFrag = false
-          finish()
+      println("=============================: " + GlobalValues.whatsNew)
+      if (GlobalValues.whatsNew && !GlobalValues.cameFromExa){
+          finishAfterTransition()
       }else{
-          finish()
+            finish()
       }
+
 
   }
 
     override fun onPause() {
         super.onPause()
-        GlobalValues.whatsNew = false
+      //  GlobalValues.whatsNew = false
     }
 
-    private fun initializeList(ref1:String?, ref2:String?, count:Int) {
+    private fun initializeList() {
 
         adapterProfile = FeedAdapter()
         expanded_staggered_list?.apply {
-            layoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(
-                2,
-                androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
-            )
+            layoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(2, androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL)
             expanded_staggered_list.adapter = adapterProfile
         }
 
@@ -224,17 +219,14 @@ class ExapandDetailActivity : AppCompatActivity()  {
        //blanked out for no wifi work session
         val config = PagedList.Config.Builder()
             .setPageSize(30)
-            .setEnablePlaceholders(false)
+            .setEnablePlaceholders(true)
             .build()
-        GlobalValues.test = GlobalValues.test + 1
 
-        val liveData = initializedPagedListBuilder(config, ref1, ref2, count).build()
-        liveData.observe(this, androidx.lifecycle.Observer<PagedList<CoreData>> { pagedList ->
-                adapterProfile.submitList(pagedList)
-        })
+        val liveData = initializedPagedListBuilder(config).build()
+        liveData.observe(this, androidx.lifecycle.Observer<PagedList<CoreData>> { pagedList -> adapterProfile.submitList(pagedList) })
 
-        ScrollDownListener()
-            .show(this@ExapandDetailActivity, expanded_staggered_list, object : ScrollDownListener.HideShow{
+        ScrollDownListener().show(this@ExapandDetailActivity, expanded_staggered_list, object : ScrollDownListener.HideShow{
+
             override fun onCallback(animate: String) {
 
             }
@@ -245,11 +237,11 @@ class ExapandDetailActivity : AppCompatActivity()  {
 
 
 
-    private fun initializedPagedListBuilder(config: PagedList.Config, ref1:String?, ref2:String?, count:Int):
+    private fun initializedPagedListBuilder(config: PagedList.Config):
             LivePagedListBuilder<String, CoreData> {
         val dataSourceFactory = object : DataSource.Factory<String, CoreData>() {
             override fun create(): DataSource<String, CoreData> {
-                return ImageDataSource(ref1, ref2, count)
+                return ImageDataSource(api)
             }
         }
         return LivePagedListBuilder<String, CoreData>(dataSourceFactory, config)

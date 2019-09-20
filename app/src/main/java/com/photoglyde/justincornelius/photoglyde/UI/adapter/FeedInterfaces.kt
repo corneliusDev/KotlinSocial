@@ -10,3 +10,7 @@ interface OnItemLockClickListener{
 interface OnItemClickListener {
     fun onItemClick(view: View, position: Int, data:CoreData)
 }
+
+interface AnimationEnd {
+    fun animationOver()
+}

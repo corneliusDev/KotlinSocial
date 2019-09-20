@@ -15,15 +15,22 @@ import com.photoglyde.justincornelius.photoglyde.UI.fragment.ExploreActivity
 import com.photoglyde.justincornelius.photoglyde.UI.fragment.StaggeredFeedFragment
 import com.photoglyde.justincornelius.photoglyde.data.DownloadCategories
 import com.photoglyde.justincornelius.photoglyde.R
-import com.photoglyde.justincornelius.photoglyde.UI.adapter.OnItemLockClickListener
+import com.photoglyde.justincornelius.photoglyde.UI.adapter.AnimationEnd
+import com.photoglyde.justincornelius.photoglyde.UI.fragment.VideoWatch
 import com.photoglyde.justincornelius.photoglyde.utilities.AnimateWindow
 import com.photoglyde.justincornelius.photoglyde.UI.map.MapFragment
 import kotlinx.android.synthetic.main.activity_main.*
+import okhttp3.Call
+import okhttp3.Callback
+import okhttp3.Response
+import okhttp3.ResponseBody
+import retrofit2.converter.scalars.ScalarsConverterFactory
+import retrofit2.create
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
     ExploreActivity.OnFragmentInteractionListenerExplore,
-    StaggeredFeedFragment.StaggeredFeedFragmentListener {
+    StaggeredFeedFragment.StaggeredFeedFragmentListener, VideoWatch.OnVideoWatchListener {
 
     private lateinit var toolbar: Toolbar
     private var navPosition: BottomNavigationPosition = BottomNavigationPosition.HOME
@@ -43,6 +50,26 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         GlobalValues.cameFromMain = true
     }
 
+    override fun onVideoWatchInteraction(animate: String) {
+        when (animate) {
+
+            DOWN -> {
+                fragmentAnimator(DOWN).apply {
+                    duration = ANI_DURATION
+                    start()
+                }
+            }
+
+            UP -> {
+
+                fragmentAnimator(UP).apply {
+                    duration = ANI_DURATION
+                    start()
+                }
+            }
+
+        }
+    }
 
     override fun staggeredFeedFragmentInteractor(animate: String) {
 
@@ -93,7 +120,7 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
                 containerMap.visibility = View.VISIBLE
                 containerMap.bringToFront()
                 containerOptionsDim.isEnabled = false
-                AnimateWindow().animateUp(this, containerOptionsDim, object : AnimateWindow.AnimationEnd {
+                AnimateWindow().animateUp(this, containerOptionsDim, object : AnimationEnd {
 
                     override fun animationOver() {
                         fragmentReturn(mapFragment).commit()
@@ -142,6 +169,13 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         getDisplayDimensions()
         initBottomNavigation()
         initFragment(savedInstanceState)
+
+
+
+
+
+
+
 
 
 
@@ -244,3 +278,5 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
 
 
 }
+
+

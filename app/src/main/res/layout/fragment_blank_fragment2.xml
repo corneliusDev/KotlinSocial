@@ -12,7 +12,8 @@
 
 >
 
-    <LinearLayout android:layout_width="match_parent" android:layout_height="match_parent"
+    <LinearLayout android:layout_width="match_parent"
+                  android:layout_height="match_parent"
                   android:background="@color/theme"
                   android:orientation="vertical"
                   android:id="@+id/out_video_feed"
@@ -22,20 +23,18 @@
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="match_parent"
-
-
                   android:id="@+id/expanded_linear"
                   android:visibility="invisible">
-        <androidx.cardview.widget.CardView android:layout_width="match_parent"
-                                           android:layout_height="wrap_content"
-                                           android:layout_margin="10dp"
-                                           android:layout_gravity="center"
-                                           app:cardCornerRadius="10dp"
-                                           android:visibility="invisible"
 
 
-
-                                           android:id="@+id/expanded_image_holder"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/expanded_image_holder"
+            android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_margin="10dp"
+           android:layout_gravity="center"
+           app:cardCornerRadius="10dp"
+           android:visibility="invisible"
         >
 
             <ImageView

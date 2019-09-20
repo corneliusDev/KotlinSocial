@@ -124,7 +124,7 @@
                     android:layout_alignParentBottom="true"
                     android:background="@drawable/gradient_underlay"
                     android:alpha=".90"
-            />
+                    android:layout_marginBottom="-2dp"/>
 
 
         </RelativeLayout>

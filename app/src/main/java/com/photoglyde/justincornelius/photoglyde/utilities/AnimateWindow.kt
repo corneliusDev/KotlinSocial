@@ -5,13 +5,12 @@ import android.content.Context
 import android.view.View
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
+import com.photoglyde.justincornelius.photoglyde.UI.adapter.AnimationEnd
 import com.photoglyde.justincornelius.photoglyde.data.ANI_DURATION
 
 class AnimateWindow {
 
-    interface AnimationEnd {
-        fun animationOver()
-    }
+
 
     @SuppressLint("ClickableViewAccessibility")
     fun animateDown(context: Context, source: View) {

@@ -30,6 +30,8 @@ import android.view.*
 import android.view.animation.AlphaAnimation
 import android.view.animation.Animation
 import android.widget.ImageView.ScaleType
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import kotlinx.android.synthetic.main.view_holder_exoplayer_basic.*
 
 import kotlinx.android.synthetic.main.view_player.*
@@ -37,10 +39,9 @@ import kotlinx.android.synthetic.main.view_player.*
 
 class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
-    // TODO: Customize parameters
+
     private var columnCount = 1
     private lateinit var adapterProfile: FeedAdapter
-    private lateinit var adapterHorizotal: BindingHorizontal
     private  var staggeredLayoutManager: StaggeredGridLayoutManager? = null
     private var listener: StaggeredFeedFragmentListener? = null
     private var mOrientationEventListener:OrientationEventListener? = null
@@ -48,11 +49,10 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
     private val LEFT_ANGLE = 90f
     private val RIGHT_ANGLE = 270f
     private val PORTRAIT_ANGLE = 360f
-    private var CURRENT_ANGLE = 0F
+    private lateinit var api: DatabaseReference
 
 
     private val onItemClickListenerVertical = object : OnItemClickListener {
-
 
         override fun onItemClick(view: View, position: Int, data:CoreData) {
 
@@ -61,7 +61,7 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
             var ref1:String? = ""
             var ref2:String? = ""
 
-            when(data?.type){
+            when(data.type){
 
                 GlobalValues.CATEGORY -> {
                     ref1 = PHOTOS
@@ -119,8 +119,6 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
     override fun onPause() {
 
-        GlobalValues.whatsNew = false
-
         GlobalValues.recyclerStateNews = staggered_list.layoutManager?.onSaveInstanceState()
 
         mOrientationEventListener?.disable()
@@ -133,13 +131,13 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
     override fun onResume() {
 
-        staggeredLayoutManager = StaggeredGridLayoutManager(
-            2,
-            StaggeredGridLayoutManager.VERTICAL
-        )
 
-        if (GlobalValues.recyclerStateNews != null) restoreInstance() else initializeList(FEED, RANDOM,2)
         GlobalValues.whatsNew = true
+        GlobalValues.cameFromExa = false
+        GlobalValues.cameFromExa = false
+
+        staggeredLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        if (GlobalValues.recyclerStateNews != null) restoreInstance() else initializeList()
         super.onResume()
 
     }
@@ -158,31 +156,14 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.staggered_feed_fragment, container, false)
-
         return view
     }
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is StaggeredFeedFragmentListener) {
-            listener = context
-        } else {
-            throw ClassCastException(context.toString() + " must implement OnRageComicSelected.")
-        }
-    }
-
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-
-        GlobalValues.whatsNew = true
-
-
+        listener = if (context is StaggeredFeedFragmentListener) context else { throw RuntimeException("$context must implement OnVideoWatchListener") }
     }
 
     override fun onDetach() {
@@ -209,7 +190,7 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
 
 
-    private fun initializeList(ref1:String?, ref2:String?, count:Int) {
+    private fun initializeList() {
 
         adapterProfile = FeedAdapter()
         staggered_list?.apply {
@@ -221,22 +202,13 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
         adapterProfile.SetOnLock(feedAdapterListener)
         adapterProfile.setOnItemClickListener(onItemClickListenerVertical)
-
-//blanked out for no wifi work session
-        val config = PagedList.Config.Builder()
-            .setPageSize(30)
-            .setEnablePlaceholders(false)
-            .build()
+        //blanked out for no wifi work session
+        val config = PagedList.Config.Builder().setPageSize(30).setEnablePlaceholders(false).build()
 
 
-        GlobalValues.test = GlobalValues.test + 1
+        val liveData = initializedPagedListBuilder(config).build()
 
-        val liveData = initializedPagedListBuilder(config, ref1, ref2, count)
-            .build()
-
-        liveData.observe(this, Observer<PagedList<CoreData>> { pagedList ->
-            adapterProfile.submitList(pagedList)
-        })
+        liveData.observe(this, Observer<PagedList<CoreData>> { pagedList -> adapterProfile.submitList(pagedList) })
 
 
         ScrollDownListener().show(this@StaggeredFeedFragment.requireContext(), staggered_list, object : ScrollDownListener.HideShow{
@@ -249,15 +221,9 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
     private fun restoreInstance(){
 
-        staggered_list?.apply {
-            layoutManager = staggeredLayoutManager
-            layoutManager?.onRestoreInstanceState(GlobalValues.recyclerStateNews)
-            adapter = adapterProfile
-        }
+        staggered_list?.apply { layoutManager = staggeredLayoutManager; layoutManager?.onRestoreInstanceState(GlobalValues.recyclerStateNews); adapter = adapterProfile }
         adapterProfile.SetOnLock(feedAdapterListener)
-
-        ScrollDownListener()
-            .show(this@StaggeredFeedFragment.requireContext(), staggered_list, object : ScrollDownListener.HideShow{
+        ScrollDownListener().show(this@StaggeredFeedFragment.requireContext(), staggered_list, object : ScrollDownListener.HideShow{
                 override fun onCallback(animate: String) {
                     listener?.staggeredFeedFragmentInteractor(animate)
                 }
@@ -268,12 +234,13 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
     }
 
-    private fun initializedPagedListBuilder(config: PagedList.Config, ref1:String?, ref2:String?, count:Int):
+    private fun initializedPagedListBuilder(config: PagedList.Config):
             LivePagedListBuilder<String, CoreData> {
 
         val dataSourceFactory = object : DataSource.Factory<String, CoreData>() {
             override fun create(): DataSource<String, CoreData> {
-                return ImageDataSource(ref1, ref2, count)
+                api = FirebaseDatabase.getInstance().getReference(FEED).child(EXPLORE)
+                return ImageDataSource(api)
             }
         }
         return LivePagedListBuilder<String, CoreData>(dataSourceFactory, config)
@@ -308,41 +275,12 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
         dialogView.setOnClickListener {
             dialog.dismiss()
-
-           // source.player.release()
-
             if (mOrientationEventListener != null) mOrientationEventListener!!.disable()
-
-
-        }
-        var count = 0
-        dialog.cancel_video.setOnClickListener {
-           // dialog.dismiss()
-
-
-            if(count == 0){
-                imageView.rotation = 90.0f
-                count++
-
-            }else if (count == 1){
-                imageView.rotation = 270.0f
-            }
-
-            println("cancel count: " + count)
-
-
-
-
-         //   dialog.expand_text.rotation = 90.0f
         }
 
-        mOrientationEventListener = object : OrientationEventListener(
-            this.requireContext(), SensorManager.SENSOR_DELAY_NORMAL
-        ) {
+        mOrientationEventListener = object : OrientationEventListener(this.requireContext(), SensorManager.SENSOR_DELAY_NORMAL) {
 
             override fun onOrientationChanged(orientation: Int) {
-
-                println("@@@@@@@@@@@@@@@@@@@@@ CHANGING ORIENTASTION: " + isPortrait(orientation) + " and value: " + orientation)
 
                 rotateVideo(isPortrait(orientation), imageView)
 

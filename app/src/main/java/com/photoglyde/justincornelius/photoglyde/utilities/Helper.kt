@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.provider.Settings
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.ImageView
@@ -21,11 +22,13 @@ import kotlin.collections.ArrayList
 
 object Helper {
     // Normally this would be done serverside, but for the purpose of this app, this function randomly inserts categories by popping them off the category stack.
+
     fun main(args : List<CoreData?>) : List<CoreData> {
 
             var arg: ArrayList<CoreData>? = null
 
             if(GlobalValues.whatsNew && !GlobalValues.cameFromExa) {
+
                 arg = args as ArrayList<CoreData>
                 val from = 0
                 // randomly inserts categories inside list
@@ -118,8 +121,13 @@ object Helper {
                 ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *pairs.toTypedArray())
             }
             view.findViewById<ImageView>(R.id.placeImageHere) != null -> {
-                val imagePair = Pair.create(view.findViewById(R.id.placeImageHere) as View, "x")
-                val pairs = mutableListOf(imagePair)
+                val pairs = mutableListOf<Pair<View, String>>()
+                if (!GlobalValues.cameFromExa) {
+                    val imagePair = Pair.create(view.findViewById(R.id.placeImageHere) as View, "x")
+                    val textPair = Pair.create(view.findViewById(R.id.textFullView) as View, "categ_text")
+                    val underPair = Pair.create(view.findViewById(R.id.text_underlay) as View, "under_lay")
+                    pairs.addAll(mutableListOf(imagePair, textPair, underPair))
+                }
                 ActivityOptionsCompat.makeSceneTransitionAnimation(activity, *pairs.toTypedArray())
             }
 

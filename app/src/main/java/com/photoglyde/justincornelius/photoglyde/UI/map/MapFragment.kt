@@ -130,10 +130,10 @@ class MapFragment : androidx.fragment.app.Fragment(), OnMapReadyCallback {
 
 //    override fun onAttach(context: Context) {
 //        super.onAttach(context)
-//        if (context is OnFragmentInteractionListener) {
+//        if (context is OnVideoWatchListener) {
 //            listener = context
 //        } else {
-//            throw RuntimeException(context.toString() + " must implement OnFragmentInteractionListener")
+//            throw RuntimeException(context.toString() + " must implement OnVideoWatchListener")
 //        }
 //    }
 
@@ -164,7 +164,7 @@ class MapFragment : androidx.fragment.app.Fragment(), OnMapReadyCallback {
 
         view?.findViewById<ImageView>(R.id.close_map)?.setOnClickListener {
 
-           // listener?.onFragmentInteraction("Map Close", this)
+           // listener?.onVideoWatchInteraction("Map Close", this)
 
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.setCustomAnimations(R.anim.slide_down,
                 R.anim.slide_down)?.commit()

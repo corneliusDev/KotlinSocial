@@ -9,6 +9,8 @@ import android.os.Bundle
 import androidx.core.app.ActivityCompat
 import android.view.*
 import androidx.lifecycle.MutableLiveData
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 import com.photoglyde.justincornelius.photoglyde.data.*
 import com.photoglyde.justincornelius.photoglyde.UI.custom.ImagePreview
 import com.photoglyde.justincornelius.photoglyde.data.ImageDataSource
@@ -31,14 +33,15 @@ import com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter as FeedA
 class ExploreActivity : androidx.fragment.app.Fragment(){
 
     private lateinit var adapterFeed: com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter
+    private var staggeredLayoutManager: androidx.recyclerview.widget.StaggeredGridLayoutManager? = null
+    private lateinit var api:DatabaseReference
+    var listenerExplore: ExploreActivity.OnFragmentInteractionListenerExplore? = null
     private var longListener = object : OnItemLockClickListener {
 
         override fun onItemLongClick(view: View, position: Int, core:CoreData?) {
 
            GlobalValues.currentCore = core
 
-           GlobalValues.sendIndexToDetail = position
-           
            ImagePreview().show(this@ExploreActivity.requireContext(), view.placeImageHere, core, object : ImagePreview.ExpandActivity{
 
                 override fun onCallback(action:String) {
@@ -46,7 +49,7 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
                 when(action){
 
                     MAP_OPEN ->{
-                        listenerExplore?.onFragmentInteractionExplore(this@ExploreActivity, "Map Open")
+                        listenerExplore?.onFragmentInteractionExplore(this@ExploreActivity, MAP_OPEN)
                     }
 
                     EXPANDED_IMAGE ->{
@@ -62,36 +65,36 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
         }
 
     }
-    private lateinit var staggeredLayoutManager: androidx.recyclerview.widget.StaggeredGridLayoutManager
-    var listenerExplore: ExploreActivity.OnFragmentInteractionListenerExplore? = null
+
     private val onItemClickListenerVertical = object : OnItemClickListener {
 
         override fun onItemClick(view: View, position: Int, data:CoreData) {
 
             if (data.type != TYPE_VIDEO) ActivityCompat.startActivity(view.context, Helper.deliverIntent(data, this@ExploreActivity.requireContext(), null, null, 0),
-                Helper.deliverOptions(
-                    view,
-                    this@ExploreActivity.requireActivity()
-                )?.toBundle())
-
+                Helper.deliverOptions(view, this@ExploreActivity.requireActivity())?.toBundle())
         }
     }
 
     override fun onPause() {
         super.onPause()
 
-        GlobalValues.cameFromMain = true
+        GlobalValues.cameFromExa = false
         if (profile_list_explore != null) GlobalValues.recyclerState2 = profile_list_explore.layoutManager?.onSaveInstanceState()
 
     }
 
     override fun onResume() {
         super.onResume()
-            staggeredLayoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(
-                1,
-                androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
-            )
-            if (GlobalValues.recyclerState2 != null) restoreInstance() else initializeList()
+        GlobalValues.whatsNew = false
+        GlobalValues.cameFromExa = true
+        GlobalValues.cameFromExa = false
+        //staggeredLayoutManager?: androidx.recyclerview.widget.StaggeredGridLayoutManager(1, androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL)
+
+
+            staggeredLayoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(1, androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL)
+
+
+        if (GlobalValues.recyclerState2 != null) restoreInstance() else initializeList()
 
 
     }
@@ -109,12 +112,9 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
 
     override fun onAttach(context: Context?) {
         super.onAttach(context)
-        if (context is OnFragmentInteractionListenerExplore) {
-            listenerExplore = context
-        } else {
-            throw ClassCastException(context.toString() + " must implement Listener Explorer.")
-        }
+        listenerExplore = if (context is OnFragmentInteractionListenerExplore) context else { throw RuntimeException("$context must implement OnVideoWatchListener") }
     }
+
     interface OnFragmentInteractionListenerExplore {
         fun onFragmentInteractionExplore(fragment: androidx.fragment.app.Fragment, animateDirection:String)
     }
@@ -129,6 +129,7 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
 
     private fun restoreInstance(){
 
+
         profile_list_explore?.apply {
             layoutManager = staggeredLayoutManager
             layoutManager?.onRestoreInstanceState(GlobalValues.recyclerState2)
@@ -138,8 +139,7 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
 //        adapterFeed.setOnItemClickListener(onItemClickListenerVertical)
 //        adapterFeed.SetOnLock(longListener)
 
-        ScrollDownListener()
-            .show(this@ExploreActivity.requireContext(), profile_list_explore, object : ScrollDownListener.HideShow{
+        ScrollDownListener().show(this@ExploreActivity.requireContext(), profile_list_explore, object : ScrollDownListener.HideShow{
                 override fun onCallback(animate: String) {
                     listenerExplore?.onFragmentInteractionExplore(this@ExploreActivity, animate)
                 }
@@ -153,10 +153,7 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
     private fun initializeList() {
 
         adapterFeed = com.photoglyde.justincornelius.photoglyde.UI.adapter.FeedAdapter()
-        staggeredLayoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(
-            1,
-            androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL
-        )
+        staggeredLayoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(1,androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL)
         profile_list_explore?.layoutManager = staggeredLayoutManager
         profile_list_explore.adapter = adapterFeed
         adapterFeed.setOnItemClickListener(onItemClickListenerVertical)
@@ -164,12 +161,9 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
 
         //blanked out for no wifi work session
         val config = PagedList.Config.Builder().setPageSize(30).setEnablePlaceholders(false).build()
-        GlobalValues.test = GlobalValues.test + 1
 
-        val liveData = initializedPagedListBuilder(config, FEED).build()
-        liveData.observe(this, Observer<PagedList<CoreData>> { pagedList ->
-            adapterFeed.submitList(pagedList)
-        })
+        val liveData = initializedPagedListBuilder(config).build()
+        liveData.observe(this, Observer<PagedList<CoreData>> { pagedList -> adapterFeed.submitList(pagedList) })
 
         ScrollDownListener().show(this@ExploreActivity.requireContext(), profile_list_explore, object : ScrollDownListener.HideShow{
             override fun onCallback(animate: String) {
@@ -182,13 +176,13 @@ class ExploreActivity : androidx.fragment.app.Fragment(){
 
 
 
-    private fun initializedPagedListBuilder(config: PagedList.Config, ref:String):
+    private fun initializedPagedListBuilder(config: PagedList.Config):
             LivePagedListBuilder<String, CoreData> {
 
         val dataSourceFactory = object : DataSource.Factory<String, CoreData>() {
             override fun create(): DataSource<String, CoreData> {
-
-                return ImageDataSource(ref, "Explore", 2)
+                api = FirebaseDatabase.getInstance().getReference(FEED).child(EXPLORE)
+                return ImageDataSource(api)
             }
         }
         return LivePagedListBuilder<String, CoreData>(dataSourceFactory, config)

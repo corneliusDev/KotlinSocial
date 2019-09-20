@@ -14,24 +14,17 @@ object FeedAdapterListener : OnItemLockClickListener {
 
     override fun onItemLongClick(view: View, position: Int, core: CoreData?) {
 
-        GlobalValues.sendIndexToDetail = position
-
-        println("Inside Feed Adapter +++++++++++++++++")
-
         ViewPropertyObjectAnimator.animate(view.placeImage).scaleY(1.0f).scaleX(1.0f).setDuration(BOTTOM_NAV_ANITIME).start()
 
         if (view.placeImage != null) {
 
-            ImagePreview()
-                .show(view.context, view.placeImage, core, object : ImagePreview.ExpandActivity{
+            ImagePreview().show(view.context, view.placeImage, core, object : ImagePreview.ExpandActivity{
 
                 override fun onCallback(action:String) {
 
                 }
-            })
 
-        }else{
-         //   Helper.show(view.context, view.player, core)
+            })
         }
 
     }

@@ -56,6 +56,8 @@
 
 
 
+
+
         <!-- 3 -->
         <com.google.android.material.appbar.CollapsingToolbarLayout
                 android:id="@+id/collapsingToolbarLayout"
@@ -70,17 +72,7 @@
 
         >
 
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="left|bottom"
-                      android:text="Hello"
-                      android:layout_marginStart="10dp"
-                      android:layout_marginBottom="10dp"
-                      android:transitionName="categ_text"
-                      android:id="@+id/text_categ"
-                      android:textColor="@color/white"
-                      android:textSize="30sp"
-                      android:fontFamily="@font/noto_sans_bold"/>
+
 
 
 
@@ -106,13 +98,26 @@
                   android:orientation="horizontal"
                   android:elevation="0dp"
                   android:visibility="visible"
+                  android:transitionName="under_lay"
+                  android:id="@+id/text_underlay_expand"
 
 
                   app:layout_scrollFlags="scroll|enterAlways|enterAlwaysCollapsed"
                   android:background="@drawable/gradient_underlay"
                   android:layout_marginBottom="0dp" android:layout_alignBottom="@+id/placeImage2"/>
 
-
+    <TextView android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:layout_gravity="left|bottom"
+              android:layout_marginStart="10dp"
+              android:layout_marginBottom="10dp"
+              android:transitionName="categ_text"
+              android:id="@+id/text_categ"
+              android:textColor="@color/white"
+              android:textSize="30sp"
+              android:fontFamily="@font/noto_sans_bold"
+              android:layout_alignParentBottom="true"
+    />
 </RelativeLayout>
 
 

@@ -3,37 +3,18 @@
 package com.photoglyde.justincornelius.photoglyde.data
 
 import androidx.paging.PageKeyedDataSource
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 
 import com.photoglyde.justincornelius.photoglyde.utilities.Helper
 
 
-class ImageDataSource (child1:String?, child2:String?, nodeCount:Int?) : PageKeyedDataSource<String, CoreData>() {
+class ImageDataSource (reference: DatabaseReference) : PageKeyedDataSource<String, CoreData>() {
 
-
-    private var mDataBaseReference = FirebaseDatabase.getInstance().getReference(child1.toString())
-
-
-
-    init {
-
-        when(nodeCount){
-
-            1 -> mDataBaseReference = FirebaseDatabase.getInstance().getReference(child1.toString())
-
-            2 -> mDataBaseReference = FirebaseDatabase.getInstance().getReference(child1.toString()).child(child2.toString())
-
-        }
-
-    }
-
-
+    private var api:DatabaseReference = reference
 
     override fun loadInitial(params: LoadInitialParams<String>, callback: LoadInitialCallback<String, CoreData>) {
-        mDataBaseReference.orderByKey().limitToFirst(10).addListenerForSingleValueEvent(object : ValueEventListener {
+
+        api.orderByKey().limitToFirst(10).addListenerForSingleValueEvent(object : ValueEventListener {
 
             override fun onCancelled(p0: DatabaseError) {
 
@@ -67,7 +48,8 @@ class ImageDataSource (child1:String?, child2:String?, nodeCount:Int?) : PageKey
 
     override fun loadAfter(params: LoadParams<String>, callback: LoadCallback<String, CoreData>) {
 
-        mDataBaseReference.startAt(params.key).orderByKey().limitToFirst(10).addListenerForSingleValueEvent(object : ValueEventListener {
+        api.startAt(params.key).orderByKey().limitToFirst(10).addListenerForSingleValueEvent(object : ValueEventListener {
+
             override fun onCancelled(p0: DatabaseError) {
 
             }
@@ -105,18 +87,16 @@ class ImageDataSource (child1:String?, child2:String?, nodeCount:Int?) : PageKey
     }
 
 
-    override fun loadBefore(
-        params: LoadParams<String>,
-        callback: LoadCallback<String, CoreData>) {
-        mDataBaseReference.startAt(params.key)
-            .addListenerForSingleValueEvent(
-                object : ValueEventListener {
+    override fun loadBefore(params: LoadParams<String>, callback: LoadCallback<String, CoreData>) {
+
+        api.startAt(params.key).addListenerForSingleValueEvent(object : ValueEventListener {
 
                     override fun onCancelled(p0: DatabaseError) {
-                        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
                     }
 
                     override fun onDataChange(p0: DataSnapshot) {
+
                         if (p0.exists()) {
 //
                             val listing = p0
@@ -124,9 +104,6 @@ class ImageDataSource (child1:String?, child2:String?, nodeCount:Int?) : PageKey
                             val redditPosts = listing.children.map { it.getValue(CoreData::class.java) }
 
                             callback.onResult(redditPosts, listing.children.first().key)
-
-
-
 
                         }
                     }
