@@ -1,5 +1,5 @@
 # KotlinSocial
-<p>This is an App demonstrating some of the basic functions of social media applications. Kotlin Social is still under development and database schema are subject to change, so if the app crash, please pull down the latest changes.</p>
+<p>This is an App demonstrating some of the basic functions of social media applications. Kotlin Social is still under development and database schema are subject to change, if you have problems building, please pull down the latest changes.</p>
 
 <center>
   
