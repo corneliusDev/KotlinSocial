@@ -31,7 +31,7 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
 
     private var columnCount = 1
-    private lateinit var adapterProfile: FeedAdapter
+    private var adapterStaggered: FeedAdapter? = null
     private  var staggeredLayoutManager: StaggeredGridLayoutManager? = null
     private var listener: StaggeredFeedFragmentListener? = null
     private var mOrientationEventListener:OrientationEventListener? = null
@@ -109,7 +109,7 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
     override fun onPause() {
 
-        GlobalValues.recyclerStateNews = staggered_list.layoutManager?.onSaveInstanceState()
+        GlobalValues.recyclerStaggered = staggered_list.layoutManager?.onSaveInstanceState()
 
         mOrientationEventListener?.disable()
 
@@ -120,14 +120,9 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
 
     override fun onResume() {
-
-
-        GlobalValues.whatsNew = true
-        GlobalValues.cameFromCateg = false
-        GlobalValues.cameFromCateg = false
-
+        setRoutes()
         staggeredLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        if (GlobalValues.recyclerStateNews != null) restoreInstance() else initializeList()
+        if (GlobalValues.recyclerStaggered != null && adapterStaggered != null) restoreInstance() else initializeList()
         super.onResume()
 
     }
@@ -182,23 +177,23 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
     private fun initializeList() {
 
-        adapterProfile = FeedAdapter()
+        adapterStaggered = FeedAdapter()
         staggered_list?.apply {
             layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-            adapter =  adapterProfile
+            adapter =  adapterStaggered
             isNestedScrollingEnabled = true
             playerSelector = PlayerSelectorOption
         }
 
-        adapterProfile.SetOnLock(feedAdapterListener)
-        adapterProfile.setOnItemClickListener(onItemClickListenerVertical)
+        adapterStaggered!!.SetOnLock(feedAdapterListener)
+        adapterStaggered!!.setOnItemClickListener(onItemClickListenerVertical)
         //blanked out for no wifi work session
         val config = PagedList.Config.Builder().setPageSize(30).setEnablePlaceholders(false).build()
 
 
         val liveData = initializedPagedListBuilder(config).build()
 
-        liveData.observe(this, Observer<PagedList<CoreData>> { pagedList -> adapterProfile.submitList(pagedList) })
+        liveData.observe(this, Observer<PagedList<CoreData>> { pagedList -> adapterStaggered!!.submitList(pagedList) })
 
 
         ScrollDownListener().show(this@StaggeredFeedFragment.requireContext(), staggered_list, object : ScrollDownListener.HideShow{
@@ -211,8 +206,8 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
 
     private fun restoreInstance(){
 
-        staggered_list?.apply { layoutManager = staggeredLayoutManager; layoutManager?.onRestoreInstanceState(GlobalValues.recyclerStateNews); adapter = adapterProfile }
-        adapterProfile.SetOnLock(feedAdapterListener)
+        staggered_list?.apply { layoutManager = staggeredLayoutManager; layoutManager?.onRestoreInstanceState(GlobalValues.recyclerStaggered); adapter = adapterStaggered }
+        adapterStaggered?.SetOnLock(feedAdapterListener)
         ScrollDownListener().show(this@StaggeredFeedFragment.requireContext(), staggered_list, object : ScrollDownListener.HideShow{
                 override fun onCallback(animate: String) {
                     listener?.staggeredFeedFragmentInteractor(animate)
@@ -305,6 +300,12 @@ class StaggeredFeedFragment : androidx.fragment.app.Fragment() {
                 playerView.rotation = PORTRAIT_ANGLE
         }
 
+    }
+
+    private fun setRoutes(){
+        GlobalValues.whatsNew = true
+        GlobalValues.cameFromCateg = false
+        GlobalValues.cameFromCateg = false
     }
 
 

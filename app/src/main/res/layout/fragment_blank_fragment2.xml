@@ -7,7 +7,7 @@
                 android:background="@color/theme"
                 android:orientation="vertical"
 
-                tools:context=".UI.fragment.ExploreActivity"
+                tools:context=".UI.fragment.MainFeed"
 
 
 >

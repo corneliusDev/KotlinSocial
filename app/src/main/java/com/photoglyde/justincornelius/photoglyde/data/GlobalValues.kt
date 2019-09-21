@@ -7,7 +7,7 @@ object GlobalValues {
     var widthWindow= 0
     var recyclerState2: Parcelable? = null
     var videoWatchState: Parcelable? = null
-    var recyclerStateNews: Parcelable? = null
+    var recyclerStaggered: Parcelable? = null
     var awayFromFrag = false
     var picassoUnit = ArrayList<Any>()
     var whatsNew = false

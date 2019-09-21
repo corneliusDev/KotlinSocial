@@ -24,15 +24,14 @@ class VideoWatch : androidx.fragment.app.Fragment() {
 
     private var listener: OnVideoWatchListener? = null
     private lateinit var staggeredLayoutManager: androidx.recyclerview.widget.StaggeredGridLayoutManager
-    private lateinit var adapter : FeedAdapter
+    private var adapterVideo : FeedAdapter? = null
     private lateinit var api: DatabaseReference
 
     override fun onResume() {
         super.onResume()
-
-        GlobalValues.videoWatch = true
-        GlobalValues.whatsNew = false
-        if (GlobalValues.videoWatchState != null) {
+        
+        setRoutes()
+        if (GlobalValues.videoWatchState != null && adapterVideo != null) {
             restoreInstance()
         }else{
             initializeList()
@@ -97,9 +96,9 @@ class VideoWatch : androidx.fragment.app.Fragment() {
 
         staggeredLayoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(1, androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL)
         home_page_video_feed?.layoutManager = staggeredLayoutManager
-        adapter = FeedAdapter()
-        home_page_video_feed.adapter = adapter
-        adapter.setOnItemClickListener(onItemClickListenerVertical)
+        adapterVideo = FeedAdapter()
+        home_page_video_feed.adapter = adapterVideo
+        adapterVideo!!.setOnItemClickListener(onItemClickListenerVertical)
         //blanked out for no wifi work session
         val config = PagedList.Config.Builder().setPageSize(30).setEnablePlaceholders(false).build()
 
@@ -107,7 +106,7 @@ class VideoWatch : androidx.fragment.app.Fragment() {
         val liveData = initializedPagedListBuilder(config).build()
 
         liveData.observe(this, Observer<PagedList<CoreData>> { pagedList ->
-            adapter.submitList(pagedList)
+            adapterVideo!!.submitList(pagedList)
         })
 
         ScrollDownListener().show(this@VideoWatch.requireContext(), home_page_video_feed, object : ScrollDownListener.HideShow{
@@ -122,8 +121,8 @@ class VideoWatch : androidx.fragment.app.Fragment() {
         staggeredLayoutManager = androidx.recyclerview.widget.StaggeredGridLayoutManager(1, androidx.recyclerview.widget.StaggeredGridLayoutManager.VERTICAL)
         home_page_video_feed?.layoutManager = staggeredLayoutManager
         home_page_video_feed.layoutManager?.onRestoreInstanceState(GlobalValues.videoWatchState)
-        home_page_video_feed?.adapter = adapter
-        adapter.setOnItemClickListener(onItemClickListenerVertical)
+        home_page_video_feed?.adapter = adapterVideo
+        adapterVideo?.setOnItemClickListener(onItemClickListenerVertical)
     }
 
     private fun initializedPagedListBuilder(config: PagedList.Config): LivePagedListBuilder<String, CoreData> {
@@ -134,5 +133,10 @@ class VideoWatch : androidx.fragment.app.Fragment() {
             }
         }
         return LivePagedListBuilder<String, CoreData>(dataSourceFactory, config)
+    }
+
+    private fun setRoutes(){
+        GlobalValues.videoWatch = true
+        GlobalValues.whatsNew = false
     }
 }

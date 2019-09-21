@@ -8,27 +8,18 @@ import androidx.appcompat.widget.Toolbar
 import android.util.DisplayMetrics
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import com.photoglyde.justincornelius.photoglyde.UI.BottomNavigation.*
 import com.photoglyde.justincornelius.photoglyde.data.*
-import com.photoglyde.justincornelius.photoglyde.UI.fragment.ExploreActivity
+import com.photoglyde.justincornelius.photoglyde.UI.fragment.MainFeed
 import com.photoglyde.justincornelius.photoglyde.UI.fragment.StaggeredFeedFragment
 import com.photoglyde.justincornelius.photoglyde.data.DownloadCategories
 import com.photoglyde.justincornelius.photoglyde.R
-import com.photoglyde.justincornelius.photoglyde.UI.adapter.AnimationEnd
 import com.photoglyde.justincornelius.photoglyde.UI.fragment.VideoWatch
-import com.photoglyde.justincornelius.photoglyde.utilities.AnimateWindow
 import kotlinx.android.synthetic.main.activity_main.*
-import okhttp3.Call
-import okhttp3.Callback
-import okhttp3.Response
-import okhttp3.ResponseBody
-import retrofit2.converter.scalars.ScalarsConverterFactory
-import retrofit2.create
 
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener,
-    ExploreActivity.OnFragmentInteractionListenerExplore,
+    MainFeed.OnFragmentInteractionListenerExplore,
     StaggeredFeedFragment.StaggeredFeedFragmentListener, VideoWatch.OnVideoWatchListener {
 
     private lateinit var toolbar: Toolbar
